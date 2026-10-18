@@ -1,0 +1,38 @@
+---
+title: "Map Fields"
+description: "Review Stellar Cyber destinations, source fields and value types."
+---
+
+# Map Fields
+
+**Extraction** answers “What did the log contain?” **Normalization** answers “Which consistent field name should store that value?” These are separate decisions.
+
+## Review each proposed mapping
+
+In **Map Fields**, examine the source path, target name, expected type and example values:
+
+1. Verify the source key actually occurs in the selected events.
+2. Confirm the destination's meaning, not only its spelling.
+3. Check whether the destination appears as a verified entry in the available Stellar field catalog.
+4. Choose the correct value type: text, whole number, number, boolean, IP address, network port or date/time.
+5. Keep vendor-specific or unverified fields in the custom/vendor group when an official destination is not established.
+6. Resolve every blocking finding before **Create Parser**.
+
+## Common blocking findings
+
+| Finding | What to do |
+| --- | --- |
+| Target collision | Give unrelated source fields separate destinations |
+| Value type error | Correct the type only after inspecting real sample values |
+| Source not found | Verify spelling, path nesting and whether the field is optional |
+| Unverified target | Search the catalog or use a clearly vendor-specific destination |
+| Catalog type mismatch | Align destination and supported value type |
+| Reserved/unsupported target | Choose a supported user-mappable field |
+
+## Example mapping review
+
+For a JSON record containing src_ip, destination IP and action, the UI may propose normalization candidates. Treat these as suggestions until source values, field meanings and destination metadata are checked. A vendor-only property such as appliance_build can remain a custom field; do not invent an official semantic equivalent.
+
+Changes to a destination should not alter or erase the original extracted value. Re-test after edits.
+
+See [normalization playbook](/scenarios/normalization) for an extended walkthrough.

@@ -1,0 +1,40 @@
+---
+title: "Scenario: CEF and LEEF events"
+description: "Examine structured headers and extension fields without guessing escape behavior."
+---
+
+# Structured events in CEF or LEEF
+
+**Goal:** Extract standard header and extension information while preserving each event's actual delimiters.
+
+## Example CEF
+
+~~~text
+CEF:0|Example Vendor|Security Gateway|1.0|1001|Denied connection|6|src=192.0.2.10 dst=198.51.100.21 dpt=443 act=blocked suser=demo
+~~~
+
+## Example LEEF
+
+~~~text
+LEEF:2.0|Example Vendor|Security Gateway|1.0|1001|0x09|src=192.0.2.10	dst=198.51.100.21	dstPort=443	action=blocked
+~~~
+
+The visible separation between LEEF extension keys above is a TAB. Vendor products may use other declared separators; preserve the actual bytes.
+
+## Walkthrough
+
+1. Test one family at a time first: paste CEF by itself or LEEF by itself in **Add Logs**.
+2. Choose **Analyze Logs**. Confirm the family and event count.
+3. Open **Review Fields**. Check the fixed header slots and several extension keys.
+4. Pay special attention to embedded delimiters or escape characters in values. The correct interpretation depends on the actual source format.
+5. Review normalized field destinations and create files only after the complete sample is accepted.
+
+## Expected review outcome
+
+Each extension field corresponds to the correct original value. No vendor extension is silently folded into an adjacent field.
+
+## Recovery path
+
+Keep the original escaped text, identify exactly where the value diverges and use the product's review path. Do not remove escape characters solely to force a green status.
+
+**Related:** [Review Fields](/workflows/review-fields), [Mixed events](/scenarios/mixed-events).

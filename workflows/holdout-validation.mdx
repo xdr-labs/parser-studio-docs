@@ -1,0 +1,36 @@
+---
+title: "Validate a proposed parser change"
+description: "Compare a proposed extraction or mapping adjustment against independent logs."
+---
+
+# Validate before you approve
+
+When ChatGPT or the guided recovery process proposes a change, a passing preview on the **same** examples that inspired the change is not sufficient.
+
+## Prepare independent test records
+
+Collect a few different, recent records from the same source type. Include variation in at least two of these dimensions:
+
+- Allow and deny outcomes
+- Different addresses and users
+- Missing optional fields and empty values
+- Quoted strings or embedded separators
+- Different timestamp values
+- Distinct severities or event subtypes
+
+Mask sensitive values before any manual transfer out of your environment.
+
+## Review the comparison
+
+1. Keep the original baseline parser and its review result.
+2. Paste the new source into the holdout input.
+3. Explicitly confirm it is distinct from the examples used to propose the change.
+4. Run the available comparison; inspect baseline and candidate event outcomes.
+5. Confirm the candidate did not lose a field, mislabel a value or change an unrelated event.
+6. Approve the candidate only when the product reports the required qualification.
+
+## If the candidate fails
+
+Do not override failure labels or approve a result by visual intuition alone. Refine the reviewed input or reject the proposal. Return to [Review Fields](/workflows/review-fields) to identify the exact mismatch.
+
+Successful holdout behavior improves confidence **for the tested records only**. It does not establish correctness for unseen variations from the same vendor.

@@ -1,0 +1,37 @@
+---
+title: "Scenario: unknown or partly parsed log"
+description: "Diagnose partial extraction while preserving source evidence."
+---
+
+# What if Auto Parser cannot understand my log?
+
+**Goal:** Identify what the application recognized, what it did not recognize and whether a safe repair path exists.
+
+## Fictional ambiguous example
+
+~~~text
+2026-10-18T15:01:02Z|DENY|192.0.2.10|198.51.100.20|443|policy A
+2026-10-18T15:01:03Z|ALLOW|192.0.2.11|198.51.100.21|80|policy B
+~~~
+
+There are no intrinsic field names here. Even if an address is recognizable, the positions are not automatically a verified schema.
+
+## Walkthrough
+
+1. Paste the original text into **Add Logs**. Keep separators and complete records intact.
+2. Click **Analyze Logs** and inspect the count and any review status.
+3. Look for the highlighted unresolved fragment and the stated explanation. Do not treat partial extraction as total success.
+4. Check whether a source format definition, trusted example, event-boundary declaration or explicit field-order document can resolve the ambiguity.
+5. If the product provides a bounded suggestion, compare before and after on the full sample.
+6. If the record still cannot be interpreted, open **ChatGPT Assisted Parser** using a manually masked example.
+7. Import only a supported structured recipe and qualify any changed rule on additional records.
+
+## Expected review outcome
+
+The application either accounts for every record with correct values or exposes a reason to review. It must not silently assign unsupported semantic names to arbitrary positions.
+
+## Recovery path
+
+Unrecognized structure is a valid reason to stop parser generation. Document the unresolved positions, preserve examples and seek the source contract rather than building an increasingly broad untested regular expression.
+
+**Next:** [AI-assisted recovery](/scenarios/recipe-ai).

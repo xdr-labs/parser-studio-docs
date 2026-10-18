@@ -1,0 +1,35 @@
+---
+title: "Scenario: mixed log events"
+description: "Review record accounting and boundaries before combining multiple formats."
+---
+
+# Mixed record families in one sample
+
+**Goal:** Review multiple source structures without dropping the records that are harder to parse.
+
+## Fictional mixed input
+
+~~~text
+{"timestamp":"2026-10-18T14:00:00Z","action":"allow","src_ip":"192.0.2.1"}
+action=deny src=192.0.2.2 dst=198.51.100.5 dport=22
+CEF:0|Example|Gateway|1.0|100|Block|6|src=192.0.2.3 dst=203.0.113.4 act=blocked
+~~~
+
+## Walkthrough
+
+1. **Identify the actual source of each line.** Determine whether all events belong to the same device feed or whether several different feeds were concatenated.
+2. Paste the sample into **Auto Parser → Add Logs** and choose **Analyze Logs**.
+3. Check the logical-event count. The sample above has three records; no parser should ignore one just because two are easier.
+4. If the application offers a bounded mixed-family review, inspect the selected family for **each event** and its advertised compiler support.
+5. If the families cannot be safely compiled together, divide the input into homogeneous groups and create separate reviewed drafts.
+6. Check normalization and test each resulting draft against examples from its own source group.
+
+## Expected review outcome
+
+All three events are visible and accounted for. No unrecognized event is automatically reclassified to create an artificial complete result.
+
+## Recovery path
+
+An unsupported mixed combination is not solved by selecting a convenient family for every record. Use explicit source grouping and separate reviews, or retain a review-only outcome until the input contract is known.
+
+**Related:** [Supported formats](/reference/supported-formats).

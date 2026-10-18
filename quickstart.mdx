@@ -1,0 +1,45 @@
+---
+title: "Quickstart: your first parser"
+description: "Create and download a first parser using fictional JSON firewall events."
+---
+
+# Create your first parser
+
+This walkthrough uses synthetic firewall events, so it is safe to practice without customer data.
+
+## 1. Open Auto Parser
+
+Select **Auto Parser** from the left navigation. The first stage is **Add Logs**. No format selection or regular expression is needed.
+
+## 2. Paste a sample
+
+Paste these two complete JSON records into the log input:
+
+~~~json
+{"timestamp":"2026-10-18T09:00:00Z","action":"allow","src_ip":"192.0.2.10","dst_ip":"198.51.100.20","dst_port":443,"user":"demo-user"}
+{"timestamp":"2026-10-18T09:00:01Z","action":"deny","src_ip":"192.0.2.11","dst_ip":"203.0.113.5","dst_port":22,"user":"demo-admin"}
+~~~
+
+Click **Analyze Logs**. The status should identify candidate source records. Inspect any warnings instead of assuming every event is valid.
+
+## 3. Review Fields
+
+Select **Review Fields** when available. Inspect both records and confirm that the action, addresses, destination port and user name have been separated correctly. If a record is incomplete, return to Add Logs or open the indicated review controls.
+
+## 4. Map Fields
+
+Select **Map Fields**. Review source paths, suggested destinations, example values and types. Prefer a catalog-verified destination when the field's meaning and type match. Keep vendor-specific fields in the appropriate custom field group when the official destination is not established.
+
+Read [mapping rules](/workflows/map-fields) before changing a destination.
+
+## 5. Create and download
+
+Continue to **Create Parser**, then select **Create Parser Files**. If the generation checks succeed, download the parser logic, companion configuration and optionally the package archive.
+
+Keep the sample, chosen mappings and files together as one reviewed draft. If generation stops, follow the exact on-screen finding; do not bypass a review requirement.
+
+## 6. Test one more variation
+
+Repeat with an additional event that has a different user, address and action. Confirm field values and types are still extracted correctly. A two-record demonstration is a learning example, not a complete regression dataset.
+
+**Next:** [Try a Syslog + key/value sample](/scenarios/syslog-kv) or [learn the four-step workflow](/workflows/auto-parser).

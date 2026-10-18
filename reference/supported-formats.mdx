@@ -1,0 +1,41 @@
+---
+title: "Formats and boundaries"
+description: "Understand format detection, record framing and when manual review is required."
+---
+
+# Recognized structures and review limits
+
+Parser Studio analyzes a sample's **event framing, outer envelope and message body**. Format detection is useful, but it is not the same as proving a complete extraction or confirming that the current backend can generate a matching parser draft.
+
+| Source structure | What to review first | Guide |
+| --- | --- | --- |
+| JSON objects | Complete objects, nested paths, quoting and record boundaries | [JSON](/scenarios/first-firewall-json) |
+| Key/value records | Quoted values, duplicate keys, escapes, empty values | [Syslog + KV](/scenarios/syslog-kv) |
+| CEF | Fixed header positions and extension escaping | [CEF/LEEF](/scenarios/cef-leef) |
+| LEEF | Header and declared extension separator | [CEF/LEEF](/scenarios/cef-leef) |
+| RFC3164-style Syslog | Priority, timestamp, host/application and message body; year/timezone absence | [Syslog + KV](/scenarios/syslog-kv) |
+| RFC5424-style Syslog | Versioned header, timestamp timezone, structured-data section and body | [Review Fields](/workflows/review-fields) |
+| CSV | Delimiter, field count, quoting, missing values and user-reviewed column names | [CSV](/scenarios/csv-with-spec) |
+| Positional firewall records | Exact event subtype and authoritative field-order definition | [Positional CSV](/scenarios/panos-positional) |
+| Explicitly framed multiline | Complete record boundaries and transport declaration | [Java exception](/scenarios/multiline-java) |
+| Unknown or mixed records | Account for every event and keep unsupported cases visible | [Unknown](/scenarios/unknown-log) |
+
+## Three layers of evidence
+
+**Detection:** The sample resembles a particular structure.
+
+**Extraction:** Each event's fields and values have been reviewed and match the source, including their logical boundaries.
+
+**Draft generation:** A supported current compiler accepts the reviewed project, produces the output pair and passes integrity checks.
+
+A record can pass the first layer while failing a later layer. Do not promote partial detection to a verified parser.
+
+## Important distinctions
+
+- Standard format names do not guarantee consistent proprietary vendor extensions.
+- A timestamp without a timezone must not be silently upgraded into a precise UTC time.
+- Positional CSV cannot be semantically normalized from a guessed column order.
+- Mixed events may require grouping into separate parser drafts.
+- A browser-side grouping hint does not itself prove a compiled multiline framing strategy.
+
+Always follow the exact on-screen supported capability and review gates.

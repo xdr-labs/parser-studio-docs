@@ -1,0 +1,40 @@
+---
+title: "Source data and privacy"
+description: "Control local log analysis, manually shared examples and standalone scripts."
+---
+
+# Source data and privacy
+
+Security event logs may contain accounts, hostnames, addresses, email addresses, session identifiers or other confidential data. Prefer synthetic examples or an explicitly approved masked sample.
+
+## Default browser workflow
+
+Normal source inspection and parsing previews use local browser data. The supported authoring flow can request **capability or schema metadata** from a same-origin service; it does not require automatically transferring original log text to an external AI service.
+
+Check the visible control before any export, copy or manual disclosure.
+
+## ChatGPT-assisted workflow
+
+You control the prompt contents:
+
+1. Keep the original logs in the local analysis area.
+2. Review the prefilled fictional example or replace it with an independently masked example.
+3. Confirm exactly which example is shareable.
+4. Read the generated prompt **before** copying.
+5. Paste the prompt into ChatGPT manually, only if you intend to share that content.
+
+A redacted example can still leak details through text you leave unchanged. Review names, URLs, record IDs, user fields, emails, source fragments and unique tokens.
+
+## Downloaded test scripts
+
+The downloadable Python utility embeds the submitted sample as base64. This is an encoding, **not confidentiality protection**. Anybody with access to the file can recover the original sample. The script's transformations are intended for test variation, **not guaranteed irreversible anonymization**.
+
+## Source hygiene checklist
+
+- Remove secrets, credentials, authorization headers and unique personal identifiers.
+- Replace real addresses with documentation networks such as 192.0.2.0/24, 198.51.100.0/24 and 203.0.113.0/24.
+- Use example.test for fictional email domains and generic account names.
+- Keep local source history only as long as necessary.
+- Inspect files and clipboard contents before sharing them outside your controlled environment.
+
+For a complete guided example, see [ChatGPT Assisted Parser](/workflows/chatgpt-assisted).

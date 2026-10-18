@@ -1,0 +1,42 @@
+---
+title: "Scenario: multiline Java exception events"
+description: "Use explicit event-boundary evidence before creating a Java exception parser draft."
+---
+
+# Multiline Java exception records
+
+**Goal:** Keep each exception and its stack frames together as one logical event.
+
+## Example
+
+~~~text
+java.lang.IllegalArgumentException: invalid argument
+    at example.Service.process(Service.java:42)
+    at example.Main.main(Main.java:10)
+
+java.lang.IllegalStateException: cannot continue
+    at example.Worker.run(Worker.java:51)
+    at example.Main.main(Main.java:12)
+
+~~~
+
+This example separates events with a **literal blank line**. The framing contract must be verified against the source transport. A visual blank line inserted manually for readability does not establish the real transport framing.
+
+## Walkthrough
+
+1. Obtain the sender's framing specification. For the supported bounded Java path, complete exception records must be carried over **TCP** and separated by **LF LF**.
+2. Paste multiple complete exceptions into **Auto Parser → Add Logs**.
+3. Choose **Analyze Logs** and inspect logical event boundaries.
+4. When offered, explicitly confirm the TCP blank-line grouping. Do not assume multiline is enabled merely because the preview groups lines.
+5. In **Review Fields**, inspect the exception class, frame count and any available cause information.
+6. Continue with mapping and creation only if the exact framing capability is accepted.
+
+## Expected review outcome
+
+The sample contains two complete exception events, not one event per stack frame. Field values agree with the original exception text.
+
+## Recovery path
+
+If the input uses UDP, unspecified truncation, an unknown separator or a different multiline contract, do not force the framed-Java setting. Retain the record-boundary review until you can obtain the transport definition.
+
+**Next:** [Review Fields](/workflows/review-fields).

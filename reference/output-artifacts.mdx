@@ -1,0 +1,34 @@
+---
+title: "Output artifacts"
+description: "Understand the Ruby logic file, CONF companion and package integrity."
+---
+
+# Generated parser artifacts
+
+After a successful **Create Parser Files** action, Parser Studio can offer:
+
+| Artifact | Purpose |
+| --- | --- |
+| Extensionless Ruby parser logic | The generated parsing logic for the reviewed draft |
+| CONF file | Companion listener and parser configuration for the same reviewed draft |
+| Optional package archive | Bundled copy of the generated artifacts and metadata |
+
+Output availability depends on the connected generation service and successful validation. The paired artifacts are logically related; do not mix a CONF file from one draft with Ruby logic from another draft.
+
+## Integrity and reproducibility
+
+The application verifies returned SHA-256 digests for the generated file pair before offering the verified download. A corrupt or mismatched response should stop the affected output action.
+
+To preserve a reviewed result:
+
+1. Keep the original synthetic or authorized sample used for authoring.
+2. Record the reviewed CSV field definition, mapping decisions and transport assumptions.
+3. Download both output files from the **same successful generation**.
+4. Preserve the manifest or package metadata when the UI offers it.
+5. Re-run source checks if you modify the source or mapping later.
+
+## Interpret status carefully
+
+“Files generated” means that the generator and integrity checks accepted the **reviewed draft**. It is not a claim that every log variation in the product family will parse correctly.
+
+If you encounter unavailable compiler metadata, unsupported syntax or checksum failure, use [troubleshooting](/reference/troubleshooting) rather than using a partial download.

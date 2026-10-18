@@ -1,0 +1,18 @@
+engineering_system:
+  mode: adopted
+project:
+  name: parser-studio-docs
+  type: documentation
+  maturity: development
+  user_facing: true
+  primary_user_surface: documentation
+domains:
+  - user-manual
+  - usage-scenarios
+  - security-log-parsing
+platforms:
+  - github
+operations:
+  production_oriented: false
+  runbook_required: false
+  persistent_state: false

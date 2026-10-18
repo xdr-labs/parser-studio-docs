@@ -1,0 +1,36 @@
+---
+title: "Scenario: Syslog header with key/value data"
+description: "Review a Syslog envelope separately from the structured message body."
+---
+
+# Syslog header + key/value body
+
+**Goal:** Extract useful KV fields without treating the transport header as an ordinary message field.
+
+**Use when:** A forwarded record starts with a priority, timestamp and host/application label.
+
+## Fictional RFC3164-style example
+
+~~~text
+<134>Oct 18 12:00:00 edge-fw firewall: action=deny src=192.0.2.21 dst=198.51.100.24 dport=22 user="demo admin"
+<134>Oct 18 12:00:01 edge-fw firewall: action=allow src=192.0.2.22 dst=198.51.100.25 dport=443 user="demo user"
+~~~
+
+## Walkthrough
+
+1. Paste both complete lines under **Add Logs**, keeping the leading priority marker and the application prefix.
+2. Click **Analyze Logs**. Read the format and envelope findings.
+3. In **Review Fields**, verify action, addresses, port and the quoted user string as **one value**, even though it contains a space.
+4. Review timestamps: RFC3164-style headers do not themselves provide a year or timezone. Do not invent those missing facts.
+5. In **Map Fields**, assign only verified destinations and compatible types.
+6. Generate files only if the full sample and compilation checks pass.
+
+## Expected review outcome
+
+The source is accounted for as two events. The parser does not mistake the Syslog header for a KV field, cut a quoted value in half or silently invent complete timestamp metadata.
+
+## Recovery path
+
+If the forwarded source has an additional prefix, inspect that exact boundary and use explicit review controls when available. Do not strip arbitrary bytes or create a made-up timestamp just to obtain a passing result.
+
+See [Supported Formats](/reference/supported-formats) for important format boundaries.

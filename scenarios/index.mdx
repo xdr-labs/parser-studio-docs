@@ -1,0 +1,31 @@
+---
+title: "Scenario Playbooks"
+description: "Choose a task-based example with prerequisites, verification and recovery steps."
+---
+
+# Scenario Playbooks
+
+These guides are organized around what a user is trying to do, not around internal parser modules. Each includes an example, the visible UI steps, an expected outcome and the point at which you should stop and review.
+
+## Common tasks
+
+| Scenario | You have | Outcome to review |
+| --- | --- | --- |
+| [First firewall JSON](/scenarios/first-firewall-json) | Named JSON fields | Extracted fields and a downloaded draft |
+| [Syslog + key/value](/scenarios/syslog-kv) | Header and quoted KV body | Separate envelope and body extraction |
+| [CEF or LEEF](/scenarios/cef-leef) | Delimited security events | Correct header and extension handling |
+| [CSV with a field document](/scenarios/csv-with-spec) | Positional CSV and column list | Approved column names and correct types |
+| [Positional firewall CSV](/scenarios/panos-positional) | Unlabeled firewall columns | No invented semantic mapping |
+| [Unknown log](/scenarios/unknown-log) | Unrecognized or incomplete records | Exact unresolved portions surfaced |
+| [Mixed log events](/scenarios/mixed-events) | Multiple record families | Every event accounted for |
+| [Multiline Java](/scenarios/multiline-java) | TCP blank-line-framed exceptions | Confirmed event framing |
+| [Normalization review](/scenarios/normalization) | Extracted fields with questionable destinations | Correct mappings and no collisions |
+| [ChatGPT-based recovery](/scenarios/recipe-ai) | Unresolved parsing rule | Privacy-reviewed prompt and qualified proposal |
+| [Python test sender](/scenarios/test-sender) | Representative sample | A user-run standard-library Python file |
+| [Local version comparison](/scenarios/revisions) | Multiple mapping experiments | Saved and restored browser-local versions |
+
+## What counts as a completed exercise?
+
+You must be able to explain **what source records were used**, **which fields and boundaries were checked**, **why the mapping makes sense**, and **which output files were generated**. Do not declare a whole product family supported based on a single sample.
+
+All example values in these pages are synthetic.

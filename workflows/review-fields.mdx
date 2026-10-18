@@ -1,0 +1,37 @@
+---
+title: "Review Fields"
+description: "Check event completeness, extracted values and source boundaries."
+---
+
+# Review Fields
+
+The purpose of **Review Fields** is to compare the parser's interpretation against the actual original record—not merely to see a green status label.
+
+## What to examine
+
+For each representative event:
+
+1. Check the original record count and whether a complete event is displayed.
+2. Compare extracted keys with the source. Look for quoting, escaped separators and embedded delimiters.
+3. Check that IP addresses, users, ports, timestamps and actions retain their correct values.
+4. Examine warnings or highlighted unresolved portions.
+5. Compare at least one ordinary event with an event that has missing or unusual fields.
+
+## Examples of significant differences
+
+| Source behavior | Why it matters |
+| --- | --- |
+| Quoted field contains spaces | Splitting on spaces may create false fields |
+| Empty CSV column | All subsequent columns may shift if empty values are dropped |
+| Syslog header precedes CEF | Header and body need distinct interpretation |
+| Two timestamps in one event | Arrival time and event time are not necessarily interchangeable |
+| Nested JSON object | A path such as network.src.ip is not the same as a flat field |
+| Partial extraction | The sample is not fully understood merely because one field was found |
+
+## If the result is incomplete
+
+Return to **Add Logs** and check boundaries, supplied samples and any available explicit format review. For a positional CSV source, provide the actual column definition. When a bounded repair is suggested, use its before/after comparison and fresh holdout events.
+
+If the application cannot safely verify the structure, accept the review status and use [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) only after masking sensitive information.
+
+**Continue to:** [Map Fields](/workflows/map-fields).

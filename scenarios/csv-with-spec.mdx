@@ -1,0 +1,47 @@
+---
+title: "Scenario: CSV logs with a vendor column definition"
+description: "Use an explicit schema rather than assigning field meanings from positions."
+---
+
+# CSV logs with a field definition document
+
+**Goal:** Apply trusted field names to CSV columns and verify type-safe extraction.
+
+**Prerequisite:** The vendor's column list, including the order used by this log subtype. A guessed column name is not authoritative.
+
+## Fictional CSV input with no header row
+
+~~~csv
+2026-10-18T13:00:00Z,allow,192.0.2.10,198.51.100.22,443
+2026-10-18T13:00:01Z,deny,192.0.2.11,203.0.113.7,22
+~~~
+
+For this teaching example, assume the accompanying definition declares exactly five columns, in order:
+
+| Position | Declared field |
+| --- | --- |
+| 1 | timestamp |
+| 2 | action |
+| 3 | src_ip |
+| 4 | dst_ip |
+| 5 | dst_port |
+
+## Walkthrough
+
+1. Paste both rows into **Auto Parser → Add Logs**.
+2. Click **Analyze Logs**. Confirm the rows have the same column count.
+3. Open **Review CSV column names** if prompted, choose the actual delimiter (comma, semicolon or TAB), and enter the five defined names **in the declared order**.
+4. Explicitly approve the schema. If any source row or schema detail changes, review it again.
+5. Continue to **Review Fields** and check the first, middle and last columns in both rows.
+6. In **Map Fields**, confirm each type (for example, destination port is a network port) and each destination.
+7. Generate the parser files only after the full sample passes.
+
+## Expected review outcome
+
+Every value appears under the column name defined by the source documentation. No empty column is dropped and no downstream column shifts position.
+
+## Recovery path
+
+If the column count varies, determine whether there are optional fields, multiple event subtypes, quoting rules or malformed records. Do not simply pad every record or reuse one schema across incompatible CSV subtypes without evidence.
+
+**Next:** [Positional firewall logs](/scenarios/panos-positional).

@@ -1,0 +1,49 @@
+---
+title: "Parser Studio User Guide"
+description: "Build, review and download custom log parsers with a guided workflow."
+---
+
+# Parser Studio
+
+**Create a parser from representative security logs without writing parsing code.** Parser Studio analyzes source events, shows extracted fields, assists with normalization and produces reviewable parser files when the current sample passes its checks.
+
+## Start with the task you need
+
+| Your goal | Where to go |
+| --- | --- |
+| Create your first parser from sample logs | [Quickstart](/quickstart) |
+| Let the application recognize the format | [Auto Parser](/workflows/auto-parser) |
+| Understand an unfamiliar or partly parsed log | [Unknown log scenario](/scenarios/unknown-log) |
+| Review field names for CSV data | [CSV with a field specification](/scenarios/csv-with-spec) |
+| Map fields to the Stellar Cyber naming catalog | [Field mapping](/workflows/map-fields) |
+| Work with ChatGPT by manual, privacy-reviewed copy/paste | [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) |
+| Replay synthetic variants with a downloadable Python script | [Python test sender](/scenarios/test-sender) |
+
+## Two parser creation methods
+
+### Auto Parser — use this first
+
+Follow four visible stages:
+
+1. **Add Logs:** paste or upload a small, representative sample, then choose **Analyze Logs**.
+2. **Review Fields:** examine individual events and confirm extracted field names and values.
+3. **Map Fields:** inspect suggested normalized destinations and correct mistakes.
+4. **Create Parser:** run the complete-sample checks and generate the downloadable files.
+
+[Follow the full Auto Parser guide](/workflows/auto-parser).
+
+### ChatGPT Assisted Parser — when you need help
+
+Use the separate **ChatGPT Assisted Parser** navigation item to prepare a masked example and an explicit prompt for ChatGPT. You manually transfer the prompt and copy the resulting structured recipe back into the product. Changes are validated before approval.
+
+[Read the ChatGPT workflow](/workflows/chatgpt-assisted).
+
+## What success means
+
+A successful creation produces a locally downloaded parser logic file and a companion configuration file, with integrity checks. It does **not** mean that every possible log from the same vendor has been recognized. Always test additional representative events, retain the original sample, and resolve any event marked as requiring review.
+
+## Recommended learning path
+
+Start with [a JSON firewall sample](/scenarios/first-firewall-json), learn [field normalization](/scenarios/normalization), then use the [scenario library](/scenarios/index) to practice with other record structures.
+
+No real customer logs are needed for the examples in this manual.

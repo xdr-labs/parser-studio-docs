@@ -1,0 +1,40 @@
+---
+title: "Scenario: recover an unresolved rule with ChatGPT"
+description: "Use a masked example and independently validate any proposed parser correction."
+---
+
+# ChatGPT-assisted recovery from an unresolved record
+
+**Goal:** Get help with a narrowly defined extraction issue without handing over the original data or accepting untested code.
+
+## Fictional problem
+
+The event contains:
+
+~~~text
+date=2026-10-18 action="policy denied" src=192.0.2.10 reason="destination not authorized"
+~~~
+
+Suppose the current review does not correctly preserve the entire quoted reason.
+
+## Walkthrough
+
+1. In **Auto Parser**, inspect the original field and highlighted mismatch. Record precisely which value is wrong.
+2. Select **ChatGPT Assisted Parser**. Keep the original events in local analysis.
+3. Edit the visible masked example to use only fictional addresses and values. State the goal: preserve the full quoted reason and action.
+4. Review the privacy confirmation and choose **Prepare ChatGPT Prompt**.
+5. Manually copy the reviewed prompt into ChatGPT; ask for a **supported ParserRecipe v0.2 JSON** response, not arbitrary script code.
+6. Paste that JSON into Parser Studio. Review any unsupported-operation or source-binding findings.
+7. Supply several fresh events containing quoted spaces, empty optional fields or escaped characters as independent holdouts.
+8. Inspect before/after comparisons and explicitly approve the change only if it passes.
+9. Generate files through the supported workflow, if available.
+
+## Expected review outcome
+
+The corrected field is present with its full text and unrelated fields remain unchanged on both original and holdout events.
+
+## Recovery path
+
+If the response proposes arbitrary Ruby, unrestricted regular expressions or an invalid recipe, reject it and request a narrower supported change. If independent holdouts regress, do not approve the change.
+
+**Related:** [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) and [Holdout validation](/workflows/holdout-validation).

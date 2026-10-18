@@ -1,0 +1,36 @@
+---
+title: "Troubleshooting"
+description: "Diagnose common parsing, mapping, validation and download problems."
+---
+
+# Troubleshooting
+
+When an operation fails, keep the original source unchanged until you understand the reported reason. Fix the smallest independently verifiable cause, then re-test the full sample.
+
+| Symptom | Likely area | Recommended action |
+| --- | --- | --- |
+| No format recognized | Source structure or event boundaries | Check complete input and review unknown event spans |
+| One record appears as multiple events | Newline/multiline boundaries | Obtain the sender's framing contract and use explicit review |
+| CSV values shift columns | Wrong delimiter, missing empty columns or quoting | Compare exact field count with the source specification |
+| PAN-OS-style columns have implausible names | Guessed positional schema | Replace guesses with the matching vendor field document |
+| Quoted KV string splits into extra fields | Escape or delimiter interpretation | Preserve original quotes and review exact byte boundaries |
+| CEF/LEEF extension value is truncated | Escape or declared separator mismatch | Inspect original extension and delimiter bytes |
+| Mapping shows target collision | Multiple sources share an output destination | Give each distinct field the correct destination |
+| Mapping shows type mismatch | Actual values differ from selected type | Inspect several records and choose supported types |
+| Backend/compiler unavailable | Local service, version or capability metadata | Verify the local authoring service is running and compatible; keep existing preview results |
+| Checksum error | Generated pair/package mismatch | Do not use the mismatched file; regenerate once the service is healthy |
+| ChatGPT JSON rejected | Wrong version, source binding or unsupported operation | Ask for the strict supported recipe and review error details |
+| AI change fails holdout | Regressed or unproven proposed rule | Reject the change and collect better evidence |
+| Test script does not produce observed receiver events | Endpoint/transport/port or network conditions | Check user-entered test destination and receiving application separately |
+
+## Local Multi-Pass preview unavailable
+
+If the UI reports that a **local Multi-Pass service is unavailable or untrusted**, a browser-side preview may still be visible while full source evidence is not available. Treat the two statuses separately. Confirm the current development environment's local parsing service, health and version compatibility before attempting generation.
+
+Do not interpret a browser preview as evidence that the backend accepted an output draft.
+
+## Repeatable support report
+
+When reporting a reproducible problem, attach a **synthetic or masked** sample; state the intended source format, logical-event count, exact UI step, the displayed error and the expected field/value. Keep private original data out of a public issue.
+
+**Related:** [Review Fields](/workflows/review-fields), [Map Fields](/workflows/map-fields).

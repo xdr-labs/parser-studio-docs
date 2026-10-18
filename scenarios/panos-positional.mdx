@@ -1,0 +1,40 @@
+---
+title: "Scenario: positional firewall CSV"
+description: "Handle PAN-OS-style positional logs without inventing field semantics."
+---
+
+# PAN-OS-style positional firewall logs
+
+**Goal:** Avoid a believable but incorrect field mapping when log records contain many comma-separated values without inline field names.
+
+## Why this is different
+
+A log may look familiar because it includes an address or an event label, but that does not prove the exact position of every field. Different event types and software versions may have different column definitions.
+
+## Illustrative, non-authoritative input
+
+~~~text
+1,2026/10/18 12:00:00,000001,TRAFFIC,end,192.0.2.10,198.51.100.20,allow
+~~~
+
+This abbreviated teaching row is **not** a valid vendor field specification and must not be used to claim PAN-OS coverage.
+
+## Walkthrough
+
+1. Collect several real representative records **and the matching official field-order definition**, ideally distinguishing Traffic, Threat and other subtypes.
+2. Paste records from one documented subtype into **Add Logs**, preserving all empty and trailing columns.
+3. Click **Analyze Logs** and inspect the column count and event boundaries.
+4. Under **Review CSV column names**, apply the verified ordered names. If the source definition is missing, use neutral positional names for investigation, not semantic guesses.
+5. Check multiple records including empty fields. Verify each value against its documented position.
+6. Review normalization only for independently confirmed field meanings.
+7. Download a parser draft only if the actual sample is accepted by the reviewed compiler.
+
+## Expected review outcome
+
+Position-to-name assignments have an auditable basis and are consistent across tested records. Where the meaning is unknown, the output remains neutral or review-only.
+
+## Recovery path
+
+If a Threat record has a different shape from Traffic records, review them separately instead of silently merging layouts. If the exact vendor schema cannot be established, stop semantic mapping and request the matching source definition.
+
+**Related:** [CSV with specification](/scenarios/csv-with-spec) and [Unknown log](/scenarios/unknown-log).

@@ -1,0 +1,31 @@
+---
+title: "Scenario: compare local parser versions"
+description: "Use browser-local version history to preserve and compare experiments."
+---
+
+# Compare and restore local parser experiments
+
+**Goal:** Preserve two mapping decisions for the same log sample and return to a known review state.
+
+## Example task
+
+You are unsure whether a source field represents a device-local address or a communication source address. Rather than repeatedly overwriting one mapping, test both hypotheses separately.
+
+## Walkthrough
+
+1. Prepare a sample and complete the first **Review Fields** and **Map Fields** pass.
+2. Open **Local Versions** from the top toolbar. Save the current working draft under a descriptive name, such as “firewall-fields-before-change”.
+3. Change one mapping at a time, rerun the relevant validation and save a second version.
+4. Use the available local comparison or revision inspection to examine the differences and their test results.
+5. Restore the preferred saved state when needed, then **re-run parsing and generation checks**. A restored mapping is not automatic proof that the current source still passes.
+6. If you replace the original sample, preserve a separate record of which version was tested against which source.
+
+## Expected review outcome
+
+You can identify what changed between draft versions and recover the previous mapping without importing unrelated source files.
+
+## Recovery path
+
+Browser-local storage is specific to the browser environment and is not a durable multi-user backup. Do not rely on it as the only copy of an important source definition. Export reviewed files separately when the UI provides that option.
+
+**Related:** [Create Parser](/workflows/create-and-download).

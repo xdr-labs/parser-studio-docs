@@ -1,0 +1,36 @@
+---
+title: "Scenario: create a parser from JSON firewall logs"
+description: "A first-time user follows all four Auto Parser stages."
+---
+
+# JSON firewall log: first-time walkthrough
+
+**Goal:** Create and download a reviewed parser draft from named JSON fields.
+
+**Starting point:** Auto Parser, with no prior parser settings.
+
+## Example records
+
+~~~json
+{"time":"2026-10-18T04:10:11Z","type":"traffic","action":"allow","source":{"ip":"192.0.2.11"},"destination":{"ip":"198.51.100.15","port":443},"policy":"web-access"}
+{"time":"2026-10-18T04:11:12Z","type":"traffic","action":"block","source":{"ip":"192.0.2.12"},"destination":{"ip":"203.0.113.6","port":22},"policy":"deny-ssh"}
+~~~
+
+## Walkthrough
+
+1. Open **Auto Parser** and paste the two records in **Add Logs**.
+2. Click **Analyze Logs**. Check that two logical events are identified and not silently combined.
+3. Click **Review Fields**. Inspect the nested source/destination address paths and distinguish them from one another.
+4. Click **Map Fields**. Review each suggested normalized destination and value type. Keep the policy field in an appropriate vendor-specific destination if no verified catalog entry exists.
+5. Click **Create Parser**, then **Create Parser Files** when the sample and mappings are accepted.
+6. Download the file pair and keep it with the two test records.
+
+## Expected review outcome
+
+Both records are individually accounted for. You can inspect the action, nested addresses, destination port and policy values. A generated file pair, if unlocked, includes integrity-checked outputs.
+
+## If it does not work
+
+If nested fields are missing, return to Review Fields and inspect the exact source paths. If generation is blocked because of a mapping type or collision, correct that mapping and retest. A green JSON classification alone is not the acceptance criterion.
+
+**Next:** [Map Fields](/workflows/map-fields) and [Holdout validation](/workflows/holdout-validation).

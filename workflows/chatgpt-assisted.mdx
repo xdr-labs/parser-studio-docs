@@ -1,0 +1,46 @@
+---
+title: "ChatGPT Assisted Parser"
+description: "Prepare a safe prompt, import a structured response and review changes."
+---
+
+# ChatGPT Assisted Parser
+
+Choose **ChatGPT Assisted Parser** if the ordinary Auto Parser review cannot explain a record or needs help preparing a supported parsing adjustment.
+
+This is an **explicit copy-and-paste** workflow. Parser Studio does not send the source to ChatGPT on your behalf.
+
+## 1. Prepare local data
+
+1. Select **ChatGPT Assisted Parser** from the left navigation.
+2. Paste the original source records into the local analysis field.
+3. Describe the fields you want to extract, using clear field meanings.
+4. Review the provided fictional/redacted example. Replace any content that should not be shared.
+5. Inspect the shareable text and check the required confirmation before preparing the prompt.
+
+A prefilled fictional example is a starting point, not proof that it correctly represents your source. Always inspect it.
+
+## 2. Prepare and copy the prompt
+
+Choose **Prepare ChatGPT Prompt**, review the full output and use the copy control. The shareable prompt includes bounded metadata and only the example text you explicitly approved.
+
+Open ChatGPT separately, paste the prompt yourself and ask for a **ParserRecipe v0.2 JSON** response constrained to the supported contract.
+
+## 3. Import and validate
+
+Paste the JSON response back into Parser Studio. The application checks the schema, source binding and allowed operations. Arbitrary executable Ruby, unrestricted expressions and unsupported format transformations are not accepted as a substitute for validation.
+
+## 4. Review changed behavior
+
+For a proposed changed mapping or bounded recovery rule, test the full original sample and **independent additional records**. Check the before/after comparison and explicitly approve only a verified improvement.
+
+[Holdout validation](/workflows/holdout-validation) explains the qualification step.
+
+## 5. Generate from an approved recipe
+
+When the response and any required holdout checks pass, the same source-bound generation and digest verification used by Auto Parser applies.
+
+## Important privacy rule
+
+Do not copy unmasked customer logs, credentials, secret tokens or personal identifiers into external prompts. The redacted example is visible and editable precisely so the user controls what leaves the browser.
+
+See the [AI recovery scenario](/scenarios/recipe-ai) and [Data handling](/reference/source-privacy).

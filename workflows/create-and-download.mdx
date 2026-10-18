@@ -1,0 +1,33 @@
+---
+title: "Create Parser and download files"
+description: "Understand the final validation step, output pair and package checks."
+---
+
+# Create Parser
+
+The last stage produces parser artifacts **only after required reviews and generation checks complete**.
+
+## Generate the files
+
+1. Complete **Review Fields** and **Map Fields**.
+2. Open **Create Parser** and read the event count and blocking notices.
+3. Choose **Create Parser Files**.
+4. If successful, download **parser logic** (the extensionless Ruby file) and **listener configuration** (the CONF file).
+5. When available, select **Download Parser Package** for the packaged copy.
+
+## Verify the result
+
+Parser Studio checks the generated pair against the reviewed project schema and its returned SHA-256 digests. Do not replace a generated file with hand-edited content while treating its original digest as still valid.
+
+Keep a record of the sample structure, selected mappings, transport and selected output port. These are part of the assumptions behind the generated configuration.
+
+## What if creation is blocked?
+
+- **Not all events passed:** return to Review Fields and inspect the failing event.
+- **Mapping conflict:** return to Map Fields to resolve duplicate destinations or type mismatches.
+- **Missing compiler metadata:** check the local parser creation service before attempting to generate again.
+- **Integrity error:** do not use the suspect artifact; regenerate from the reviewed source.
+
+A downloadable result is a validated draft for the reviewed source and advertised compiler capabilities. It is not a universal compatibility claim for other formats or unseen messages.
+
+For file definitions and safety boundaries, see [Output Artifacts](/reference/output-artifacts).

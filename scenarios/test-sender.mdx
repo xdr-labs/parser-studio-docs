@@ -1,0 +1,54 @@
+---
+title: "Scenario: generate a Python test sender"
+description: "Download a user-run Python script that produces synthetic variants of your reviewed events."
+---
+
+# Generate a standalone Python test sender
+
+**Goal:** Produce repeatable variations from representative logs and transmit them from a computer you control to an **authorized test destination**.
+
+This is a separate, downloadable utility in the **Add Logs** area. It runs **only when you launch the downloaded Python file**.
+
+## Walkthrough
+
+### 1. Prepare the source
+
+Paste or upload example events in **Auto Parser → Add Logs**. Choose sample content that is safe to embed in a local script. The generated file contains the sample as **base64, which is not encryption**.
+
+### 2. Download
+
+Expand **Generate a Python Test Sender** and choose **Download Python Test Sender (.py)**. The output filename is:
+
+~~~text
+parser_studio_test_sender.py
+~~~
+
+No network transmission occurs as part of the browser download.
+
+### 3. Run it locally
+
+On a computer with Python 3:
+
+~~~bash
+python3 parser_studio_test_sender.py
+~~~
+
+The script interactively asks for a destination IP address, port, transport (**UDP** by default or **TCP**) and number of events. The default count is 60, with a bounded range of 1–600. Review the destination and type **YES** to authorize the run.
+
+### 4. Verify the test behavior
+
+- The script sends **at most one logical event per second**.
+- It uses the executing computer's current clock for recognized timestamp formats.
+- Supported address, user, email and location fields receive conservative synthetic replacements; unrecognized fields may stay unchanged.
+- TCP sends framed records; UDP sends individual datagrams. Choose the mode matching the test receiver.
+- Stop with **Ctrl-C** if the test is no longer needed.
+
+## Expected review outcome
+
+You possess a standard-library-only Python file. The local script requests explicit inputs and consent before sending a bounded number of synthetic event variants.
+
+## Recovery path
+
+If the receiver does not see data, first inspect your chosen IP, port, transport, firewall rules and receiver configuration. The script does **not** itself confirm delivery or correct downstream parsing. Do not use unauthorized hosts or assume its transformations irreversibly anonymize private data.
+
+**Related:** [Source privacy](/reference/source-privacy).

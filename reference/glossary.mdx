@@ -1,0 +1,33 @@
+---
+title: "Glossary"
+description: "Plain-language definitions for common parsing and normalization terms."
+---
+
+# Glossary
+
+| Term | Meaning |
+| --- | --- |
+| Parser | Rules that recognize a source record and extract named values |
+| Raw log | The original event text before extraction or normalization |
+| Logical event | One complete record, even when the original text spans several lines |
+| Envelope | An outer transport/header structure, such as a Syslog header |
+| Body | The content inside or after a detected envelope |
+| Extraction | Identifying source keys and their values |
+| Normalization | Assigning consistent destination names/types to extracted values |
+| Source field | The original key or position from the log |
+| Target field | The destination name used by the reviewed mapping |
+| Vendor/custom field | A field kept without claiming an unsupported official semantic equivalent |
+| CSV schema | Ordered column names and delimiter rules supplied or approved by the user |
+| RFC3164 | A traditional Syslog message convention that does not itself provide year/timezone |
+| RFC5424 | A structured Syslog message format with defined header fields |
+| CEF | Common Event Format: fixed header plus extension attributes |
+| LEEF | Log Event Extended Format: structured security event layout |
+| KV | Key/value pairs such as action=deny |
+| Multiline framing | A contract defining where complete multi-line records start and end |
+| Holdout events | Additional examples that were **not used** to devise a proposed parser change |
+| ParserRecipe v0.2 | The restricted structured representation accepted by the assisted authoring path |
+| Draft | A generated artifact derived from a reviewed source, with explicitly bounded validation evidence |
+| SHA-256 | A digest used to check whether returned file content matches its claimed identity |
+| Browser-local version | A saved working copy stored in the current browser environment |
+
+**Next:** [Choose a workflow](/choose-workflow).

@@ -1,0 +1,50 @@
+---
+title: "Frequently asked questions"
+description: "Quick answers to common Parser Studio questions."
+---
+
+# Frequently asked questions
+
+## Do I need to know whether my logs are JSON, CEF or Syslog?
+
+No. Begin with **Auto Parser → Add Logs**, paste representative events and select **Analyze Logs**. Review the result rather than assuming format detection alone proves correctness.
+
+## Can I create parsers without knowing regular expressions?
+
+Yes, for supported source structures. The default workflow is graphical and begins with source data and field review.
+
+## Why does CSV ask me for field names?
+
+CSV rows may provide only positions. To avoid assigning the wrong meaning to a value, Parser Studio asks you to review a source-backed column definition.
+
+## Is every recognized log immediately ready to generate?
+
+No. Parsing, mapping, record-boundary review and current compiler capability all influence generation. Unknown events or unsupported transformations should remain visible.
+
+## What if the normalization suggestion is incorrect?
+
+Change it in **Map Fields**, inspect catalog evidence and re-test. Keep unsupported meanings under vendor-specific fields rather than forcing a guessed official destination.
+
+## Does ChatGPT read my raw logs automatically?
+
+No. The assisted workflow uses explicit user-controlled prompt creation and manual copy/paste. Review and mask the example before sharing it.
+
+## May I paste any code produced by ChatGPT?
+
+No. The assisted path accepts restricted structured ParserRecipe v0.2 JSON and reviews supported operations and source binding.
+
+## Why do I need a separate holdout sample?
+
+A rule can match the examples used to invent it and still fail on other records. Independent examples help expose regressions.
+
+## Do I need to install Python packages for the test sender?
+
+No. The downloaded script runs with Python 3 standard-library modules. It asks for an authorized destination and explicit confirmation before transmitting.
+
+## Can I recover a previous mapping?
+
+Use **Local Versions** if the working copy was saved in your browser environment. Re-run validation after restoring a version.
+
+## Where do I find the downloadable parser files?
+
+Finish the four stages under Auto Parser and choose **Create Parser Files**. The companion files appear after generation and integrity verification succeed.
