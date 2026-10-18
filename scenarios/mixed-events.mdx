@@ -23,7 +23,9 @@ LEEF:1.0|Synthetic|Firewall|1|501|src=192.0.2.18	dstPort=80	act=allow
 
 This practice input uses **four structurally different events**. In real use, keep all original log events intact.
 
-<figure className="ps-shot"><img src="/images/07-mixed-analysis.png" alt="Auto Parser showing four of four structurally different events parsed completely" /><figcaption>The real UI analyzed the four fictional records together. The user did not choose their formats first.</figcaption></figure>
+![Auto Parser showing four of four structurally different events parsed completely](/images/07-mixed-analysis.png)
+
+*The real UI analyzed the four fictional records together. The user did not choose their formats first.*
 
 ## Walkthrough: attempt one combined parser
 
@@ -35,9 +37,13 @@ This practice input uses **four structurally different events**. In real use, ke
 6. Confirm **Must fix before continuing = 0**, then click **Create Parser**.
 7. Choose **Run Final Test & Create Files**. A **single combined parser draft** is available only when the generator accepts that particular reviewed combination.
 
-<figure className="ps-shot"><img src="/images/08-mixed-mapping.png" alt="Field mapping review for the four mixed events with variable source fields" /><figcaption>Different source shapes can share one reviewed project, but inspect fields that are not present in every event.</figcaption></figure>
+![Field mapping review for the four mixed events with variable source fields](/images/08-mixed-mapping.png)
 
-<figure className="ps-shot"><img src="/images/08-mixed-create.png" alt="Create Parser stage with four of four reviewed mixed events ready for the final test" /><figcaption>This demonstrates reaching the final generation step; the file generator still decides whether the combination is supported.</figcaption></figure>
+*Different source shapes can share one reviewed project, but inspect fields that are not present in every event.*
+
+![Create Parser stage with four of four reviewed mixed events ready for the final test](/images/08-mixed-create.png)
+
+*This demonstrates reaching the final generation step; the file generator still decides whether the combination is supported.*
 
 ## What if the analysis finds several groups instead?
 

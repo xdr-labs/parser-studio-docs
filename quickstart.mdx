@@ -14,10 +14,9 @@ description: "A click-by-click walkthrough for somebody who has never used a log
 
 Open Parser Studio and choose **Auto Parser** in the left menu. You should see these four stages at the top: **Add Logs**, **Review Fields**, **Map Fields**, and **Create Parser**.
 
-<figure className="ps-shot">
-  <img src="/images/01-auto-parser-start.png" alt="Default Auto Parser screen with four guided stages and an empty log input" />
-  <figcaption>Start in Auto Parser. Leave Tools & Diagnostics closed until the application asks you to investigate a problem.</figcaption>
-</figure>
+![Default Auto Parser screen with four guided stages and an empty log input](/images/01-auto-parser-start.png)
+
+*Start in Auto Parser. Leave Tools & Diagnostics closed until the application asks you to investigate a problem.*
 
 The **Manufacturer**, **Product**, and optional **Version** boxes identify the parser you are creating. You can start analyzing first; enter the source product identity before generating files.
 
@@ -34,10 +33,9 @@ Click the orange **Analyze Logs** button. **Do not select JSON, CEF, LEEF, or a 
 
 If you see **2 of 2 log events parsed completely**, click **Review Fields**. If the count is incomplete, follow [what to do with a warning](/scenarios/unknown-log) first.
 
-<figure className="ps-shot">
-  <img src="/images/02-analyzed-sample.png" alt="Two log events completely parsed after clicking Analyze Logs" />
-  <figcaption>Notice the green result and the orange Review Fields button below it.</figcaption>
-</figure>
+![Two log events completely parsed after clicking Analyze Logs](/images/02-analyzed-sample.png)
+
+*Notice the green result and the orange Review Fields button below it.*
 
 ## Step 3 — Check the values, then click Map Fields
 
@@ -47,10 +45,9 @@ Check the three areas: **Original log**, **Fields Parser Studio found**, and **C
 
 If the extraction is correct, click **Map Fields** at the bottom. You do not need to repair a passing event.
 
-<figure className="ps-shot">
-  <img src="/images/03-review-fields.png" alt="Review Fields screen showing original log, extracted values and output preview" />
-  <figcaption>Compare original text with the extracted value, not only the status badge.</figcaption>
-</figure>
+![Review Fields screen showing original log, extracted values and output preview](/images/03-review-fields.png)
+
+*Compare original text with the extracted value, not only the status badge.*
 
 ## Step 4 — Review suggested field names
 
@@ -58,10 +55,9 @@ On **Map Fields**, confirm that the address, action, port, and timestamp go to t
 
 Check **Must fix before continuing**. If it shows **0** and the sample values make sense, click **Create Parser**.
 
-<figure className="ps-shot">
-  <img src="/images/04-map-fields.png" alt="Map Fields screen with candidate normalized fields, examples and mapping checks" />
-  <figcaption>The mapping review is where you verify field meanings. You do not need to edit a correct suggestion.</figcaption>
-</figure>
+![Map Fields screen with candidate normalized fields, examples and mapping checks](/images/04-map-fields.png)
+
+*The mapping review is where you verify field meanings. You do not need to edit a correct suggestion.*
 
 ## Step 5 — Run the final test and download
 
@@ -72,10 +68,9 @@ On the **Create Parser** screen:
 3. When the file generator completes its checks, download the **Ruby parser logic** and the companion **CONF** file; use the package option if available.
 4. Keep the files together with the sample and your reviewed mappings.
 
-<figure className="ps-shot">
-  <img src="/images/05-create-parser.png" alt="Final Create Parser screen with Run Final Test and Create Files button" />
-  <figcaption>This screenshot shows the final pre-generation screen, not a claim that a download has already succeeded. File controls appear only after the backend accepts the reviewed draft.</figcaption>
-</figure>
+![Final Create Parser screen with Run Final Test and Create Files button](/images/05-create-parser.png)
+
+*This screenshot shows the final pre-generation screen, not a claim that a download has already succeeded. File controls appear only after the backend accepts the reviewed draft.*
 
 If the final test is blocked, **do not skip the warning**. Return to Review Fields or Map Fields and correct the reason shown on screen. If the file-generation service is unavailable, the analysis result is still useful, but no files have been generated.
 

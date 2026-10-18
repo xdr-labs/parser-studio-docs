@@ -17,10 +17,9 @@ You do **not** need to recognize the format or write parsing expressions. Begin 
 3. Paste a few full source events into **Add Logs**, or choose **Upload a log file** for a small text file. The screen shows a maximum of **64 KiB / 500 events**.
 4. Click the orange **Analyze Logs** button.
 
-<figure className="ps-shot">
-  <img src="/images/02-analyzed-sample.png" alt="The Add Logs step showing two of two events parsed successfully" />
-  <figcaption>A complete result means you can continue to Review Fields. You do not need to choose the record format.</figcaption>
-</figure>
+![The Add Logs step showing two of two events parsed successfully](/images/02-analyzed-sample.png)
+
+*A complete result means you can continue to Review Fields. You do not need to choose the record format.*
 
 | What appears after analysis | What you should click |
 | --- | --- |
@@ -34,10 +33,9 @@ You do **not** need to recognize the format or write parsing expressions. Begin 
 
 Click **Review Fields**. Use **Choose a source event** to compare the **Original log** with **Fields Parser Studio found** and **Current output preview**. Inspect ordinary and unusual events. If values are correct, choose **Map Fields** at the bottom.
 
-<figure className="ps-shot">
-  <img src="/images/03-review-fields.png" alt="Original log, extracted fields and output preview side-by-side on Review Fields" />
-  <figcaption>For most users, reviewing the values is enough—there is no parsing code to edit.</figcaption>
-</figure>
+![Original log, extracted fields and output preview side-by-side on Review Fields](/images/03-review-fields.png)
+
+*For most users, reviewing the values is enough—there is no parsing code to edit.*
 
 [How to handle an incorrect extracted field](/workflows/review-fields)
 
@@ -45,10 +43,9 @@ Click **Review Fields**. Use **Choose a source event** to compare the **Original
 
 Check each important field's source value, suggested **Stellar field name**, and **Value type**. The **Must fix before continuing** count should be **0**. Apply recommended matches only where their meaning is correct. If everything is fine, choose **Create Parser**.
 
-<figure className="ps-shot">
-  <img src="/images/04-map-fields.png" alt="Stellar field mapping review with match and type suggestions" />
-  <figcaption>Check the sample values before changing any mapping.</figcaption>
-</figure>
+![Stellar field mapping review with match and type suggestions](/images/04-map-fields.png)
+
+*Check the sample values before changing any mapping.*
 
 [How to fix an incorrect mapping](/workflows/map-fields)
 
@@ -56,10 +53,9 @@ Check each important field's source value, suggested **Stellar field name**, and
 
 Confirm **Need fixing = 0**, then click **Run Final Test & Create Files**. If the generator succeeds, download the generated **Ruby parser logic** and **CONF** files together. If the generator is unavailable or rejects a rule, the screen will not present a verified output—return to the indicated step.
 
-<figure className="ps-shot">
-  <img src="/images/05-create-parser.png" alt="The Create Parser screen with the Run Final Test and Create Files button" />
-  <figcaption>The screenshot shows the final action before file generation. Actual download controls require a successful validated result.</figcaption>
-</figure>
+![The Create Parser screen with the Run Final Test and Create Files button](/images/05-create-parser.png)
+
+*The screenshot shows the final action before file generation. Actual download controls require a successful validated result.*
 
 <Note>
   Use **Tools & Diagnostics** only when you need more information than the normal result provides. It is not required for a passing parser.

@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGES = sorted(ROOT.rglob("*.mdx"))
 PAGE_NAMES = {str(p.relative_to(ROOT).with_suffix("")) for p in PAGES}
 MARKDOWN_LINK = re.compile(r'(?<!!)\[[^\]]+\]\(([^)]+)\)')
+MARKDOWN_IMAGE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
 MDX_URL = re.compile(r'\b(?:href|src)="([^"]+)"')
 IMAGE_TAG = re.compile(r'<img\b[^>]*>', re.IGNORECASE | re.DOTALL)
 FENCE = re.compile(r'^\s*(`{3,}|~{3,})', re.MULTILINE)
@@ -63,7 +64,15 @@ for page in PAGES:
     if len(FENCE.findall(content)) % 2:
         error(page, "unpaired Markdown code fence")
 
-    for raw_url in MARKDOWN_LINK.findall(content) + MDX_URL.findall(content):
+    for image_alt, image_url in MARKDOWN_IMAGE.findall(content):
+        if not image_alt.strip():
+            error(page, "Markdown image has no alt text")
+        image_target = local_url_path(page, image_url)
+        if image_target and image_target.suffix.lower() == ".png" and image_target.is_file():
+            if image_target.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
+                error(page, f"invalid screenshot PNG {image_url}")
+
+    for raw_url in MARKDOWN_LINK.findall(content) + MDX_URL.findall(content) + [url for _, url in MARKDOWN_IMAGE.findall(content)]:
         target = local_url_path(page, raw_url)
         if target is None:
             continue
@@ -97,6 +106,12 @@ else:
                 f"navigation mismatch: missing {sorted(PAGE_NAMES - set(menu_paths))}, "
                 f"unknown {sorted(set(menu_paths) - PAGE_NAMES)}"
             )
+        if not all((ROOT / value.lstrip("/")).read_text(encoding="utf-8").lstrip().startswith("<svg") for value in [
+                config.get("logo", {}).get("light", "/missing"),
+                config.get("logo", {}).get("dark", "/missing"),
+                config.get("favicon", "/missing"),
+            ] if (ROOT / value.lstrip("/")).is_file()):
+            ERRORS.append("SVG branding has invalid content")
         for name in ("light", "dark"):
             logo = config.get("logo", {}).get(name)
             if not logo or not (ROOT / logo.lstrip("/")).is_file():
