@@ -28,7 +28,7 @@
 | A few fields are right, but part of a log was highlighted. | [Fix the flagged section](scenarios/partial-event.mdx) |
 | None of my logs were understood, and I do not know the format. | [Work through an unknown log](scenarios/unknown-log.mdx) and [ChatGPT assistance](scenarios/recipe-ai.mdx) |
 | My product generates several different-looking events. | [Mixed log types and combined-parser limits](scenarios/mixed-events.mdx) |
-| CSV values have no trustworthy column names. | [Review unnamed columns](scenarios/csv-with-spec.mdx) |
+| CSV values have no trustworthy column names. | [Review unnamed columns](scenarios/unnamed-values.mdx) |
 | Values are correct but output field names are wrong. | [Correct normalization](scenarios/normalization.mdx) |
 
 ## The ordinary four-stage flow
@@ -57,7 +57,7 @@
 
 ## What this repository contains
 
-This repository contains 29 English-only MDX guide pages, task-based walkthroughs, screenshots captured from the actual Parser Studio Web UI with fictional logs, and a small local documentation validator. Visual styling follows the XDR Labs documentation family.
+This repository contains 28 English-only MDX guide pages, task-based walkthroughs, screenshots captured from the actual Parser Studio Web UI with fictional logs, and a small local documentation validator. Visual styling follows the XDR Labs documentation family.
 
 The source behavior was checked against [Parser Studio main at `90e4c53`](https://github.com/xdr-labs/parser-studio/commit/90e4c53f0ba5f87262c3c027a1024047ea4b173f).
 

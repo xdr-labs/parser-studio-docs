@@ -1,48 +1,72 @@
 ---
-title: "Find your situation | Scenario Playbooks"
+title: "Scenario Playbooks: choose what happened"
 sidebarTitle: "Choose My Situation"
-description: "Choose a guide based on the result after pressing Analyze Logs, not on log format names."
+description: "Find the next step based on what Auto Parser or ChatGPT showed, not the input format."
 ---
 
-# Which situation are you in?
+# Choose what happened after analyzing your logs
 
-**Start in Auto Parser, paste the logs, then click Analyze Logs.** Once the result appears, choose the matching guide below.
+**Everyone starts in Auto Parser:** paste a few complete source events and click **Analyze Logs**. You do not have to identify a log format.
+
+## Auto Parser: solve it inside the guided workflow
 
 <CardGroup cols={2}>
-  <Card title="Everything parsed correctly" icon="circle-check" href="/quickstart">Review Fields → Map Fields → Create Parser → download.</Card>
-  <Card title="One part of a log is missing" icon="triangle-exclamation" href="/scenarios/partial-event">Use Problem to review, read the highlighted text and try the recommended fix.</Card>
-  <Card title="Nothing can be understood" icon="comments" href="/scenarios/unknown-log">Switch to ChatGPT Assisted Parser and review a masked example.</Card>
-  <Card title="One product, several event types" icon="layer-group" href="/scenarios/mixed-events">Analyze them together, then confirm whether a combined parser is supported.</Card>
-  <Card title="Values have no field names" icon="table" href="/scenarios/csv-with-spec">Keep temporary columns or enter names from the source document.</Card>
-  <Card title="Extracted fields have wrong destinations" icon="arrow-left-right" href="/scenarios/normalization">Correct mappings without changing the original event.</Card>
+  <Card title="All logs were recognized" icon="circle-check" href="/scenarios/auto-success">
+    Continue to Review Fields, confirm suggested mappings, then create and download the files.
+  </Card>
+  <Card title="Part of an event is missing" icon="triangle-exclamation" href="/scenarios/partial-event">
+    Select Problem to review, inspect the highlighted region, and try the recommended fix.
+  </Card>
+  <Card title="My product sends several event types" icon="layers" href="/scenarios/mixed-events">
+    Paste examples together, review every type, and create one combined draft only when supported.
+  </Card>
+  <Card title="Values have no reliable field names" icon="table" href="/scenarios/unnamed-values">
+    Keep all values with temporary names or enter trusted names and confirm the column order.
+  </Card>
+  <Card title="A field has the wrong output name" icon="arrow-left-right" href="/scenarios/normalization">
+    Correct its destination and type under Map Fields instead of rewriting extraction.
+  </Card>
+  <Card title="One event spans several lines" icon="align-left" href="/scenarios/long-events">
+    Review the message boundary, then continue only with a supported framing rule.
+  </Card>
+  <Card title="I want to save parser versions" icon="history" href="/scenarios/revisions">
+    Compare experiments and restore a browser-local draft.
+  </Card>
+  <Card title="I need changing sample logs" icon="file-code" href="/scenarios/test-sender">
+    Download and use the standalone Python test sender.
+  </Card>
 </CardGroup>
 
-## More examples
+## ChatGPT Assisted Parser: recover or verify a difficult case
 
-These are **examples after the normal Analyze Logs step**, not different entry modes. You do **not** have to know their format before starting.
+Use the left-side **ChatGPT Assisted Parser** menu when the automatic path cannot safely interpret the source or proposes a change that needs independent checking.
 
-| You have | What you learn |
-| --- | --- |
-| [Typical firewall events](/scenarios/first-firewall-json) | Walk through recognized logs to mapping and file creation |
-| [A log with a transport header](/scenarios/syslog-kv) | Review header versus values in the message body |
-| [A structured security event](/scenarios/cef-leef) | Inspect extracted header and event-specific fields |
-| [A source specification with ordered fields](/scenarios/csv-with-spec) | Enter and confirm exact column names |
-| [A firewall log with many unnamed positions](/scenarios/panos-positional) | Keep all positions without guessing meanings |
-| [Mixed records in one feed](/scenarios/mixed-events) | Distinguish combined formats from groups requiring separate drafts |
-| [An exception message on several lines](/scenarios/multiline-java) | Confirm where one full event ends |
-| [A field that should map differently](/scenarios/normalization) | Select a correct destination and type |
-| [A rule that requires ChatGPT](/scenarios/recipe-ai) | Copy a redacted prompt and check the imported solution |
-| [Generating different test data](/scenarios/test-sender) | Download and use the Python test utility |
-| [Comparing parser attempts](/scenarios/revisions) | Save and restore local work |
+<CardGroup cols={2}>
+  <Card title="Nothing in my log was understood" icon="comments" href="/scenarios/unknown-log">
+    Create a manually reviewed, masked prompt and paste the restricted JSON result back.
+  </Card>
+  <Card title="One missing field needs a new rule" icon="wrench" href="/scenarios/recipe-ai">
+    Preserve correct values and request one narrow change.
+  </Card>
+  <Card title="ChatGPT's answer was rejected" icon="circle-xmark" href="/scenarios/ai-invalid-response">
+    Read the error and ask for a supported structured correction.
+  </Card>
+  <Card title="The suggested fix needs additional proof" icon="check-double" href="/scenarios/ai-test-change">
+    Use other events as independent tests before approving the result.
+  </Card>
+</CardGroup>
 
-![The actual Parser Studio warning page showing unresolved source text and Fix with ChatGPT](/images/07-unknown-analysis.png)
+## A real screenshot of a flagged event
 
-*When a warning appears, use the highlighted input and recommendation. You do not need to recognize the format name.*
+![Parser Studio highlighting unresolved source text and showing the Fix with ChatGPT action](/images/07-unknown-analysis.png)
 
-## How to use these guides
+*If any events need review, the application highlights the source section instead of silently discarding it.*
 
-Every scenario follows the same pattern: **what happened → where to click → what to check → what to do if that does not work**. All sample events and UI screenshots use fictional data.
+## Which guide should I read first?
 
-<Note>
-  If you simply want to create your first parser, skip the format examples and [start with Quickstart](/quickstart).
-</Note>
+- [Everything parsed correctly → finish the four steps](/quickstart)
+- [Some text is highlighted → repair only the affected part](/scenarios/partial-event)
+- [Completely unfamiliar logs → ChatGPT Assisted Parser](/scenarios/unknown-log)
+- [One product, many event types → review a combined parser](/scenarios/mixed-events)
+
+All images were captured from the real Parser Studio interface using fictional data. No extra parser mode is required.

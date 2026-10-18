@@ -1,67 +1,61 @@
 ---
-title: "My product sends several different log types"
-sidebarTitle: "Multiple Log Types"
-description: "Paste examples of all event types, review all records and choose a combined or separate parser draft."
+title: "Auto Parser: one product sends several event types"
+sidebarTitle: "Multiple Event Types"
+description: "Analyze traffic, threat and user events together, review optional fields and correct mappings before creating one combined draft."
 ---
 
-# One security product sends traffic, threat, user and other logs
+# My security product produces several kinds of events
 
-**Situation:** A single firewall or security platform sends several kinds of events. You want **one parser if the shapes can safely be combined**, but you do not want events to disappear from the analysis.
+**Situation:** One security product generates traffic, threat, authentication and other events. You want to support all of them rather than create a parser that works with only the first example.
 
-**You do not have to separate CEF, LEEF, JSON and KV by name before you start.**
+Begin in **Auto Parser**. You do not have to choose a log format or create a separate parser before examining the records.
 
-## First try: paste the event types together
+## Practice with three event types
 
-Collect at least one complete example of **each event type** you expect to support. More variation helps reveal missing or optional fields. For a fictional practice feed:
+Paste these **fictional** records together into **Add Logs**:
 
 ```text
-{"action":"allow","src_ip":"198.51.100.10","dst_port":443}
-src_ip=203.0.113.11 dst_port=22 action=deny
-CEF:0|Synthetic|Firewall|1|101|Denied|8|src=192.0.2.11 dpt=443 act=deny
-LEEF:1.0|Synthetic|Firewall|1|501|src=192.0.2.18	dstPort=80	act=allow
+{"event_type":"traffic","timestamp":"2026-10-18T00:00:00Z","action":"allow","src_ip":"192.0.2.10","dst_ip":"198.51.100.20","dst_port":443}
+{"event_type":"threat","timestamp":"2026-10-18T00:00:01Z","action":"block","src_ip":"192.0.2.11","threat_name":"Example signature","severity":"high"}
+{"event_type":"authentication","timestamp":"2026-10-18T00:00:02Z","action":"login_failed","user":"demo-user","src_ip":"192.0.2.12"}
 ```
 
-This practice input uses **four structurally different events**. In real use, keep all original log events intact.
+These represent three distinct security activities from one fictional product.
 
-![Auto Parser showing four of four structurally different events parsed completely](/images/07-mixed-analysis.png)
+## Walkthrough
 
-*The real UI analyzed the four fictional records together. The user did not choose their formats first.*
+1. Open **Auto Parser → Add Logs**. Paste all three events without deleting or rearranging any of them.
+2. Press **Analyze Logs**. Check that all **3 of 3 log events** are accounted for.
+3. Click **Review Fields**. Select each source event and check the values particular to that event type: destination and port for traffic, detection and severity for threat, username for authentication.
+4. Click **Map Fields**. Do not assume a field missing from one type must be missing from all types. Check each mapping against the events that actually contain it.
+5. Look at **Must fix before continuing** and **Check all sample logs**. The example screenshot shows a warning: `severity` contains the text `high` but the proposed match expects an integer. Use **Value type** and the destination catalog to correct the meaning and type, or retain the value as an appropriately named vendor-specific field.
+6. Resolve every **blocking** mapping finding. Do not hide warnings by deleting events.
+7. If the sample and mapping checks pass, continue to **Create Parser** and press **Run Final Test & Create Files**. One combined draft is available only if that complete reviewed source and the current generator support it.
 
-## Walkthrough: attempt one combined parser
+![Three different event types parsed successfully after one Analyze Logs action](/images/10-multi-event-types-analysis.png)
 
-1. Open **Auto Parser → Add Logs**. Enter the manufacturer/product identity for this source.
-2. Paste **all representative event types together** and click **Analyze Logs**.
-3. Check the count: if the input has 20 source events, all 20 should be accounted for. The format labels are secondary to this complete accounting.
-4. If all events are parsed, click **Review Fields** and switch between events from **different types**, not just different values of one type.
-5. Click **Map Fields**. For each distinct field, confirm the output destination and data type. A field may be absent in one event type; absence is not automatically a parser error.
-6. Confirm **Must fix before continuing = 0**, then click **Create Parser**.
-7. Choose **Run Final Test & Create Files**. A **single combined parser draft** is available only when the generator accepts that particular reviewed combination.
+*Actual Parser Studio screen with three fictional events. A single analysis accounts for traffic, threat and authentication records together.*
 
-![Field mapping review for the four mixed events with variable source fields](/images/08-mixed-mapping.png)
+![Mapping screen displaying optional fields and a value-type warning across event types](/images/11-multi-event-types-mappings.png)
 
-*Different source shapes can share one reviewed project, but inspect fields that are not present in every event.*
+*Actual mapping review. The red issue counter is a request to review field semantics and data types—not evidence that the analysis discarded events.*
 
-![Create Parser stage with four of four reviewed mixed events ready for the final test](/images/08-mixed-create.png)
+## What if some event types are not recognized?
 
-*This demonstrates reaching the final generation step; the file generator still decides whether the combination is supported.*
+If **Different log shapes were found** appears, follow the offered **Analyze group 1 · N similar events** action for each group.
 
-## What if the analysis finds several groups instead?
+1. Review the first selected group and, if supported, create a draft for that group.
+2. Use **Return to all N logs** to restore the complete original input.
+3. Review the other groups. **Do not claim a single combined parser** unless the final generation stage verifies that exact combination.
 
-If the page shows **Different log shapes were found** and buttons such as **Analyze group 1 · N similar events**:
-
-1. Click **Analyze group 1**.
-2. Review the resulting subset and create a separate parser draft **for that group only** if supported.
-3. Click **Return to all N logs** to recover the full original sample.
-4. Analyze the next group. Do not assume that separate group drafts have been automatically merged.
-
-The product preserves the other groups. A complete multi-group review is not evidence that one combined output file was created.
+For a small unresolved fragment, use [the partial-event guide](/scenarios/partial-event). If the structure remains completely unfamiliar, follow [ChatGPT Assisted Parser](/scenarios/unknown-log).
 
 ## Expected review outcome
 
-All original source events are counted. You either obtain one validated, supported mixed parser draft or distinct reviewed parser drafts for incompatible shapes. No event is silently discarded merely because it was difficult.
+Every event from the submitted sample is accounted for. The review preserves event-specific fields without assigning the wrong type or meaning. A single combined draft is reported only when its validation succeeds.
 
 ## Recovery path
 
-If one type is flagged, select it under **Problem to review** and use the recommended repair. Do not remove unsupported messages just to get a green result. When a real product uses multiple positional CSV layouts, first obtain the matching field order for each layout before attempting a combined draft.
+If the next-step button remains unavailable, check **Must fix before continuing** and read the field-level findings. Correct the failing destination or type. If different source shapes cannot be safely combined, review separate source groups without dropping original events.
 
-**Related:** [Partial-event repair](/scenarios/partial-event) · [CSV with source definitions](/scenarios/csv-with-spec).
+**Related:** [Field mapping](/workflows/map-fields) · [Additional test logs](/workflows/holdout-validation).

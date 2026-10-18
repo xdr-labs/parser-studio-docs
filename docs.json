@@ -39,23 +39,34 @@
       },
       {
         "group": "Scenario Playbooks",
+        "icon": "compass",
         "pages": [
-          "scenarios/index",
-          "scenarios/first-firewall-json",
+          "scenarios/index"
+        ]
+      },
+      {
+        "group": "Auto Parser Scenarios",
+        "icon": "wand-magic-sparkles",
+        "pages": [
+          "scenarios/auto-success",
           "scenarios/partial-event",
-          "scenarios/unknown-log",
           "scenarios/mixed-events",
-          "scenarios/csv-with-spec",
+          "scenarios/unnamed-values",
           "scenarios/normalization",
-          "scenarios/recipe-ai",
-          "scenarios/panos-positional",
-          "scenarios/syslog-kv",
-          "scenarios/cef-leef",
-          "scenarios/multiline-java",
+          "scenarios/long-events",
           "scenarios/revisions",
           "scenarios/test-sender"
-        ],
-        "icon": "layer-group"
+        ]
+      },
+      {
+        "group": "ChatGPT Assisted Scenarios",
+        "icon": "comments",
+        "pages": [
+          "scenarios/unknown-log",
+          "scenarios/recipe-ai",
+          "scenarios/ai-invalid-response",
+          "scenarios/ai-test-change"
+        ]
       },
       {
         "group": "Reference",
@@ -109,5 +120,37 @@
   },
   "metadata": {
     "timestamp": true
-  }
+  },
+  "redirects": [
+    {
+      "source": "/scenarios/first-firewall-json",
+      "destination": "/scenarios/auto-success",
+      "permanent": true
+    },
+    {
+      "source": "/scenarios/csv-with-spec",
+      "destination": "/scenarios/unnamed-values",
+      "permanent": true
+    },
+    {
+      "source": "/scenarios/multiline-java",
+      "destination": "/scenarios/long-events",
+      "permanent": true
+    },
+    {
+      "source": "/scenarios/cef-leef",
+      "destination": "/scenarios/auto-success",
+      "permanent": true
+    },
+    {
+      "source": "/scenarios/syslog-kv",
+      "destination": "/scenarios/auto-success",
+      "permanent": true
+    },
+    {
+      "source": "/scenarios/panos-positional",
+      "destination": "/scenarios/unnamed-values",
+      "permanent": true
+    }
+  ]
 }

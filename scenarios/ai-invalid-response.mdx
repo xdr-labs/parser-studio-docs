@@ -1,0 +1,32 @@
+---
+title: "ChatGPT: the suggested result was rejected"
+sidebarTitle: "AI Result Rejected"
+description: "What to click when Check ChatGPT Result rejects a proposed answer."
+---
+
+# ChatGPT returned an answer, but Parser Studio rejected it
+
+**Situation:** You asked ChatGPT for help with an unfamiliar log. You copied the answer back into Parser Studio, clicked **Check ChatGPT Result**, and received an error or unsupported notice.
+
+## Walkthrough
+
+1. Keep the **Original local logs** unchanged so you can compare the next suggestion with the same source.
+2. In **3. Paste the ChatGPT result**, check that the response is valid **ParserRecipe v0.2 JSON**, not a paragraph, Markdown fence or executable Ruby/Python.
+3. Read the rejection reason. For example, the candidate might have an unsupported operation, changed source fingerprint or invalid schema.
+4. Return to the ChatGPT conversation and provide only the error description and a **manually reviewed fictional/masked** example. Request a revised, restricted JSON recipe—not a bypass or arbitrary script.
+5. Paste the updated response into **ChatGPT result JSON** and press **Check ChatGPT Result** again.
+6. If the change passes schema checks, use **Additional ChatGPT test logs** when prompted before approval.
+
+![ChatGPT Assisted Parser with the prompt and result input](/images/06-chatgpt-assisted.png)
+
+*Use the product's JSON result box and check button. A ChatGPT answer is not automatically an accepted parser.*
+
+## Expected review outcome
+
+Only a supported structured answer can proceed to further validation. Unsupported or malformed responses do not modify your existing working parser.
+
+## Recovery path
+
+If a correctable response still cannot be accepted, preserve the original sample and return to **Auto Parser**. Do not claim the result was generated or use executable content to sidestep checks.
+
+**Related:** [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) · [Test a proposed change](/scenarios/ai-test-change).

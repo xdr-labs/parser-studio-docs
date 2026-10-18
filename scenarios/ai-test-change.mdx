@@ -1,0 +1,35 @@
+---
+title: "ChatGPT: test the proposed fix on other logs"
+sidebarTitle: "Check a Proposed Fix"
+description: "Test a suggested rule against different events before approving it."
+---
+
+# ChatGPT's fix looks good. How do I know it works on other logs?
+
+**Situation:** A ChatGPT answer passed **Check ChatGPT Result**, but you want to know whether it also works with different values and event variations.
+
+## Walkthrough
+
+1. Keep your original source and accepted preliminary review open in **ChatGPT Assisted Parser**.
+2. Find **Additional ChatGPT test logs** if the candidate changed a rule or mapping and requires an independent test.
+3. Paste several **different records from the same source**, not the exact sample you previously used to ask ChatGPT.
+4. Select **Confirm test examples are different** only when this is true.
+5. Run the offered comparison. Check that the new proposal still extracts previously correct fields and fixes the intended problem in the new examples.
+6. Only if the result passes, select **Approve tested ChatGPT fix** and proceed to the generation action provided.
+7. If the comparison fails, return to the correction step instead of approving.
+
+For example, if an action value was \`allow\` in the initial sample, use separate \`deny\` and \`block\` events with different documentation-range addresses for the additional test. Vary quoted strings or optional fields when those occur in the actual source.
+
+![Parser Studio ChatGPT-assisted preparation](/images/06-chatgpt-assisted.png)
+
+*The original logs stay local; share only examples you deliberately mask and approve for manual copying.*
+
+## Expected review outcome
+
+The revised rule works for both the original events and the additional independent examples without changing unrelated values.
+
+## Recovery path
+
+Do not approve a candidate that regresses a previously correct field. Ask for a narrower supported revision, then re-test.
+
+**Related:** [Holdout validation](/workflows/holdout-validation).
