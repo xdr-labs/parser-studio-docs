@@ -1,37 +1,54 @@
 ---
-title: "Review Fields"
-description: "Check event completeness, extracted values and source boundaries."
+title: "Review Fields | Are the values correct?"
+sidebarTitle: "Review Extracted Values"
+description: "Compare source and extracted event values, then continue or repair the exact problem."
 ---
 
-# Review Fields
+# Review Fields: check the values, not the format
 
-The purpose of **Review Fields** is to compare the parser's interpretation against the actual original record—not merely to see a green status label.
+**You reached this screen because the logs have been analyzed.** The question now is simple: “Did Parser Studio find the values I expect?”
 
-## What to examine
+<figure className="ps-shot">
+  <img src="/images/03-review-fields.png" alt="Review Fields page: original event, extracted field names and output preview" />
+  <figcaption>Check the original and extracted values for at least two events.</figcaption>
+</figure>
 
-For each representative event:
+## If everything looks correct
 
-1. Check the original record count and whether a complete event is displayed.
-2. Compare extracted keys with the source. Look for quoting, escaped separators and embedded delimiters.
-3. Check that IP addresses, users, ports, timestamps and actions retain their correct values.
-4. Examine warnings or highlighted unresolved portions.
-5. Compare at least one ordinary event with an event that has missing or unusual fields.
+1. In **Choose a source event**, select **Event 1**.
+2. Read **Original log**, **Fields Parser Studio found**, and **Current output preview**.
+3. Look for action, timestamp, addresses, username, port and any important security event value.
+4. Switch to another event and confirm its different values were also detected.
+5. Click **Map Fields** at the bottom. **Do not open repair tools for a correct field.**
 
-## Examples of significant differences
+## If a field is wrong or missing
 
-| Source behavior | Why it matters |
+For example, an original record includes `reason="policy denied"`, but the result shows only `policy`.
+
+1. Confirm which original event has the wrong value.
+2. If you are still at **Add Logs** with a warning, use **Problem to review** to select the failing event. The underlined or highlighted section identifies the unresolved bytes.
+3. Read **What needs attention** and **Recommended fix**.
+4. If the whole source structure is already recognized but only one field is missing, preserve the fields that are correct and apply only a reviewed fix.
+5. In **Review Fields**, the optional disclosure **Need a different extraction? Fix a field with ChatGPT** lets you investigate a selected event.
+6. Test the change against additional events before accepting it.
+
+<figure className="ps-shot">
+  <img src="/images/07-partial-analysis.png" alt="A log partially parsed, with the invalid quoted field and an actionable fix" />
+  <figcaption>The original event remains visible. The incorrect portion is highlighted rather than silently omitted.</figcaption>
+</figure>
+
+## Typical problems
+
+| What you notice | First action |
 | --- | --- |
-| Quoted field contains spaces | Splitting on spaces may create false fields |
-| Empty CSV column | All subsequent columns may shift if empty values are dropped |
-| Syslog header precedes CEF | Header and body need distinct interpretation |
-| Two timestamps in one event | Arrival time and event time are not necessarily interchangeable |
-| Nested JSON object | A path such as network.src.ip is not the same as a flat field |
-| Partial extraction | The sample is not fully understood merely because one field was found |
+| A string with spaces was split | Inspect its quotation marks and escaping; see [partial event](/scenarios/partial-event) |
+| A source field is present, but you cannot identify it | See [unrecognized logs](/scenarios/unknown-log) |
+| CSV values are extracted without reliable column names | [Keep temporary names or use a specification](/scenarios/csv-with-spec) |
+| The extraction is correct, but the output field is wrong | Continue to [Map Fields](/workflows/map-fields); do not rewrite parsing logic |
+| Different events behave differently | [Review multiple event shapes](/scenarios/mixed-events) |
 
-## If the result is incomplete
+<Warning>
+  “A value is visible” is not the same as “the value has been extracted correctly.” Compare it with the exact original event before proceeding.
+</Warning>
 
-Return to **Add Logs** and check boundaries, supplied samples and any available explicit format review. For a positional CSV source, provide the actual column definition. When a bounded repair is suggested, use its before/after comparison and fresh holdout events.
-
-If the application cannot safely verify the structure, accept the review status and use [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) only after masking sensitive information.
-
-**Continue to:** [Map Fields](/workflows/map-fields).
+**Next:** [Map Fields](/workflows/map-fields).

@@ -1,45 +1,87 @@
 ---
-title: "Quickstart: your first parser"
-description: "Create and download a first parser using fictional JSON firewall events."
+title: "Quickstart | Paste logs and create a parser"
+sidebarTitle: "My First Parser"
+description: "A click-by-click walkthrough for somebody who has never used a log parser."
 ---
 
-# Create your first parser
+# Your first parser in five steps
 
-This walkthrough uses synthetic firewall events, so it is safe to practice without customer data.
+**You have copied logs from a product. You do not know the log format. That is enough to start.**
 
-## 1. Open Auto Parser
+**Goal:** Analyze two fictional events, review the extracted values, check their field names, and reach the parser file download step.
 
-Select **Auto Parser** from the left navigation. The first stage is **Add Logs**. No format selection or regular expression is needed.
+## Step 1 — Open Auto Parser
 
-## 2. Paste a sample
+Open Parser Studio and choose **Auto Parser** in the left menu. You should see these four stages at the top: **Add Logs**, **Review Fields**, **Map Fields**, and **Create Parser**.
 
-Paste these two complete JSON records into the log input:
+<figure className="ps-shot">
+  <img src="/images/01-auto-parser-start.png" alt="Default Auto Parser screen with four guided stages and an empty log input" />
+  <figcaption>Start in Auto Parser. Leave Tools & Diagnostics closed until the application asks you to investigate a problem.</figcaption>
+</figure>
 
-~~~json
+The **Manufacturer**, **Product**, and optional **Version** boxes identify the parser you are creating. You can start analyzing first; enter the source product identity before generating files.
+
+## Step 2 — Paste the logs and analyze
+
+Paste these two fictional events into the large box under **Add Logs**:
+
+```json
 {"timestamp":"2026-10-18T09:00:00Z","action":"allow","src_ip":"192.0.2.10","dst_ip":"198.51.100.20","dst_port":443,"user":"demo-user"}
 {"timestamp":"2026-10-18T09:00:01Z","action":"deny","src_ip":"192.0.2.11","dst_ip":"203.0.113.5","dst_port":22,"user":"demo-admin"}
-~~~
+```
 
-Click **Analyze Logs**. The status should identify candidate source records. Inspect any warnings instead of assuming every event is valid.
+Click the orange **Analyze Logs** button. **Do not select JSON, CEF, LEEF, or a regular expression.** Parser Studio will inspect the records.
 
-## 3. Review Fields
+If you see **2 of 2 log events parsed completely**, click **Review Fields**. If the count is incomplete, follow [what to do with a warning](/scenarios/unknown-log) first.
 
-Select **Review Fields** when available. Inspect both records and confirm that the action, addresses, destination port and user name have been separated correctly. If a record is incomplete, return to Add Logs or open the indicated review controls.
+<figure className="ps-shot">
+  <img src="/images/02-analyzed-sample.png" alt="Two log events completely parsed after clicking Analyze Logs" />
+  <figcaption>Notice the green result and the orange Review Fields button below it.</figcaption>
+</figure>
 
-## 4. Map Fields
+## Step 3 — Check the values, then click Map Fields
 
-Select **Map Fields**. Review source paths, suggested destinations, example values and types. Prefer a catalog-verified destination when the field's meaning and type match. Keep vendor-specific fields in the appropriate custom field group when the official destination is not established.
+In **Review Fields**, use **Choose a source event** to examine both events.
 
-Read [mapping rules](/workflows/map-fields) before changing a destination.
+Check the three areas: **Original log**, **Fields Parser Studio found**, and **Current output preview**. For example, the source address `192.0.2.10` should remain the source address in the parsed result.
 
-## 5. Create and download
+If the extraction is correct, click **Map Fields** at the bottom. You do not need to repair a passing event.
 
-Continue to **Create Parser**, then select **Create Parser Files**. If the generation checks succeed, download the parser logic, companion configuration and optionally the package archive.
+<figure className="ps-shot">
+  <img src="/images/03-review-fields.png" alt="Review Fields screen showing original log, extracted values and output preview" />
+  <figcaption>Compare original text with the extracted value, not only the status badge.</figcaption>
+</figure>
 
-Keep the sample, chosen mappings and files together as one reviewed draft. If generation stops, follow the exact on-screen finding; do not bypass a review requirement.
+## Step 4 — Review suggested field names
 
-## 6. Test one more variation
+On **Map Fields**, confirm that the address, action, port, and timestamp go to the intended output names. Most of the example fields are already matched.
 
-Repeat with an additional event that has a different user, address and action. Confirm field values and types are still extracted correctly. A two-record demonstration is a learning example, not a complete regression dataset.
+Check **Must fix before continuing**. If it shows **0** and the sample values make sense, click **Create Parser**.
 
-**Next:** [Try a Syslog + key/value sample](/scenarios/syslog-kv) or [learn the four-step workflow](/workflows/auto-parser).
+<figure className="ps-shot">
+  <img src="/images/04-map-fields.png" alt="Map Fields screen with candidate normalized fields, examples and mapping checks" />
+  <figcaption>The mapping review is where you verify field meanings. You do not need to edit a correct suggestion.</figcaption>
+</figure>
+
+## Step 5 — Run the final test and download
+
+On the **Create Parser** screen:
+
+1. Confirm that **Need fixing** is **0**.
+2. Choose **Run Final Test & Create Files**.
+3. When the file generator completes its checks, download the **Ruby parser logic** and the companion **CONF** file; use the package option if available.
+4. Keep the files together with the sample and your reviewed mappings.
+
+<figure className="ps-shot">
+  <img src="/images/05-create-parser.png" alt="Final Create Parser screen with Run Final Test and Create Files button" />
+  <figcaption>This screenshot shows the final pre-generation screen, not a claim that a download has already succeeded. File controls appear only after the backend accepts the reviewed draft.</figcaption>
+</figure>
+
+If the final test is blocked, **do not skip the warning**. Return to Review Fields or Map Fields and correct the reason shown on screen. If the file-generation service is unavailable, the analysis result is still useful, but no files have been generated.
+
+## Which guide comes next?
+
+<CardGroup cols={2}>
+  <Card title="A problem appeared" icon="wrench" href="/scenarios/unknown-log">Find the incorrect event and use the suggested next action.</Card>
+  <Card title="My product produces different messages" icon="layer-group" href="/scenarios/mixed-events">Learn how to review several event shapes without losing a log.</Card>
+</CardGroup>

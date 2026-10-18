@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Verify product documentation page structure and internal navigation links."""
+"""Check Parser Studio user-manual navigation, MDX links, screenshots and scope.
+
+Runs offline using Python standard libraries only.
+"""
 from __future__ import annotations
 
 import json
@@ -9,64 +12,115 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGES = sorted(ROOT.rglob("*.mdx"))
-LINK = re.compile(r"(?<!!)\[[^]]+\]\(([^)]+)\)")
-FENCE = re.compile(r"^\s*(`{3,}|~{3,})", re.M)
+PAGE_NAMES = {str(p.relative_to(ROOT).with_suffix("")) for p in PAGES}
+MARKDOWN_LINK = re.compile(r'(?<!!)\[[^\]]+\]\(([^)]+)\)')
+MDX_URL = re.compile(r'\b(?:href|src)="([^"]+)"')
+IMAGE_TAG = re.compile(r'<img\b[^>]*>', re.IGNORECASE | re.DOTALL)
+FENCE = re.compile(r'^\s*(`{3,}|~{3,})', re.MULTILINE)
+FRONTMATTER = re.compile(r'^---\n(.*?)\n---\n', re.DOTALL)
+FIELDS = ("title", "description", "sidebarTitle")
 ERRORS: list[str] = []
+REFERENCED_IMAGES: set[str] = set()
 
-def error(where: Path, what: str) -> None:
-    ERRORS.append(f"{where.relative_to(ROOT)}: {what}")
 
-def target_path(origin: Path, href: str) -> Path | None:
-    href = href.split("#", 1)[0].split("?", 1)[0]
-    if not href or re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", href):
+def error(where: Path, message: str) -> None:
+    ERRORS.append(f"{where.relative_to(ROOT)}: {message}")
+
+
+def local_url_path(page: Path, raw_url: str) -> Path | None:
+    url = raw_url.split("#", 1)[0].split("?", 1)[0]
+    if not url or url.startswith(("#", "mailto:", "tel:", "//")):
         return None
-    candidate = ROOT / href.lstrip("/") if href.startswith("/") else origin.parent / href
-    if candidate.is_file():
-        return candidate
-    if candidate.suffix == "":
+    if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", url):
+        return None
+    candidate = (ROOT / url.lstrip("/")) if url.startswith("/") else (page.parent / url)
+    if not candidate.suffix:
         return candidate.with_suffix(".mdx")
     return candidate
 
-for page in PAGES:
-    content = page.read_text("utf-8")
-    if not content.startswith("---\n"):
-        error(page, "missing MDX frontmatter")
-    else:
-        try:
-            frontmatter, _ = content[4:].split("\n---\n", 1)
-        except ValueError:
-            error(page, "unclosed MDX frontmatter")
-        else:
-            for field in ("title", "description"):
-                match = re.search(rf"(?m)^{field}: (.+)$", frontmatter)
-                if not match:
-                    error(page, f"missing {field}")
-                else:
-                    try:
-                        json.loads(match.group(1))
-                    except json.JSONDecodeError:
-                        error(page, f"{field} is not a valid quoted string")
-    fences = FENCE.findall(content)
-    if len(fences) % 2:
-        error(page, "odd number of Markdown code fences")
-    for href in LINK.findall(content):
-        target = target_path(page, href)
-        if target is not None and not target.is_file():
-            error(page, f"broken link: {href}")
-    if page.parent.name == "scenarios" and page.name != "index.mdx":
-        if "## Walkthrough" not in content:
-            error(page, "scenario is missing walkthrough steps")
-        if "Expected review outcome" not in content:
-            error(page, "scenario is missing an expected outcome")
-        if "Recovery path" not in content and "If it does not work" not in content:
-            error(page, "scenario is missing recovery guidance")
-    if re.search(r"(?i)mintlify|data processor deployment|sensor integration", content):
-        error(page, "contains out-of-scope setup or integration content")
 
 if not PAGES:
     ERRORS.append("No MDX pages found")
 
+for page in PAGES:
+    content = page.read_text(encoding="utf-8")
+    m = FRONTMATTER.search(content)
+    if not m:
+        error(page, "missing or unclosed MDX frontmatter")
+    else:
+        meta = m.group(1)
+        for field in FIELDS:
+            match = re.search(rf"(?m)^{field}: (.+)$", meta)
+            if not match:
+                error(page, f"missing {field}")
+                continue
+            try:
+                value = json.loads(match.group(1))
+                if not isinstance(value, str) or not value.strip():
+                    error(page, f"{field} must be a nonempty string")
+            except json.JSONDecodeError:
+                error(page, f"{field} is not a JSON-quoted string")
+    if len(FENCE.findall(content)) % 2:
+        error(page, "unpaired Markdown code fence")
+
+    for raw_url in MARKDOWN_LINK.findall(content) + MDX_URL.findall(content):
+        target = local_url_path(page, raw_url)
+        if target is None:
+            continue
+        if not target.is_file():
+            error(page, f"missing local target {raw_url}")
+        if target.suffix.lower() in (".png", ".jpeg", ".jpg", ".svg", ".webp"):
+            REFERENCED_IMAGES.add(str(target.relative_to(ROOT)))
+    for img_tag in IMAGE_TAG.findall(content):
+        if not re.search(r'\balt="[^"]+"', img_tag):
+            error(page, "image has no nonempty alt text")
+
+    if page.parent.name == "scenarios" and page.name != "index.mdx":
+        for required in ("## Walkthrough", "## Expected review outcome", "## Recovery path"):
+            if required not in content:
+                error(page, f"scenario is missing {required}")
+    if re.search(r"(?i)\bmintlify\b|data processor deployment|sensor integration", content):
+        error(page, "out-of-scope documentation or integration claim")
+
+manifest = ROOT / "docs.json"
+if not manifest.exists():
+    ERRORS.append("docs.json is missing")
+else:
+    try:
+        config = json.loads(manifest.read_text(encoding="utf-8"))
+        groups = config["navigation"]["groups"]
+        menu_paths = [path for group in groups for path in group["pages"]]
+        if len(menu_paths) != len(set(menu_paths)):
+            ERRORS.append("docs.json navigation contains duplicate pages")
+        if set(menu_paths) != PAGE_NAMES:
+            ERRORS.append(
+                f"navigation mismatch: missing {sorted(PAGE_NAMES - set(menu_paths))}, "
+                f"unknown {sorted(set(menu_paths) - PAGE_NAMES)}"
+            )
+        for name in ("light", "dark"):
+            logo = config.get("logo", {}).get(name)
+            if not logo or not (ROOT / logo.lstrip("/")).is_file():
+                ERRORS.append(f"missing {name} branding logo")
+        favicon = config.get("favicon")
+        if not favicon or not (ROOT / favicon.lstrip("/")).is_file():
+            ERRORS.append("missing favicon")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        ERRORS.append(f"docs.json cannot be validated: {exc}")
+
+for extra in ("style.css",):
+    if not (ROOT / extra).is_file():
+        ERRORS.append(f"missing XDR Labs style asset {extra}")
+
+if not REFERENCED_IMAGES:
+    ERRORS.append("no actual product screenshots referenced")
+
 if ERRORS:
-    print("\n".join("FAIL " + value for value in ERRORS))
+    print("\n".join(f"FAIL {issue}" for issue in ERRORS))
     sys.exit(1)
-print(f"PASS: {len(PAGES)} MDX pages; frontmatter, internal links, scenario completeness and scope checked.")
+
+print(
+    "PASS:",
+    len(PAGES), "MDX pages;",
+    len(REFERENCED_IMAGES), "referenced screenshots/assets;",
+    "navigation, internal links, MDX frontmatter, scenarios and scope checked."
+)

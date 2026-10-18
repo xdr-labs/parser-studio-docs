@@ -1,36 +1,46 @@
 ---
-title: "Validate a proposed parser change"
-description: "Compare a proposed extraction or mapping adjustment against independent logs."
+title: "Check a proposed fix on new logs"
+sidebarTitle: "Check a Suggested Fix"
+description: "A beginner-friendly way to confirm ChatGPT did not solve only the example you provided."
 ---
 
-# Validate before you approve
+# Test a proposed fix on different events
 
-When ChatGPT or the guided recovery process proposes a change, a passing preview on the **same** examples that inspired the change is not sufficient.
+When ChatGPT suggests a field extraction or mapping change, **a solution that fits only the original example is not sufficient**. Test it on a few other messages from the same source.
 
-## Prepare independent test records
+## How to prepare different examples
 
-Collect a few different, recent records from the same source type. Include variation in at least two of these dimensions:
+Suppose the first event was:
 
-- Allow and deny outcomes
-- Different addresses and users
-- Missing optional fields and empty values
-- Quoted strings or embedded separators
-- Different timestamp values
-- Distinct severities or event subtypes
+```text
+action=allow src=192.0.2.10 reason="policy permitted"
+```
 
-Mask sensitive values before any manual transfer out of your environment.
+For additional test logs, use records with different values or optional fields:
 
-## Review the comparison
+```text
+action=deny src=192.0.2.11 reason="policy blocked"
+action=allow src=192.0.2.12 reason="web traffic" user="demo user"
+```
 
-1. Keep the original baseline parser and its review result.
-2. Paste the new source into the holdout input.
-3. Explicitly confirm it is distinct from the examples used to propose the change.
-4. Run the available comparison; inspect baseline and candidate event outcomes.
-5. Confirm the candidate did not lose a field, mislabel a value or change an unrelated event.
-6. Approve the candidate only when the product reports the required qualification.
+These examples are fictional. Use legitimate fresh examples from the relevant product when validating a real parser and keep private information in the browser.
 
-## If the candidate fails
+## Which buttons do I click?
 
-Do not override failure labels or approve a result by visual intuition alone. Refine the reviewed input or reject the proposal. Return to [Review Fields](/workflows/review-fields) to identify the exact mismatch.
+1. In **ChatGPT Assisted Parser**, first use **Check ChatGPT Result**.
+2. If the proposal needs further testing, paste the new examples under **Additional ChatGPT test logs**.
+3. Check **Confirm test examples are different** only when those records were not used to develop the candidate fix.
+4. Run the available comparison and inspect the result.
+5. Check **Approve tested ChatGPT fix** only if all original and additional events behave correctly.
 
-Successful holdout behavior improves confidence **for the tested records only**. It does not establish correctness for unseen variations from the same vendor.
+Some unchanged, already-supported recipes may not require a changed-rule comparison. Follow the result shown by Parser Studio.
+
+## What if the test fails?
+
+Do **not** approve the candidate. Inspect the field that changed, provide ChatGPT with a clearer *masked* explanation, and submit a revised supported response through the same review process.
+
+<Note>
+  A successful additional-sample test increases confidence for the records you examined. It does not prove that every other message from that product will work.
+</Note>
+
+[Return to the ChatGPT workflow](/workflows/chatgpt-assisted) · [Review field extraction](/workflows/review-fields).

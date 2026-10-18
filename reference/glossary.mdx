@@ -1,33 +1,39 @@
 ---
-title: "Glossary"
-description: "Plain-language definitions for common parsing and normalization terms."
+title: "Plain-language words used by Parser Studio"
+description: "Understand only the terms you may see while following the normal steps."
+sidebarTitle: "Plain-language words used by Parser Studio"
 ---
 
-# Glossary
+# Words you may see on the screen
 
-| Term | Meaning |
+You do **not** need to learn every technical term to create a parser. This page translates common words into everyday explanations.
+
+| Term | What it means for you |
 | --- | --- |
-| Parser | Rules that recognize a source record and extract named values |
-| Raw log | The original event text before extraction or normalization |
-| Logical event | One complete record, even when the original text spans several lines |
-| Envelope | An outer transport/header structure, such as a Syslog header |
-| Body | The content inside or after a detected envelope |
-| Extraction | Identifying source keys and their values |
-| Normalization | Assigning consistent destination names/types to extracted values |
-| Source field | The original key or position from the log |
-| Target field | The destination name used by the reviewed mapping |
-| Vendor/custom field | A field kept without claiming an unsupported official semantic equivalent |
-| CSV schema | Ordered column names and delimiter rules supplied or approved by the user |
-| RFC3164 | A traditional Syslog message convention that does not itself provide year/timezone |
-| RFC5424 | A structured Syslog message format with defined header fields |
-| CEF | Common Event Format: fixed header plus extension attributes |
-| LEEF | Log Event Extended Format: structured security event layout |
-| KV | Key/value pairs such as action=deny |
-| Multiline framing | A contract defining where complete multi-line records start and end |
-| Holdout events | Additional examples that were **not used** to devise a proposed parser change |
-| ParserRecipe v0.2 | The restricted structured representation accepted by the assisted authoring path |
-| Draft | A generated artifact derived from a reviewed source, with explicitly bounded validation evidence |
-| SHA-256 | A digest used to check whether returned file content matches its claimed identity |
-| Browser-local version | A saved working copy stored in the current browser environment |
+| **Log / Event** | One security record from your firewall, application or other product |
+| **Sample logs** | A few representative records you pasted for Parser Studio to examine |
+| **Analyze Logs** | The button that attempts to read and separate the values in your sample |
+| **Parser** | The instructions for understanding the values inside an event |
+| **Field** | One piece of information such as the action, IP address, port or username |
+| **Source field** | The field as it originally appears in the device's log |
+| **Mapping** | Choosing where the extracted value should go in the output |
+| **Target field** | The destination name selected during Map Fields |
+| **Stellar field catalog** | Available standard field names you can choose from during mapping |
+| **Vendor/custom field** | A place to keep a value when its exact standard meaning is unknown |
+| **Logical event** | One complete source record, which might span more than one line |
+| **Partially parsed** | Some values were recognized but another section still needs review |
+| **Format** | How text is arranged, for example JSON, CEF, LEEF or comma-separated values |
+| **CSV** | Values arranged in ordered columns, sometimes with no column names |
+| **Syslog header** | The date, host and metadata at the start of some records |
+| **ParserRecipe v0.2** | The supported structured JSON response used in the ChatGPT-assisted path |
+| **Holdout / Additional test logs** | Different sample records used to check that a proposed fix works beyond the original example |
+| **Draft** | A reviewable parser output created from supported source examples |
+| **Ruby logic + CONF** | The two matching files that can be downloaded after successful generation |
+| **SHA-256** | A value used to check whether downloaded output matches the generator's expected bytes |
+| **Local Versions** | Saved parser experiments stored in the current browser environment |
 
-**Next:** [Choose a workflow](/choose-workflow).
+## When should I learn the technical format name?
+
+Only when your source documentation uses one, or when an error needs more context. A new user should **paste the logs and press Analyze Logs first**.
+
+[Create your first parser](/quickstart) · [Choose your next action](/choose-workflow).

@@ -1,36 +1,37 @@
 ---
-title: "Scenario: Syslog header with key/value data"
-description: "Review a Syslog envelope separately from the structured message body."
+title: "My logs start with numbers, a time and device name"
+sidebarTitle: "Timestamp + Device Prefix"
+description: "Paste the entire event, review the detected header and field values without choosing a format."
 ---
 
-# Syslog header + key/value body
+# My logs start with a timestamp and device name
 
-**Goal:** Extract useful KV fields without treating the transport header as an ordinary message field.
+**Situation:** Every log begins with characters such as `<134>`, a timestamp, host name and message text. You may not know what these mean. **Paste the full log anyway**, including the beginning.
 
-**Use when:** A forwarded record starts with a priority, timestamp and host/application label.
+## Practice sample
 
-## Fictional RFC3164-style example
-
-~~~text
+```text
 <134>Oct 18 12:00:00 edge-fw firewall: action=deny src=192.0.2.21 dst=198.51.100.24 dport=22 user="demo admin"
 <134>Oct 18 12:00:01 edge-fw firewall: action=allow src=192.0.2.22 dst=198.51.100.25 dport=443 user="demo user"
-~~~
+```
 
 ## Walkthrough
 
-1. Paste both complete lines under **Add Logs**, keeping the leading priority marker and the application prefix.
-2. Click **Analyze Logs**. Read the format and envelope findings.
-3. In **Review Fields**, verify action, addresses, port and the quoted user string as **one value**, even though it contains a space.
-4. Review timestamps: RFC3164-style headers do not themselves provide a year or timezone. Do not invent those missing facts.
-5. In **Map Fields**, assign only verified destinations and compatible types.
-6. Generate files only if the full sample and compilation checks pass.
+1. In **Auto Parser → Add Logs**, paste both lines exactly. **Do not remove** the leading number, device name or the quotes around the user.
+2. Click **Analyze Logs**.
+3. If both events parse completely, select **Review Fields**.
+4. Compare Event 1 and Event 2. Check that each action, address, port and quoted username is a complete value.
+5. If a timestamp or header warning is shown, select the flagged event under **Problem to review** and read **What needs attention**. The header may not contain all date/time details.
+6. When the source is completely reviewed, proceed to **Map Fields**, confirm field destinations, and run the final test.
 
 ## Expected review outcome
 
-The source is accounted for as two events. The parser does not mistake the Syslog header for a KV field, cut a quoted value in half or silently invent complete timestamp metadata.
+Each line counts as one event; the leading header remains distinct from message fields; `demo admin` stays one user value.
 
 ## Recovery path
 
-If the forwarded source has an additional prefix, inspect that exact boundary and use explicit review controls when available. Do not strip arbitrary bytes or create a made-up timestamp just to obtain a passing result.
+When the app flags the header/time, do not invent a timezone or year just to make the warning disappear. Obtain the original source's time information or follow the offered reviewed handling. For an incorrectly split quoted string, use [the partial-event guide](/scenarios/partial-event).
 
-See [Supported Formats](/reference/supported-formats) for important format boundaries.
+<Note>
+  The source above resembles traditional Syslog with key/value fields, but recognizing the name is **not** a prerequisite for using Parser Studio.
+</Note>

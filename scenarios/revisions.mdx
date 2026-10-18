@@ -1,31 +1,29 @@
 ---
-title: "Scenario: compare local parser versions"
-description: "Use browser-local version history to preserve and compare experiments."
+title: "Compare two parser attempts without losing your work"
+sidebarTitle: "Compare Parser Attempts"
+description: "Use Local Versions to save and restore mapping experiments in the browser."
 ---
 
-# Compare and restore local parser experiments
+# I tried a different mapping and want the old one back
 
-**Goal:** Preserve two mapping decisions for the same log sample and return to a known review state.
-
-## Example task
-
-You are unsure whether a source field represents a device-local address or a communication source address. Rather than repeatedly overwriting one mapping, test both hypotheses separately.
+**Situation:** Auto Parser extracted the data, but you are experimenting with different field names or using different source examples. Rather than overwriting the same working draft repeatedly, save versions as you go.
 
 ## Walkthrough
 
-1. Prepare a sample and complete the first **Review Fields** and **Map Fields** pass.
-2. Open **Local Versions** from the top toolbar. Save the current working draft under a descriptive name, such as “firewall-fields-before-change”.
-3. Change one mapping at a time, rerun the relevant validation and save a second version.
-4. Use the available local comparison or revision inspection to examine the differences and their test results.
-5. Restore the preferred saved state when needed, then **re-run parsing and generation checks**. A restored mapping is not automatic proof that the current source still passes.
-6. If you replace the original sample, preserve a separate record of which version was tested against which source.
+1. In **Auto Parser**, paste and analyze your sample, then review its mappings.
+2. Click **Local Versions** in the top toolbar.
+3. Save a descriptive snapshot, for example "Firewall before mapping change".
+4. Return to **Map Fields**, change the desired destination or value type, and re-check the examples.
+5. Open **Local Versions** again and save another named snapshot.
+6. Use the comparison/revision tools to inspect what changed. Choose **Restore** on the version you prefer.
+7. After restoring, repeat **Analyze Logs** and the necessary review steps before final file generation. Restoring a previous version is not a new test result.
 
 ## Expected review outcome
 
-You can identify what changed between draft versions and recover the previous mapping without importing unrelated source files.
+You can recover your earlier source and draft settings for that browser environment, then revalidate your preferred mapping.
 
 ## Recovery path
 
-Browser-local storage is specific to the browser environment and is not a durable multi-user backup. Do not rely on it as the only copy of an important source definition. Export reviewed files separately when the UI provides that option.
+Local Versions is **browser-local**, not a shared backup. If you clear browser data or switch environments, saved versions may not be available. Keep important reviewed output files separately.
 
-**Related:** [Create Parser](/workflows/create-and-download).
+**Related:** [Map Fields](/workflows/map-fields) · [Create and Download](/workflows/create-and-download).

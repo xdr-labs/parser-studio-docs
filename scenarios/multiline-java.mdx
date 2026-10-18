@@ -1,15 +1,16 @@
 ---
-title: "Scenario: multiline Java exception events"
-description: "Use explicit event-boundary evidence before creating a Java exception parser draft."
+title: "A log message covers several lines"
+sidebarTitle: "Multiline Events"
+description: "Check where one full event ends before analyzing or creating a multiline parser."
 ---
 
-# Multiline Java exception records
+# My log contains a multi-line error
 
-**Goal:** Keep each exception and its stack frames together as one logical event.
+**Situation:** You copy a Java application error that contains an exception title followed by many indented lines. Those lines might belong to **one event** instead of several.
 
-## Example
+## Fictional example
 
-~~~text
+```text
 java.lang.IllegalArgumentException: invalid argument
     at example.Service.process(Service.java:42)
     at example.Main.main(Main.java:10)
@@ -18,25 +19,24 @@ java.lang.IllegalStateException: cannot continue
     at example.Worker.run(Worker.java:51)
     at example.Main.main(Main.java:12)
 
-~~~
-
-This example separates events with a **literal blank line**. The framing contract must be verified against the source transport. A visual blank line inserted manually for readability does not establish the real transport framing.
+```
 
 ## Walkthrough
 
-1. Obtain the sender's framing specification. For the supported bounded Java path, complete exception records must be carried over **TCP** and separated by **LF LF**.
-2. Paste multiple complete exceptions into **Auto Parser → Add Logs**.
-3. Choose **Analyze Logs** and inspect logical event boundaries.
-4. When offered, explicitly confirm the TCP blank-line grouping. Do not assume multiline is enabled merely because the preview groups lines.
-5. In **Review Fields**, inspect the exception class, frame count and any available cause information.
-6. Continue with mapping and creation only if the exact framing capability is accepted.
+1. Paste the **complete text**, including the empty line between the two exceptions, into **Auto Parser → Add Logs**.
+2. Click **Analyze Logs**. Look at the number of logical events reported. The example has **two exceptions**, not six separate events.
+3. If the app offers **These look like Java error stack traces**, read the explanation and use **I Confirm Each Java Error Is Separated by a Blank Line** only when it matches the actual way records are separated at the source.
+4. Continue to **Review Fields** and inspect the exception class, optional cause class and number of frames.
+5. Review mapping, then use **Create Parser** only if that exact, reviewed multiline framing is supported.
 
 ## Expected review outcome
 
-The sample contains two complete exception events, not one event per stack frame. Field values agree with the original exception text.
+The complete stack trace stays together under one event. Parser Studio does not independently parse each indented line as another exception.
 
 ## Recovery path
 
-If the input uses UDP, unspecified truncation, an unknown separator or a different multiline contract, do not force the framed-Java setting. Retain the record-boundary review until you can obtain the transport definition.
+If your source does not reliably separate complete exceptions by blank lines, **do not** select that confirmation just to force generation. Obtain the actual message boundary from the log source first.
 
-**Next:** [Review Fields](/workflows/review-fields).
+<Note>
+  You do not need to know the term "multiline framing" before pasting. You only need to confirm how **one complete error ends** when Parser Studio asks.
+</Note>

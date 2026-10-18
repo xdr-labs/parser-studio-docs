@@ -1,29 +1,57 @@
 ---
-title: "Choose your workflow"
-description: "Pick the best Parser Studio route for the log structure and your task."
+title: "Choose what to do next"
+sidebarTitle: "What Do I Do Next?"
+description: "Use the analysis result—not your knowledge of a log format—to pick the next step."
 ---
 
-# Which path should you use?
+# What did Parser Studio say after Analyze Logs?
 
-The main product menu intentionally has **two parser creation choices**, not a collection of separate editors.
+**Always begin with the same action:** Auto Parser → paste a few logs → **Analyze Logs**.
 
-| Situation | Recommended approach | Guide |
+| What you see on screen | What to do next | Click-by-click guide |
 | --- | --- | --- |
-| You have sample logs and do not know their format | Start with Auto Parser | [Auto Parser](/workflows/auto-parser) |
-| Logs are recognized but some fields or values are missing | Review the flagged records first | [Unknown log](/scenarios/unknown-log) |
-| You have comma-separated values and a vendor field document | Review column names and delimiter | [CSV with a spec](/scenarios/csv-with-spec) |
-| You have positional firewall CSV | Treat columns as positional until verified | [Positional CSV](/scenarios/panos-positional) |
-| The result has fields but incorrect normalized destinations | Edit the mapping on the same workflow | [Map Fields](/workflows/map-fields) |
-| A rule remains unresolved or needs careful external help | Use the manual ChatGPT-assisted path | [ChatGPT assistance](/workflows/chatgpt-assisted) |
-| You need additional test events | Download the offline Python sender | [Test sender](/scenarios/test-sender) |
-| You want to compare local experiments | Save and restore browser-local versions | [Local Versions](/scenarios/revisions) |
+| **N of N log events parsed completely** | Click **Review Fields**, check values, then **Map Fields** and **Create Parser** | [Normal path](/quickstart) |
+| **Some events need attention** | Select **Problem to review**, inspect **Original event** and **What needs attention**, then use the **Recommended fix** | [Fix a flagged event](/scenarios/partial-event) |
+| **No complete, trustworthy result** | Use **Fix with ChatGPT** or the left-side **ChatGPT Assisted Parser** path | [Ask ChatGPT safely](/workflows/chatgpt-assisted) |
+| **Values found but no column names** | Click **Keep all values with temporary names**, or enter names from the log definition and confirm them | [Unnamed columns](/scenarios/csv-with-spec) |
+| **Different log shapes** | Account for all events, review the supported mixed result or analyze groups separately | [Several log types](/scenarios/mixed-events) |
+| **All fields correct but wrong output name** | In **Map Fields**, change only the incorrect destination or type | [Fix a field name](/scenarios/normalization) |
 
-## Three decisions that prevent common mistakes
+## One decision tree
 
-1. **What is one logical event?** A pasted text block can contain multiple records, or one multiline event. Check record boundaries before editing mappings.
-2. **Do field names have evidence?** JSON/KV often carries keys; positional CSV generally needs a specification. Never invent vendor semantics based only on a plausible value.
-3. **Is the entire sample accounted for?** A partial extraction from one event is not evidence that other lines succeeded.
+```text
+Copy logs → Auto Parser → Analyze Logs
+                      |
+       +--------------+---------------+
+       |              |               |
+     Complete       Partial        Unrecognized
+       |              |               |
+  Review Fields   Problem to      ChatGPT Assisted
+       |           review          Parser
+   Map Fields         |               |
+       |          Apply a safe     Redact → Prompt
+  Create Parser       fix or ask      → Review result
+       |           ChatGPT              |
+  Final test +        +------ Re-analyze / validate
+  download
+```
 
-Technical controls are under **Tools & Diagnostics**. They supplement the selected workflow; they are not a third parser creation method.
+<Warning>
+  A parser is not ready just because it recognized the general log structure. Check the **original value**, **output mapping**, and **every event in the sample** before file generation.
+</Warning>
 
-For a task-based starting point, see [Scenario Playbooks](/scenarios/index).
+## Where do I find optional tools?
+
+Use **Tools & Diagnostics** (top toolbar) only when the normal analysis asks you to investigate an unusual boundary, repeated text pattern or an existing parser. It is not required for the ordinary four-stage path.
+
+## Examples by situation
+
+<figure className="ps-shot">
+  <img src="/images/07-unknown-analysis.png" alt="An unresolved event with highlighted text and Fix with ChatGPT action" />
+  <figcaption>A blocked result keeps Review Fields unavailable until you resolve the flagged event.</figcaption>
+</figure>
+
+- [I pasted logs and everything was detected](/quickstart)
+- [I pasted logs and part of a message was missed](/scenarios/unknown-log)
+- [I have many kinds of events from one product](/scenarios/mixed-events)
+- [I need ChatGPT to suggest how to read my logs](/scenarios/recipe-ai)

@@ -1,31 +1,49 @@
 ---
-title: "Scenario Playbooks"
-description: "Choose a task-based example with prerequisites, verification and recovery steps."
+title: "Find your situation | Scenario Playbooks"
+sidebarTitle: "Choose My Situation"
+description: "Choose a guide based on the result after pressing Analyze Logs, not on log format names."
 ---
 
-# Scenario Playbooks
+# Which situation are you in?
 
-These guides are organized around what a user is trying to do, not around internal parser modules. Each includes an example, the visible UI steps, an expected outcome and the point at which you should stop and review.
+**Start in Auto Parser, paste the logs, then click Analyze Logs.** Once the result appears, choose the matching guide below.
 
-## Common tasks
+<CardGroup cols={2}>
+  <Card title="Everything parsed correctly" icon="circle-check" href="/quickstart">Review Fields → Map Fields → Create Parser → download.</Card>
+  <Card title="One part of a log is missing" icon="triangle-exclamation" href="/scenarios/partial-event">Use Problem to review, read the highlighted text and try the recommended fix.</Card>
+  <Card title="Nothing can be understood" icon="comments" href="/scenarios/unknown-log">Switch to ChatGPT Assisted Parser and review a masked example.</Card>
+  <Card title="One product, several event types" icon="layer-group" href="/scenarios/mixed-events">Analyze them together, then confirm whether a combined parser is supported.</Card>
+  <Card title="Values have no field names" icon="table" href="/scenarios/csv-with-spec">Keep temporary columns or enter names from the source document.</Card>
+  <Card title="Extracted fields have wrong destinations" icon="arrow-left-right" href="/scenarios/normalization">Correct mappings without changing the original event.</Card>
+</CardGroup>
 
-| Scenario | You have | Outcome to review |
-| --- | --- | --- |
-| [First firewall JSON](/scenarios/first-firewall-json) | Named JSON fields | Extracted fields and a downloaded draft |
-| [Syslog + key/value](/scenarios/syslog-kv) | Header and quoted KV body | Separate envelope and body extraction |
-| [CEF or LEEF](/scenarios/cef-leef) | Delimited security events | Correct header and extension handling |
-| [CSV with a field document](/scenarios/csv-with-spec) | Positional CSV and column list | Approved column names and correct types |
-| [Positional firewall CSV](/scenarios/panos-positional) | Unlabeled firewall columns | No invented semantic mapping |
-| [Unknown log](/scenarios/unknown-log) | Unrecognized or incomplete records | Exact unresolved portions surfaced |
-| [Mixed log events](/scenarios/mixed-events) | Multiple record families | Every event accounted for |
-| [Multiline Java](/scenarios/multiline-java) | TCP blank-line-framed exceptions | Confirmed event framing |
-| [Normalization review](/scenarios/normalization) | Extracted fields with questionable destinations | Correct mappings and no collisions |
-| [ChatGPT-based recovery](/scenarios/recipe-ai) | Unresolved parsing rule | Privacy-reviewed prompt and qualified proposal |
-| [Python test sender](/scenarios/test-sender) | Representative sample | A user-run standard-library Python file |
-| [Local version comparison](/scenarios/revisions) | Multiple mapping experiments | Saved and restored browser-local versions |
+## More examples
 
-## What counts as a completed exercise?
+These are **examples after the normal Analyze Logs step**, not different entry modes. You do **not** have to know their format before starting.
 
-You must be able to explain **what source records were used**, **which fields and boundaries were checked**, **why the mapping makes sense**, and **which output files were generated**. Do not declare a whole product family supported based on a single sample.
+| You have | What you learn |
+| --- | --- |
+| [Typical firewall events](/scenarios/first-firewall-json) | Walk through recognized logs to mapping and file creation |
+| [A log with a transport header](/scenarios/syslog-kv) | Review header versus values in the message body |
+| [A structured security event](/scenarios/cef-leef) | Inspect extracted header and event-specific fields |
+| [A source specification with ordered fields](/scenarios/csv-with-spec) | Enter and confirm exact column names |
+| [A firewall log with many unnamed positions](/scenarios/panos-positional) | Keep all positions without guessing meanings |
+| [Mixed records in one feed](/scenarios/mixed-events) | Distinguish combined formats from groups requiring separate drafts |
+| [An exception message on several lines](/scenarios/multiline-java) | Confirm where one full event ends |
+| [A field that should map differently](/scenarios/normalization) | Select a correct destination and type |
+| [A rule that requires ChatGPT](/scenarios/recipe-ai) | Copy a redacted prompt and check the imported solution |
+| [Generating different test data](/scenarios/test-sender) | Download and use the Python test utility |
+| [Comparing parser attempts](/scenarios/revisions) | Save and restore local work |
 
-All example values in these pages are synthetic.
+<figure className="ps-shot">
+  <img src="/images/07-unknown-analysis.png" alt="The actual Parser Studio warning page showing unresolved source text and Fix with ChatGPT" />
+  <figcaption>When a warning appears, use the highlighted input and recommendation. You do not need to recognize the format name.</figcaption>
+</figure>
+
+## How to use these guides
+
+Every scenario follows the same pattern: **what happened → where to click → what to check → what to do if that does not work**. All sample events and UI screenshots use fictional data.
+
+<Note>
+  If you simply want to create your first parser, skip the format examples and [start with Quickstart](/quickstart).
+</Note>

@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Parser Studio",
-  "description": "User guides and practical scenario playbooks for reviewing security logs, mapping fields, and creating parser drafts.",
+  "description": "Beginner-first security log parsing: paste, analyze, review field mappings, troubleshoot and create reviewed parser drafts.",
   "colors": {
     "primary": "#1F59E0",
     "light": "#2982E8",
@@ -16,7 +16,8 @@
           "index",
           "quickstart",
           "choose-workflow"
-        ]
+        ],
+        "icon": "rocket"
       },
       {
         "group": "Auto Parser",
@@ -25,32 +26,36 @@
           "workflows/review-fields",
           "workflows/map-fields",
           "workflows/create-and-download"
-        ]
+        ],
+        "icon": "wand-magic-sparkles"
       },
       {
         "group": "ChatGPT Assisted Parser",
         "pages": [
           "workflows/chatgpt-assisted",
           "workflows/holdout-validation"
-        ]
+        ],
+        "icon": "comments"
       },
       {
         "group": "Scenario Playbooks",
         "pages": [
           "scenarios/index",
           "scenarios/first-firewall-json",
-          "scenarios/syslog-kv",
-          "scenarios/cef-leef",
-          "scenarios/csv-with-spec",
-          "scenarios/panos-positional",
+          "scenarios/partial-event",
           "scenarios/unknown-log",
           "scenarios/mixed-events",
-          "scenarios/multiline-java",
+          "scenarios/csv-with-spec",
           "scenarios/normalization",
           "scenarios/recipe-ai",
-          "scenarios/test-sender",
-          "scenarios/revisions"
-        ]
+          "scenarios/panos-positional",
+          "scenarios/syslog-kv",
+          "scenarios/cef-leef",
+          "scenarios/multiline-java",
+          "scenarios/revisions",
+          "scenarios/test-sender"
+        ],
+        "icon": "layer-group"
       },
       {
         "group": "Reference",
@@ -61,23 +66,48 @@
           "reference/troubleshooting",
           "reference/glossary",
           "reference/faq"
-        ]
+        ],
+        "icon": "book-open"
       }
     ]
   },
   "navbar": {
     "links": [
       {
+        "label": "XDR Labs",
+        "href": "https://xdr.ooo"
+      },
+      {
         "type": "github",
         "href": "https://github.com/xdr-labs/parser-studio"
       }
-    ]
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Start with logs",
+      "href": "/quickstart"
+    }
   },
   "search": {
-    "prompt": "Search Parser Studio user guides..."
+    "prompt": "How do I analyze my logs?"
   },
   "appearance": {
     "default": "system",
     "strict": false
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://parser.xdr.ooo"
+  },
+  "favicon": "/favicon.svg",
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "seo": {
+    "indexing": "navigable"
+  },
+  "metadata": {
+    "timestamp": true
   }
 }

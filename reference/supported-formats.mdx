@@ -1,41 +1,44 @@
 ---
-title: "Formats and boundaries"
-description: "Understand format detection, record framing and when manual review is required."
+sidebarTitle: "How Formats Work"
+title: "What kinds of logs can I paste?"
+description: "Recognize common log structures without requiring the user to choose a format before analyzing."
 ---
 
-# Recognized structures and review limits
+# What kinds of logs can I paste?
 
-Parser Studio analyzes a sample's **event framing, outer envelope and message body**. Format detection is useful, but it is not the same as proving a complete extraction or confirming that the current backend can generate a matching parser draft.
+**Start with the original text, not a format selection.** Parser Studio attempts to recognize structures as you use **Auto Parser → Add Logs → Analyze Logs**.
 
-| Source structure | What to review first | Guide |
+You do **not** need to know these names to follow the basic workflow. They help only when you have a vendor field document or need to investigate a warning.
+
+| What the source looks like | Usually called | What you should inspect after Analyze Logs |
 | --- | --- | --- |
-| JSON objects | Complete objects, nested paths, quoting and record boundaries | [JSON](/scenarios/first-firewall-json) |
-| Key/value records | Quoted values, duplicate keys, escapes, empty values | [Syslog + KV](/scenarios/syslog-kv) |
-| CEF | Fixed header positions and extension escaping | [CEF/LEEF](/scenarios/cef-leef) |
-| LEEF | Header and declared extension separator | [CEF/LEEF](/scenarios/cef-leef) |
-| RFC3164-style Syslog | Priority, timestamp, host/application and message body; year/timezone absence | [Syslog + KV](/scenarios/syslog-kv) |
-| RFC5424-style Syslog | Versioned header, timestamp timezone, structured-data section and body | [Review Fields](/workflows/review-fields) |
-| CSV | Delimiter, field count, quoting, missing values and user-reviewed column names | [CSV](/scenarios/csv-with-spec) |
-| Positional firewall records | Exact event subtype and authoritative field-order definition | [Positional CSV](/scenarios/panos-positional) |
-| Explicitly framed multiline | Complete record boundaries and transport declaration | [Java exception](/scenarios/multiline-java) |
-| Unknown or mixed records | Account for every event and keep unsupported cases visible | [Unknown](/scenarios/unknown-log) |
+| `{"action":"deny","src_ip":"192.0.2.10"}` | JSON | Are the field values and nested paths complete? |
+| `action=deny src=192.0.2.10` | Key/value | Are quoted values and spaces preserved? |
+| `CEF:0|Vendor|...|src=...` | CEF | Are headers and event-specific values separate? |
+| `LEEF:1.0|Vendor|...` | LEEF | Are the actual extension separators interpreted correctly? |
+| `<134>Oct 18 12:00:00 host ...` | Syslog-like envelope | Does the header remain distinct from the message body? |
+| `allow,192.0.2.10,443` | Positional/CSV | Are all positions present? What does each column mean? |
+| Several differently shaped lines | Mixed event families | Were **all** events accounted for, and is the combination supported? |
+| An exception plus indented stack frames | Multiline | Do you know exactly where one complete event ends? |
 
-## Three layers of evidence
+## Three levels of checking
 
-**Detection:** The sample resembles a particular structure.
+1. **Recognized:** Parser Studio identifies a possible structure.
+2. **Extracted correctly:** You compare the original source with the output, including all event boundaries and important values.
+3. **Ready to generate:** The sample, mapping and current compiler checks pass in **Create Parser**.
 
-**Extraction:** Each event's fields and values have been reviewed and match the source, including their logical boundaries.
+Do not treat the first check as proof of the third.
 
-**Draft generation:** A supported current compiler accepts the reviewed project, produces the output pair and passes integrity checks.
+## What if my source contains multiple formats?
 
-A record can pass the first layer while failing a later layer. Do not promote partial detection to a verified parser.
+Paste representative examples together. If every event is recognized, review field values across each event type and attempt a **single combined draft** using the normal stages. If some shapes are unsupported, follow the on-screen grouping suggestion and create separate reviewed drafts as needed.
 
-## Important distinctions
+[Follow the mixed-log walkthrough](/scenarios/mixed-events).
 
-- Standard format names do not guarantee consistent proprietary vendor extensions.
-- A timestamp without a timezone must not be silently upgraded into a precise UTC time.
-- Positional CSV cannot be semantically normalized from a guessed column order.
-- Mixed events may require grouping into separate parser drafts.
-- A browser-side grouping hint does not itself prove a compiled multiline framing strategy.
+## What if my log contains a missing timestamp detail?
 
-Always follow the exact on-screen supported capability and review gates.
+A header can omit a timezone or other information. Parser Studio should not invent that information. Follow the **What needs attention** and **Recommended fix** prompts to preserve accuracy.
+
+## Still unfamiliar?
+
+If you cannot identify the structure, that is fine. Start with [Quickstart](/quickstart) or [ask ChatGPT through the supported manual workflow](/workflows/chatgpt-assisted).

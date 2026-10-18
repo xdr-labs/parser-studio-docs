@@ -1,37 +1,43 @@
 ---
-title: "Scenario: unknown or partly parsed log"
-description: "Diagnose partial extraction while preserving source evidence."
+title: "Parser Studio does not understand my log"
+sidebarTitle: "Log Not Understood"
+description: "Start in Auto Parser, inspect the warning, then follow the full ChatGPT Assisted menu."
 ---
 
-# What if Auto Parser cannot understand my log?
+# Parser Studio cannot understand this log. What do I do?
 
-**Goal:** Identify what the application recognized, what it did not recognize and whether a safe repair path exists.
+**Situation:** You pasted logs, clicked **Analyze Logs**, and the result says **0 of N log events parsed completely**, or the entire text is marked as needing review. You do not need to discover whether it is JSON, CSV, CEF or another format.
 
-## Fictional ambiguous example
+## Practice sample
 
-~~~text
+```text
 2026-10-18T15:01:02Z|DENY|192.0.2.10|198.51.100.20|443|policy A
 2026-10-18T15:01:03Z|ALLOW|192.0.2.11|198.51.100.21|80|policy B
-~~~
+```
 
-There are no intrinsic field names here. Even if an address is recognizable, the positions are not automatically a verified schema.
+<figure className="ps-shot"><img src="/images/07-unknown-analysis.png" alt="Zero of two events parsed completely, with highlighted raw text and Fix with ChatGPT button" /><figcaption>The unresolved text is visible. The Review Fields button is not yet available.</figcaption></figure>
 
 ## Walkthrough
 
-1. Paste the original text into **Add Logs**. Keep separators and complete records intact.
-2. Click **Analyze Logs** and inspect the count and any review status.
-3. Look for the highlighted unresolved fragment and the stated explanation. Do not treat partial extraction as total success.
-4. Check whether a source format definition, trusted example, event-boundary declaration or explicit field-order document can resolve the ambiguity.
-5. If the product provides a bounded suggestion, compare before and after on the full sample.
-6. If the record still cannot be interpreted, open **ChatGPT Assisted Parser** using a manually masked example.
-7. Import only a supported structured recipe and qualify any changed rule on additional records.
+1. Stay under **Auto Parser → Add Logs**. Confirm you pasted complete source records, then click **Analyze Logs**.
+2. Read the result. If it needs attention, use **Problem to review** to select an event.
+3. Check **Original event**, **What needs attention**, and **Recommended fix**.
+4. If a supported on-screen fix such as **Use extracted fields** is offered, review it first. If no safe local repair is available, click **Fix with ChatGPT** or select **ChatGPT Assisted Parser** on the left.
+5. In **Original local logs**, keep the source for local checking. Describe the fields you need in **What do you want Parser Studio to find?**.
+6. Review and mask the separate **Redacted example to copy to ChatGPT**.
+7. Click **Prepare ChatGPT Prompt** → **Copy Prompt**, then paste that prompt into ChatGPT yourself.
+8. Ask for **supported ParserRecipe v0.2 JSON**, return the response to **3. Paste the ChatGPT result**, then click **Check ChatGPT Result**.
+9. If Parser Studio requests additional test logs, provide different examples, check the comparison and approve only a passing supported change.
+10. Return to Auto Parser and re-review all records before mapping and generation.
+
+<figure className="ps-shot"><img src="/images/06-chatgpt-assisted.png" alt="ChatGPT Assisted Parser preparation with local logs, masked example and prompt button" /><figcaption>Use this menu when automatic analysis cannot safely understand the source. Nothing is automatically sent to ChatGPT.</figcaption></figure>
 
 ## Expected review outcome
 
-The application either accounts for every record with correct values or exposes a reason to review. It must not silently assign unsupported semantic names to arbitrary positions.
+You either obtain a supported, independently reviewed proposal or retain a clear unsupported status. Neither result silently discards the original logs.
 
 ## Recovery path
 
-Unrecognized structure is a valid reason to stop parser generation. Document the unresolved positions, preserve examples and seek the source contract rather than building an increasingly broad untested regular expression.
+If the ChatGPT response contains arbitrary executable code, invalid schema or an unsupported transformation, request a narrower supported structured proposal. If no supported solution is available, preserve the samples and do not claim a parser was created.
 
-**Next:** [AI-assisted recovery](/scenarios/recipe-ai).
+**Next:** [Full ChatGPT Assisted walkthrough](/workflows/chatgpt-assisted).

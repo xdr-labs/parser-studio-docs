@@ -1,34 +1,50 @@
 ---
-title: "Output artifacts"
-description: "Understand the Ruby logic file, CONF companion and package integrity."
+sidebarTitle: "Downloaded Files"
+title: "Which files can I download?"
+description: "Understand the final file generation controls and the difference between a preview and a generated draft."
 ---
 
-# Generated parser artifacts
+# Which files does Parser Studio create?
 
-After a successful **Create Parser Files** action, Parser Studio can offer:
+**File downloads come at the end**, after **Analyze Logs → Review Fields → Map Fields → Create Parser**. A green initial analysis does not download a file by itself.
 
-| Artifact | Purpose |
+## How to reach the download
+
+1. Confirm the analysis counted all representative events.
+2. Check values in **Review Fields**.
+3. Review correct destinations and types under **Map Fields**.
+4. On **Create Parser**, make sure **Need fixing** is **0**.
+5. Click **Run Final Test & Create Files**.
+6. If generation succeeds, download the offered logic and configuration files together.
+
+## Files you may see
+
+| File type | Meaning |
 | --- | --- |
-| Extensionless Ruby parser logic | The generated parsing logic for the reviewed draft |
-| CONF file | Companion listener and parser configuration for the same reviewed draft |
-| Optional package archive | Bundled copy of the generated artifacts and metadata |
+| **Ruby parser logic** (usually an extensionless file) | Reviewed rules for extracting values from the source |
+| **CONF** companion file | Matching configuration generated for the same parser draft |
+| Optional package download | A bundled set of the generated artifacts |
 
-Output availability depends on the connected generation service and successful validation. The paired artifacts are logically related; do not mix a CONF file from one draft with Ruby logic from another draft.
+File availability depends on the supported compiler and current validated source. Parser Studio checks the SHA-256 identity of returned generated content before making verified output available.
 
-## Integrity and reproducibility
+## What counts as a successful result?
 
-The application verifies returned SHA-256 digests for the generated file pair before offering the verified download. A corrupt or mismatched response should stop the affected output action.
+- The entire reviewed sample passes its applicable checks.
+- Output destinations and types have no blocking errors.
+- The generation service returns an acceptable file pair with valid integrity.
+- You can keep the generated pair with the reviewed source examples.
 
-To preserve a reviewed result:
+<Note>
+  A generated **draft** is a result of the selected samples and supported generator rules. It is not a guarantee that any other unseen log variations will parse correctly.
+</Note>
 
-1. Keep the original synthetic or authorized sample used for authoring.
-2. Record the reviewed CSV field definition, mapping decisions and transport assumptions.
-3. Download both output files from the **same successful generation**.
-4. Preserve the manifest or package metadata when the UI offers it.
-5. Re-run source checks if you modify the source or mapping later.
+## If a button is unavailable
 
-## Interpret status carefully
+| Problem | Go back to |
+| --- | --- |
+| A source event was not fully extracted | [Partial-event repair](/scenarios/partial-event) |
+| A field destination or type is wrong | [Map Fields](/workflows/map-fields) |
+| Multiple log structures were not supported in one draft | [Mixed events](/scenarios/mixed-events) |
+| The generator reports unavailable/invalid service or file integrity | [Troubleshooting](/reference/troubleshooting) |
 
-“Files generated” means that the generator and integrity checks accepted the **reviewed draft**. It is not a claim that every log variation in the product family will parse correctly.
-
-If you encounter unavailable compiler metadata, unsupported syntax or checksum failure, use [troubleshooting](/reference/troubleshooting) rather than using a partial download.
+<figure className="ps-shot"><img src="/images/05-create-parser.png" alt="The final Create Parser screen with Run Final Test and Create Files" /><figcaption>The file-generation button is available after source and mapping review; this screenshot is before the final generator response.</figcaption></figure>

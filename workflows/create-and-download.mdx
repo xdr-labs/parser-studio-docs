@@ -1,33 +1,49 @@
 ---
-title: "Create Parser and download files"
-description: "Understand the final validation step, output pair and package checks."
+title: "Create Parser | Final test and file download"
+sidebarTitle: "Download Parser Files"
+description: "Where to click to generate the parser files, and what to do if generation is blocked."
 ---
 
-# Create Parser
+# Create Parser: test, then download
 
-The last stage produces parser artifacts **only after required reviews and generation checks complete**.
+This is the **fourth and final** Auto Parser stage. The normal user should not edit Ruby or configuration text here.
 
-## Generate the files
+<figure className="ps-shot">
+  <img src="/images/05-create-parser.png" alt="Create Parser stage with sample counts and Run Final Test and Create Files action" />
+  <figcaption>The example has 2 source events, 2 parsed successfully and 0 needing fixes.</figcaption>
+</figure>
 
-1. Complete **Review Fields** and **Map Fields**.
-2. Open **Create Parser** and read the event count and blocking notices.
-3. Choose **Create Parser Files**.
-4. If successful, download **parser logic** (the extensionless Ruby file) and **listener configuration** (the CONF file).
-5. When available, select **Download Parser Package** for the packaged copy.
+## To finish a successful analysis
 
-## Verify the result
+1. Confirm **Sample logs**, **Parsed successfully**, **Ready to output**, and **Need fixing**.
+2. If **Need fixing** is **0**, click **Run Final Test & Create Files**.
+3. Wait for the result. When generation succeeds, download the parser logic file and its matching `.conf` configuration file. You can also download a package if offered.
+4. Keep those files together with your source sample and the field mapping decisions.
 
-Parser Studio checks the generated pair against the reviewed project schema and its returned SHA-256 digests. Do not replace a generated file with hand-edited content while treating its original digest as still valid.
+Parser Studio checks returned files' identity and integrity. The final test is **not the same thing as the earlier Analyze Logs button**: it also checks the reviewed mapping and current generator compatibility.
 
-Keep a record of the sample structure, selected mappings, transport and selected output port. These are part of the assumptions behind the generated configuration.
+## If nothing is downloaded
 
-## What if creation is blocked?
+Do not keep pressing the button without reading the result.
 
-- **Not all events passed:** return to Review Fields and inspect the failing event.
-- **Mapping conflict:** return to Map Fields to resolve duplicate destinations or type mismatches.
-- **Missing compiler metadata:** check the local parser creation service before attempting to generate again.
-- **Integrity error:** do not use the suspect artifact; regenerate from the reviewed source.
+| Screen result | What to do |
+| --- | --- |
+| **Need fixing** is not 0 | Click **Map Fields** and resolve mapping problems; if extraction was wrong, go back to Review Fields |
+| **One or more sample logs need review** | Return to the highlighted event and follow its **Recommended fix** |
+| **Parser creation service is unavailable** | Check the local authoring service; your analyzed fields remain available |
+| **Unsupported format or compiler response** | Keep the existing review state, use the available supported path or separate the source groups |
+| **Checksum or package integrity failure** | Do not use the mismatched file; regenerate after the service issue is resolved |
 
-A downloadable result is a validated draft for the reviewed source and advertised compiler capabilities. It is not a universal compatibility claim for other formats or unseen messages.
+## What do I actually receive?
 
-For file definitions and safety boundaries, see [Output Artifacts](/reference/output-artifacts).
+| File | How to understand it |
+| --- | --- |
+| Extensionless Ruby parser logic | The reviewed parsing instructions |
+| Companion `.conf` file | Configuration produced for the same parser draft |
+| Optional archive | A package of the reviewed generated files |
+
+<Note>
+  A **passing sample and downloadable draft** mean the selected records and current generator checks succeeded. Test other representative log events before treating it as sufficient for your wider log population.
+</Note>
+
+[Learn about output files](/reference/output-artifacts) · [Troubleshooting](/reference/troubleshooting).

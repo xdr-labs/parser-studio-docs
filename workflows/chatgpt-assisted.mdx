@@ -1,46 +1,58 @@
 ---
-title: "ChatGPT Assisted Parser"
-description: "Prepare a safe prompt, import a structured response and review changes."
+title: "ChatGPT Assisted Parser | When logs are unfamiliar"
+sidebarTitle: "Use ChatGPT"
+description: "Follow the exact menus to create a safe prompt, bring back JSON and validate it."
 ---
 
-# ChatGPT Assisted Parser
+# ChatGPT Assisted Parser: what do I click?
 
-Choose **ChatGPT Assisted Parser** if the ordinary Auto Parser review cannot explain a record or needs help preparing a supported parsing adjustment.
+Use this when **Auto Parser** has highlighted a problem you cannot resolve, or when it says that the source structure is not supported. **You do not need to know CEF, LEEF, Ruby or regular expressions.**
 
-This is an **explicit copy-and-paste** workflow. Parser Studio does not send the source to ChatGPT on your behalf.
+<figure className="ps-shot">
+  <img src="/images/06-chatgpt-assisted.png" alt="ChatGPT Assisted Parser screen with Prepare examples, Redacted example and Prepare ChatGPT Prompt" />
+  <figcaption>This is a separate menu in the left sidebar. The original log stays in the local analysis area.</figcaption>
+</figure>
 
-## 1. Prepare local data
+## 1. Open the assistant and prepare an example
 
-1. Select **ChatGPT Assisted Parser** from the left navigation.
-2. Paste the original source records into the local analysis field.
-3. Describe the fields you want to extract, using clear field meanings.
-4. Review the provided fictional/redacted example. Replace any content that should not be shared.
-5. Inspect the shareable text and check the required confirmation before preparing the prompt.
+1. Click **ChatGPT Assisted Parser** in the left menu (or **Fix with ChatGPT** from a flagged Auto Parser event).
+2. In **Original local logs**, paste the source logs if they are not already present.
+3. In **What do you want Parser Studio to find?**, describe the desired result in everyday language, for example: “Find the event time, action, source and destination addresses, port, user and reason.”
+4. Look at **Redacted example to copy to ChatGPT**. Parser Studio supplies a fictional example, but **you must review it** and change it if it does not resemble the structure you need to explain.
+5. Replace any real usernames, addresses, customer identifiers, secrets and sensitive values before copying anything outside the browser.
 
-A prefilled fictional example is a starting point, not proof that it correctly represents your source. Always inspect it.
+There is **no separate masking approval checkbox** in this screen. Reviewing the visible example and choosing to copy the prompt are your decisions.
 
-## 2. Prepare and copy the prompt
+## 2. Prepare the prompt and ask ChatGPT
 
-Choose **Prepare ChatGPT Prompt**, review the full output and use the copy control. The shareable prompt includes bounded metadata and only the example text you explicitly approved.
+1. Click **Prepare ChatGPT Prompt**.
+2. In **2. Copy to ChatGPT**, inspect the generated prompt, then click **Copy Prompt**.
+3. Open ChatGPT manually, paste the prompt and request a **ParserRecipe v0.2 JSON** answer that follows the prompt constraints.
+4. Do **not** ask for arbitrary executable Python, Ruby or an unrestricted regular expression as the final imported response.
 
-Open ChatGPT separately, paste the prompt yourself and ask for a **ParserRecipe v0.2 JSON** response constrained to the supported contract.
+Parser Studio does not send the prompt to ChatGPT automatically.
 
-## 3. Import and validate
+## 3. Bring the answer back
 
-Paste the JSON response back into Parser Studio. The application checks the schema, source binding and allowed operations. Arbitrary executable Ruby, unrestricted expressions and unsupported format transformations are not accepted as a substitute for validation.
+1. Copy the JSON response from ChatGPT.
+2. Return to Parser Studio → **3. Paste the ChatGPT result**.
+3. Paste the JSON into the response box.
+4. Click **Check ChatGPT Result**.
 
-## 4. Review changed behavior
+If the schema, source fingerprint or requested operations are unsupported, the result is rejected. That is a reason to revise the proposal, not to override the validation.
 
-For a proposed changed mapping or bounded recovery rule, test the full original sample and **independent additional records**. Check the before/after comparison and explicitly approve only a verified improvement.
+## 4. Test before accepting
 
-[Holdout validation](/workflows/holdout-validation) explains the qualification step.
+If Parser Studio says the proposal changed a field or rule, paste **new examples** into **Additional ChatGPT test logs**. Check **Confirm test examples are different**, run the offered comparison and read the result. Only approve a changed rule when the original and independent examples pass without regression.
 
-## 5. Generate from an approved recipe
+[What are independent test logs?](/workflows/holdout-validation)
 
-When the response and any required holdout checks pass, the same source-bound generation and digest verification used by Auto Parser applies.
+## 5. Finish
 
-## Important privacy rule
+After a supported change is checked and explicitly approved, use the offered generation action. If you need to return to automatic analysis, click **Return to Auto Parser**.
 
-Do not copy unmasked customer logs, credentials, secret tokens or personal identifiers into external prompts. The redacted example is visible and editable precisely so the user controls what leaves the browser.
+<Warning>
+  Only the deliberately reviewed, masked example should be copied outside the browser. If an inline repair prompt is generated from the original event, **read and redact its entire text before using Copy Prompt**.
+</Warning>
 
-See the [AI recovery scenario](/scenarios/recipe-ai) and [Data handling](/reference/source-privacy).
+**Still unsure?** Follow the [unrecognized log scenario](/scenarios/unknown-log) or [a worked ChatGPT repair](/scenarios/recipe-ai).

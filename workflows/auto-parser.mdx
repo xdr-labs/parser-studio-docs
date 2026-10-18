@@ -1,59 +1,75 @@
 ---
-title: "Auto Parser"
-description: "The main four-stage parser creation process."
+title: "Auto Parser | From pasted logs to files"
+sidebarTitle: "Auto Parser"
+description: "The exact buttons to click when your logs parse correctly and how to recover if they do not."
 ---
 
-# Auto Parser: the default workflow
+# Auto Parser: the normal way to create a parser
 
-Use **Auto Parser** for most new log types. It is designed to start from data rather than parser syntax.
+You do **not** need to recognize the format or write parsing expressions. Begin with a few complete examples of the product's logs and work through the four visible stages.
 
-## Step 1 — Add Logs
+<div className="ps-flow"><span>1. Add Logs</span><b>→</b><span>2. Review Fields</span><b>→</b><span>3. Map Fields</span><b>→</b><span>4. Create Parser</span></div>
 
-1. Copy a few complete events from the same log source or upload a bounded text sample.
-2. Preserve the original delimiters, quotes, leading Syslog headers and line endings wherever possible.
-3. Click **Analyze Logs** and inspect the detected families and the number of logical events.
-4. Review incomplete, malformed or uncertain events; do not assume the displayed family label proves full extraction.
-5. For CSV, complete **Review CSV column names** and explicitly approve the chosen schema if the control appears.
+## 1. Add Logs — just paste and click Analyze Logs
 
-A single preview does not establish that records with different firmware, settings or forwarding prefixes will behave identically.
+1. Select **Auto Parser** in the left menu.
+2. Optionally fill in the source **Manufacturer**, **Product** and **Version** in the **Parser identity** area. Confirm these before creating files.
+3. Paste a few full source events into **Add Logs**, or choose **Upload a log file** for a small text file. The screen shows a maximum of **64 KiB / 500 events**.
+4. Click the orange **Analyze Logs** button.
 
-## Step 2 — Review Fields
+<figure className="ps-shot">
+  <img src="/images/02-analyzed-sample.png" alt="The Add Logs step showing two of two events parsed successfully" />
+  <figcaption>A complete result means you can continue to Review Fields. You do not need to choose the record format.</figcaption>
+</figure>
 
-1. Select **Review Fields** once the sample is eligible to continue.
-2. Switch between events and compare raw text to extracted names and values.
-3. Confirm no significant suffix, leading header or extra event was silently omitted.
-4. If an event needs review, follow the highlighted area and proposed repair rather than forcing a passing status.
+| What appears after analysis | What you should click |
+| --- | --- |
+| **N of N log events parsed completely** | **Review Fields** |
+| **One or more events need attention** | **Problem to review** → read **Recommended fix**; see [partial extraction](/scenarios/partial-event) |
+| **Unknown or unsupported structure** | **Fix with ChatGPT** or **ChatGPT Assisted Parser**; see [unrecognized logs](/scenarios/unknown-log) |
+| **Values found but no column names** | **Keep all values with temporary names** or enter your documented column names; see [CSV](/scenarios/csv-with-spec) |
+| **Different log shapes were found** | **Analyze group 1**, or review the combined supported result; see [multiple event types](/scenarios/mixed-events) |
 
-[Review fields in detail](/workflows/review-fields).
+## 2. Review Fields — confirm what was extracted
 
-## Step 3 — Map Fields
+Click **Review Fields**. Use **Choose a source event** to compare the **Original log** with **Fields Parser Studio found** and **Current output preview**. Inspect ordinary and unusual events. If values are correct, choose **Map Fields** at the bottom.
 
-1. Select **Map Fields**.
-2. Confirm each source field's destination, type and visible sample values.
-3. Look for duplicate targets, type mismatches and unsupported destinations.
-4. Apply only verified suggestions and correct individual exceptions.
+<figure className="ps-shot">
+  <img src="/images/03-review-fields.png" alt="Original log, extracted fields and output preview side-by-side on Review Fields" />
+  <figcaption>For most users, reviewing the values is enough—there is no parsing code to edit.</figcaption>
+</figure>
 
-[Mapping guide](/workflows/map-fields).
+[How to handle an incorrect extracted field](/workflows/review-fields)
 
-## Step 4 — Create Parser
+## 3. Map Fields — confirm names and value types
 
-1. Continue to **Create Parser**.
-2. Check the event counts and any blockers.
-3. Select **Create Parser Files**.
-4. Download the verified output pair. Keep the output with the exact reviewed input and its mapping assumptions.
+Check each important field's source value, suggested **Stellar field name**, and **Value type**. The **Must fix before continuing** count should be **0**. Apply recommended matches only where their meaning is correct. If everything is fine, choose **Create Parser**.
 
-[Download and verification](/workflows/create-and-download).
+<figure className="ps-shot">
+  <img src="/images/04-map-fields.png" alt="Stellar field mapping review with match and type suggestions" />
+  <figcaption>Check the sample values before changing any mapping.</figcaption>
+</figure>
 
-## When to open advanced tools
+[How to fix an incorrect mapping](/workflows/map-fields)
 
-**Tools & Diagnostics** is useful for inspecting an existing parser, reviewing unusual multiline boundaries, understanding repeat patterns or examining technical evidence. If you are a first-time user, complete the main guided stages before opening advanced controls.
+## 4. Create Parser — final test and download
 
-## A safe completion checklist
+Confirm **Need fixing = 0**, then click **Run Final Test & Create Files**. If the generator succeeds, download the generated **Ruby parser logic** and **CONF** files together. If the generator is unavailable or rejects a rule, the screen will not present a verified output—return to the indicated step.
 
-- Every source event is represented in the review.
-- Important fields are extracted with correct values and boundaries.
-- Column names and normalized destinations have documented meanings.
-- The final test reports no blocking errors.
-- Output files are downloaded after the product's integrity checks.
+<figure className="ps-shot">
+  <img src="/images/05-create-parser.png" alt="The Create Parser screen with the Run Final Test and Create Files button" />
+  <figcaption>The screenshot shows the final action before file generation. Actual download controls require a successful validated result.</figcaption>
+</figure>
 
-If any item is missing, treat the result as a review draft and use [troubleshooting](/reference/troubleshooting).
+<Note>
+  Use **Tools & Diagnostics** only when you need more information than the normal result provides. It is not required for a passing parser.
+</Note>
+
+## Still having trouble?
+
+<CardGroup cols={2}>
+  <Card title="Some text is missing" icon="wrench" href="/scenarios/partial-event">Use the highlighted section and the recommended repair.</Card>
+  <Card title="Not understood at all" icon="comments" href="/workflows/chatgpt-assisted">Prepare a manually reviewed ChatGPT prompt.</Card>
+  <Card title="The product sends several log types" icon="layer-group" href="/scenarios/mixed-events">Check all event families before making a combined parser.</Card>
+  <Card title="Cannot create or download files" icon="circle-alert" href="/reference/troubleshooting">Understand final-test and service errors.</Card>
+</CardGroup>

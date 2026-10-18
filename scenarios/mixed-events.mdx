@@ -1,35 +1,61 @@
 ---
-title: "Scenario: mixed log events"
-description: "Review record accounting and boundaries before combining multiple formats."
+title: "My product sends several different log types"
+sidebarTitle: "Multiple Log Types"
+description: "Paste examples of all event types, review all records and choose a combined or separate parser draft."
 ---
 
-# Mixed record families in one sample
+# One security product sends traffic, threat, user and other logs
 
-**Goal:** Review multiple source structures without dropping the records that are harder to parse.
+**Situation:** A single firewall or security platform sends several kinds of events. You want **one parser if the shapes can safely be combined**, but you do not want events to disappear from the analysis.
 
-## Fictional mixed input
+**You do not have to separate CEF, LEEF, JSON and KV by name before you start.**
 
-~~~text
-{"timestamp":"2026-10-18T14:00:00Z","action":"allow","src_ip":"192.0.2.1"}
-action=deny src=192.0.2.2 dst=198.51.100.5 dport=22
-CEF:0|Example|Gateway|1.0|100|Block|6|src=192.0.2.3 dst=203.0.113.4 act=blocked
-~~~
+## First try: paste the event types together
 
-## Walkthrough
+Collect at least one complete example of **each event type** you expect to support. More variation helps reveal missing or optional fields. For a fictional practice feed:
 
-1. **Identify the actual source of each line.** Determine whether all events belong to the same device feed or whether several different feeds were concatenated.
-2. Paste the sample into **Auto Parser → Add Logs** and choose **Analyze Logs**.
-3. Check the logical-event count. The sample above has three records; no parser should ignore one just because two are easier.
-4. If the application offers a bounded mixed-family review, inspect the selected family for **each event** and its advertised compiler support.
-5. If the families cannot be safely compiled together, divide the input into homogeneous groups and create separate reviewed drafts.
-6. Check normalization and test each resulting draft against examples from its own source group.
+```text
+{"action":"allow","src_ip":"198.51.100.10","dst_port":443}
+src_ip=203.0.113.11 dst_port=22 action=deny
+CEF:0|Synthetic|Firewall|1|101|Denied|8|src=192.0.2.11 dpt=443 act=deny
+LEEF:1.0|Synthetic|Firewall|1|501|src=192.0.2.18	dstPort=80	act=allow
+```
+
+This practice input uses **four structurally different events**. In real use, keep all original log events intact.
+
+<figure className="ps-shot"><img src="/images/07-mixed-analysis.png" alt="Auto Parser showing four of four structurally different events parsed completely" /><figcaption>The real UI analyzed the four fictional records together. The user did not choose their formats first.</figcaption></figure>
+
+## Walkthrough: attempt one combined parser
+
+1. Open **Auto Parser → Add Logs**. Enter the manufacturer/product identity for this source.
+2. Paste **all representative event types together** and click **Analyze Logs**.
+3. Check the count: if the input has 20 source events, all 20 should be accounted for. The format labels are secondary to this complete accounting.
+4. If all events are parsed, click **Review Fields** and switch between events from **different types**, not just different values of one type.
+5. Click **Map Fields**. For each distinct field, confirm the output destination and data type. A field may be absent in one event type; absence is not automatically a parser error.
+6. Confirm **Must fix before continuing = 0**, then click **Create Parser**.
+7. Choose **Run Final Test & Create Files**. A **single combined parser draft** is available only when the generator accepts that particular reviewed combination.
+
+<figure className="ps-shot"><img src="/images/08-mixed-mapping.png" alt="Field mapping review for the four mixed events with variable source fields" /><figcaption>Different source shapes can share one reviewed project, but inspect fields that are not present in every event.</figcaption></figure>
+
+<figure className="ps-shot"><img src="/images/08-mixed-create.png" alt="Create Parser stage with four of four reviewed mixed events ready for the final test" /><figcaption>This demonstrates reaching the final generation step; the file generator still decides whether the combination is supported.</figcaption></figure>
+
+## What if the analysis finds several groups instead?
+
+If the page shows **Different log shapes were found** and buttons such as **Analyze group 1 · N similar events**:
+
+1. Click **Analyze group 1**.
+2. Review the resulting subset and create a separate parser draft **for that group only** if supported.
+3. Click **Return to all N logs** to recover the full original sample.
+4. Analyze the next group. Do not assume that separate group drafts have been automatically merged.
+
+The product preserves the other groups. A complete multi-group review is not evidence that one combined output file was created.
 
 ## Expected review outcome
 
-All three events are visible and accounted for. No unrecognized event is automatically reclassified to create an artificial complete result.
+All original source events are counted. You either obtain one validated, supported mixed parser draft or distinct reviewed parser drafts for incompatible shapes. No event is silently discarded merely because it was difficult.
 
 ## Recovery path
 
-An unsupported mixed combination is not solved by selecting a convenient family for every record. Use explicit source grouping and separate reviews, or retain a review-only outcome until the input contract is known.
+If one type is flagged, select it under **Problem to review** and use the recommended repair. Do not remove unsupported messages just to get a green result. When a real product uses multiple positional CSV layouts, first obtain the matching field order for each layout before attempting a combined draft.
 
-**Related:** [Supported formats](/reference/supported-formats).
+**Related:** [Partial-event repair](/scenarios/partial-event) · [CSV with source definitions](/scenarios/csv-with-spec).

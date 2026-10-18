@@ -1,40 +1,43 @@
 ---
-title: "Scenario: recover an unresolved rule with ChatGPT"
-description: "Use a masked example and independently validate any proposed parser correction."
+title: "Use ChatGPT to fix an unfamiliar field"
+sidebarTitle: "ChatGPT Walkthrough"
+description: "A complete, privacy-reviewed copy-and-paste example for a missing value."
 ---
 
-# ChatGPT-assisted recovery from an unresolved record
+# Auto Parser cannot handle a field. Ask ChatGPT for help.
 
-**Goal:** Get help with a narrowly defined extraction issue without handing over the original data or accepting untested code.
+**Situation:** You used **Analyze Logs**, but a text fragment was highlighted, or the original field was not extracted completely.
 
-## Fictional problem
+## Example to practice with
 
-The event contains:
-
-~~~text
+```text
 date=2026-10-18 action="policy denied" src=192.0.2.10 reason="destination not authorized"
-~~~
+date=2026-10-18 action="policy allowed" src=192.0.2.11 reason="trusted network"
+```
 
-Suppose the current review does not correctly preserve the entire quoted reason.
+Suppose the value of `reason` is incomplete. Do not throw away the working `action` and `src` fields.
 
 ## Walkthrough
 
-1. In **Auto Parser**, inspect the original field and highlighted mismatch. Record precisely which value is wrong.
-2. Select **ChatGPT Assisted Parser**. Keep the original events in local analysis.
-3. Edit the visible masked example to use only fictional addresses and values. State the goal: preserve the full quoted reason and action.
-4. Review the privacy confirmation and choose **Prepare ChatGPT Prompt**.
-5. Manually copy the reviewed prompt into ChatGPT; ask for a **supported ParserRecipe v0.2 JSON** response, not arbitrary script code.
-6. Paste that JSON into Parser Studio. Review any unsupported-operation or source-binding findings.
-7. Supply several fresh events containing quoted spaces, empty optional fields or escaped characters as independent holdouts.
-8. Inspect before/after comparisons and explicitly approve the change only if it passes.
-9. Generate files through the supported workflow, if available.
+1. In **Auto Parser → Add Logs**, paste the sample and choose **Analyze Logs**.
+2. If the event needs review, read **Original event**, the highlighted text, and **Recommended fix**.
+3. Choose **Fix with ChatGPT** or **ChatGPT Assisted Parser** from the left.
+4. In **Original local logs**, retain the original events for local testing.
+5. In **What do you want Parser Studio to find?**, enter a specific goal: “Preserve the complete values of action and reason, including quoted spaces, without changing source addresses.”
+6. In **Redacted example to copy to ChatGPT**, confirm that every value is fictional or properly masked.
+7. Click **Prepare ChatGPT Prompt**, review it under **2. Copy to ChatGPT**, and click **Copy Prompt**.
+8. Open ChatGPT manually and ask for a JSON response using the requested **ParserRecipe v0.2** contract.
+9. Paste the result under **3. Paste the ChatGPT result** and click **Check ChatGPT Result**.
+10. If a changed rule requires independent samples, supply different fictional or masked records under **Additional ChatGPT test logs**, review the comparison, and approve only a passing change.
+
+<figure className="ps-shot"><img src="/images/06-chatgpt-assisted.png" alt="The actual ChatGPT Assisted Parser screen for manual source review and prompt preparation" /><figcaption>Use the three sections in order: prepare examples, copy the prompt, paste the JSON result.</figcaption></figure>
 
 ## Expected review outcome
 
-The corrected field is present with its full text and unrelated fields remain unchanged on both original and holdout events.
+A supported proposal recovers the intended field without breaking values that were already correct. The change is tested rather than blindly executed.
 
 ## Recovery path
 
-If the response proposes arbitrary Ruby, unrestricted regular expressions or an invalid recipe, reject it and request a narrower supported change. If independent holdouts regress, do not approve the change.
+If ChatGPT returns executable code instead of the requested JSON, or a rule that Parser Studio rejects, request a narrower supported change. If different test logs fail, do not approve it.
 
-**Related:** [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) and [Holdout validation](/workflows/holdout-validation).
+[Full ChatGPT Assisted instructions](/workflows/chatgpt-assisted) · [Why additional test logs matter](/workflows/holdout-validation).

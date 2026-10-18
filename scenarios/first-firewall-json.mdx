@@ -1,36 +1,37 @@
 ---
-title: "Scenario: create a parser from JSON firewall logs"
-description: "A first-time user follows all four Auto Parser stages."
+title: "My firewall logs were recognized"
+sidebarTitle: "Everything Parsed"
+description: "From an ordinary copied firewall message to reviewed fields, mapping, and file creation."
 ---
 
-# JSON firewall log: first-time walkthrough
+# My firewall logs were recognized. What next?
 
-**Goal:** Create and download a reviewed parser draft from named JSON fields.
+**Situation:** You copied firewall events from a device, pasted them into Parser Studio and clicked **Analyze Logs**. The result says all events were parsed completely. You do not need to identify their format.
 
-**Starting point:** Auto Parser, with no prior parser settings.
+## Practice sample
 
-## Example records
-
-~~~json
+```json
 {"time":"2026-10-18T04:10:11Z","type":"traffic","action":"allow","source":{"ip":"192.0.2.11"},"destination":{"ip":"198.51.100.15","port":443},"policy":"web-access"}
 {"time":"2026-10-18T04:11:12Z","type":"traffic","action":"block","source":{"ip":"192.0.2.12"},"destination":{"ip":"203.0.113.6","port":22},"policy":"deny-ssh"}
-~~~
+```
 
 ## Walkthrough
 
-1. Open **Auto Parser** and paste the two records in **Add Logs**.
-2. Click **Analyze Logs**. Check that two logical events are identified and not silently combined.
-3. Click **Review Fields**. Inspect the nested source/destination address paths and distinguish them from one another.
-4. Click **Map Fields**. Review each suggested normalized destination and value type. Keep the policy field in an appropriate vendor-specific destination if no verified catalog entry exists.
-5. Click **Create Parser**, then **Create Parser Files** when the sample and mappings are accepted.
-6. Download the file pair and keep it with the two test records.
+1. Select **Auto Parser**, paste both lines in **Add Logs**, and press **Analyze Logs**.
+2. Check the event count. If it reports **2 of 2 log events parsed completely**, click **Review Fields**.
+3. Under **Choose a source event**, pick Event 1 and Event 2. Check that source address, destination address, port, action and policy match the original values.
+4. Click **Map Fields**. Review the destination name and value type of each important field. Do not confuse nested source and destination addresses.
+5. Check **Must fix before continuing**. If it is **0**, click **Create Parser**.
+6. Choose **Run Final Test & Create Files**. Download the file pair when the final check succeeds.
+
+<figure className="ps-shot"><img src="/images/03-review-fields.png" alt="Review Fields with original and extracted values" /><figcaption>The important task is confirming the correct values, not recognizing JSON syntax.</figcaption></figure>
 
 ## Expected review outcome
 
-Both records are individually accounted for. You can inspect the action, nested addresses, destination port and policy values. A generated file pair, if unlocked, includes integrity-checked outputs.
+Both events remain accounted for, and fields retain the same values as the source. A successful final generation produces a reviewed parser logic file and companion configuration.
 
-## If it does not work
+## Recovery path
 
-If nested fields are missing, return to Review Fields and inspect the exact source paths. If generation is blocked because of a mapping type or collision, correct that mapping and retest. A green JSON classification alone is not the acceptance criterion.
+If a nested address appears to be missing, return to **Review Fields** and inspect the original source path. If the problem is only the output destination, correct it in **Map Fields**. If the issue is an unparsed section, use [the partial-event guide](/scenarios/partial-event).
 
-**Next:** [Map Fields](/workflows/map-fields) and [Holdout validation](/workflows/holdout-validation).
+**Next:** [Start-to-finish Quickstart](/quickstart).

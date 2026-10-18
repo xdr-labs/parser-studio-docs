@@ -1,40 +1,37 @@
 ---
-title: "Scenario: positional firewall CSV"
-description: "Handle PAN-OS-style positional logs without inventing field semantics."
+title: "My firewall log contains dozens of comma-separated values"
+sidebarTitle: "Long Comma-Separated Logs"
+description: "Start with automatic analysis, then use source documentation to identify columns safely."
 ---
 
-# PAN-OS-style positional firewall logs
+# My firewall log is a very long comma-separated line
 
-**Goal:** Avoid a believable but incorrect field mapping when log records contain many comma-separated values without inline field names.
+**Situation:** You paste what may be a Palo Alto Networks-style traffic or threat event. The record contains many values, and the product may send different event types.
 
-## Why this is different
+## Practice example
 
-A log may look familiar because it includes an address or an event label, but that does not prove the exact position of every field. Different event types and software versions may have different column definitions.
-
-## Illustrative, non-authoritative input
-
-~~~text
+```text
 1,2026/10/18 12:00:00,000001,TRAFFIC,end,192.0.2.10,198.51.100.20,allow
-~~~
+```
 
-This abbreviated teaching row is **not** a valid vendor field specification and must not be used to claim PAN-OS coverage.
+This is an **abbreviated fictional teaching line**, not a real firmware-specific field specification.
 
 ## Walkthrough
 
-1. Collect several real representative records **and the matching official field-order definition**, ideally distinguishing Traffic, Threat and other subtypes.
-2. Paste records from one documented subtype into **Add Logs**, preserving all empty and trailing columns.
-3. Click **Analyze Logs** and inspect the column count and event boundaries.
-4. Under **Review CSV column names**, apply the verified ordered names. If the source definition is missing, use neutral positional names for investigation, not semantic guesses.
-5. Check multiple records including empty fields. Verify each value against its documented position.
-6. Review normalization only for independently confirmed field meanings.
-7. Download a parser draft only if the actual sample is accepted by the reviewed compiler.
+1. In **Auto Parser**, paste a few complete logs from **one known source/event type** first. Click **Analyze Logs**.
+2. If the UI says the positions need names, look for **Names to give each value** and **Character between the values**.
+3. Obtain the vendor log definition for the same product/firmware and event subtype. Enter exactly the listed field names **in order**.
+4. If that definition is unavailable, use **Keep all values with temporary names** to avoid guessing.
+5. Choose **Review Fields** only after the column review is accepted. Switch between example events and ensure missing or empty values have not shifted adjacent columns.
+6. In **Map Fields**, assign destinations only where the source field meaning is established. Retain uncertain values as vendor-specific fields.
+7. Run the final test and download only if the app supports the reviewed event shape.
 
 ## Expected review outcome
 
-Position-to-name assignments have an auditable basis and are consistent across tested records. Where the meaning is unknown, the output remains neutral or review-only.
+The position and name of every value is based on the actual source definition—or remains visibly neutral when unknown.
 
 ## Recovery path
 
-If a Threat record has a different shape from Traffic records, review them separately instead of silently merging layouts. If the exact vendor schema cannot be established, stop semantic mapping and request the matching source definition.
+If **TRAFFIC**, **THREAT** and other rows have different lengths, do not force them into one positional layout. Paste representative examples of each type and follow [the several-types scenario](/scenarios/mixed-events).
 
-**Related:** [CSV with specification](/scenarios/csv-with-spec) and [Unknown log](/scenarios/unknown-log).
+**Related:** [Unnamed-column step-by-step guide](/scenarios/csv-with-spec).

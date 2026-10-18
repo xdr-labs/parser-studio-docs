@@ -1,38 +1,52 @@
 ---
-title: "Map Fields"
-description: "Review Stellar Cyber destinations, source fields and value types."
+title: "Map Fields | Fix output field names"
+sidebarTitle: "Fix Field Names"
+description: "How to accept recommended matches, correct mismatches and avoid changing source values."
 ---
 
-# Map Fields
+# Map Fields: where should each value go?
 
-**Extraction** answers “What did the log contain?” **Normalization** answers “Which consistent field name should store that value?” These are separate decisions.
+The prior step extracted the values. **Map Fields** chooses the names and types used for the final parser output. You do not have to know all field names beforehand; Parser Studio suggests them for review.
 
-## Review each proposed mapping
+<figure className="ps-shot">
+  <img src="/images/04-map-fields.png" alt="Map Fields screen with recommended matches, vendor-only fields and sample checks" />
+  <figcaption>Recommended matches appear here, alongside the warnings that must be resolved.</figcaption>
+</figure>
 
-In **Map Fields**, examine the source path, target name, expected type and example values:
+## When the suggested mapping is already correct
 
-1. Verify the source key actually occurs in the selected events.
-2. Confirm the destination's meaning, not only its spelling.
-3. Check whether the destination appears as a verified entry in the available Stellar field catalog.
-4. Choose the correct value type: text, whole number, number, boolean, IP address, network port or date/time.
-5. Keep vendor-specific or unverified fields in the custom/vendor group when an official destination is not established.
-6. Resolve every blocking finding before **Create Parser**.
+1. Look at **Matched to Stellar**, **Vendor-only fields**, and **Must fix before continuing**.
+2. Expand **Review field matches** if you need to inspect a specific field.
+3. Compare **Field found in the log**, **Stellar field name**, **Value type**, and the example values.
+4. If the mapping is correct and there are **0** mandatory fixes, continue by pressing **Create Parser**.
 
-## Common blocking findings
+You do not need to press every option. **Apply recommended matches** is helpful only when the suggested destination correctly matches the original field's meaning.
 
-| Finding | What to do |
+## When a field was mapped incorrectly
+
+Suppose the source event contains an IP address, but the proposed field name would change its meaning.
+
+1. Find the matching source field under **Review field matches**.
+2. Use **Choose Stellar field** (when available) to select the intended field in the field catalog.
+3. Check **Value type** (for example, **IP address**, **Network port** or **Date & time**). Do not use a type just because it makes the warning disappear.
+4. Inspect **Check all sample logs** and **See what will change**.
+5. Reopen a second event using **Review event** and confirm the new destination receives the same original value.
+
+If you cannot confirm an official destination, keep the value under a vendor-specific field rather than forcing a misleading match.
+
+## If a warning blocks the next step
+
+| Finding | What to check |
 | --- | --- |
-| Target collision | Give unrelated source fields separate destinations |
-| Value type error | Correct the type only after inspecting real sample values |
-| Source not found | Verify spelling, path nesting and whether the field is optional |
-| Unverified target | Search the catalog or use a clearly vendor-specific destination |
-| Catalog type mismatch | Align destination and supported value type |
-| Reserved/unsupported target | Choose a supported user-mappable field |
+| **Two fields use the same destination** | Give distinct source values distinct, valid destinations |
+| **Value does not match type** | Inspect all sample examples and select a compatible supported type |
+| **Source field is missing from some logs** | Determine whether the field is optional or wrongly named |
+| **Unverified or reserved field name** | Choose a verified catalog field or retain an appropriate vendor field |
 
-## Example mapping review
+The original source value is not changed by a mapping edit.
 
-For a JSON record containing src_ip, destination IP and action, the UI may propose normalization candidates. Treat these as suggestions until source values, field meanings and destination metadata are checked. A vendor-only property such as appliance_build can remain a custom field; do not invent an official semantic equivalent.
+## Continue
 
-Changes to a destination should not alter or erase the original extracted value. Re-test after edits.
+When **Must fix before continuing** is **0**, click **Create Parser**. If a previously working source becomes incomplete, return to the analysis step rather than inventing a mapping.
 
-See [normalization playbook](/scenarios/normalization) for an extended walkthrough.
+[Complete the output step](/workflows/create-and-download) or [see a full normalization example](/scenarios/normalization).

@@ -1,47 +1,48 @@
 ---
-title: "Scenario: CSV logs with a vendor column definition"
-description: "Use an explicit schema rather than assigning field meanings from positions."
+title: "My log values have no field names"
+sidebarTitle: "No Field Names (CSV)"
+description: "Use the actual column-name review or keep safe temporary names, then map the fields."
 ---
 
-# CSV logs with a field definition document
+# My log has values separated by commas, but no field names
 
-**Goal:** Apply trusted field names to CSV columns and verify type-safe extraction.
+**Situation:** You pasted lines of values and clicked **Analyze Logs**. Parser Studio says that the values were found, but their names are not trustworthy. That is expected when the source contains only positions.
 
-**Prerequisite:** The vendor's column list, including the order used by this log subtype. A guessed column name is not authoritative.
+<figure className="ps-shot"><img src="/images/07-csv-analysis.png" alt="CSV sample with unnamed fields and Keep all five values with temporary names action" /><figcaption>The app identifies five columns but does not guess what they mean.</figcaption></figure>
 
-## Fictional CSV input with no header row
+## Practice sample
 
-~~~csv
+```csv
 2026-10-18T13:00:00Z,allow,192.0.2.10,198.51.100.22,443
 2026-10-18T13:00:01Z,deny,192.0.2.11,203.0.113.7,22
-~~~
+```
 
-For this teaching example, assume the accompanying definition declares exactly five columns, in order:
-
-| Position | Declared field |
-| --- | --- |
-| 1 | timestamp |
-| 2 | action |
-| 3 | src_ip |
-| 4 | dst_ip |
-| 5 | dst_port |
+For this fictional practice data, assume the product's specification says the column order is **timestamp, action, src_ip, dst_ip, dst_port**.
 
 ## Walkthrough
 
-1. Paste both rows into **Auto Parser → Add Logs**.
-2. Click **Analyze Logs**. Confirm the rows have the same column count.
-3. Open **Review CSV column names** if prompted, choose the actual delimiter (comma, semicolon or TAB), and enter the five defined names **in the declared order**.
-4. Explicitly approve the schema. If any source row or schema detail changes, review it again.
-5. Continue to **Review Fields** and check the first, middle and last columns in both rows.
-6. In **Map Fields**, confirm each type (for example, destination port is a network port) and each destination.
-7. Generate the parser files only after the full sample passes.
+1. Select **Auto Parser**, paste the complete sample and choose **Analyze Logs**.
+2. If a warning says values were found but there are no names, look for **Names to give each value**.
+3. If you **have the vendor field document**, type the field names in exactly the published order.
+4. Under **Character between the values**, select the actual delimiter (for this example, **Comma (,)**).
+5. Click **I Confirm These CSV Column Names** when the application enables it.
+6. If you **do not** have a trustworthy definition, click **Keep all 5 values with temporary names**. Temporary names such as `field_001` preserve the data, but are not official field meanings.
+7. Continue to **Review Fields**, compare column positions against the raw line, then enter **Map Fields** and correct the destinations.
+8. Only then continue to **Create Parser** and the final test.
+
+<figure className="ps-shot">
+<img src="/images/09-csv-temporary-columns.png" alt="CSV review after keeping all five source values with temporary column names" />
+<figcaption>When you do not have trustworthy names, preserve all five columns with temporary names and confirm the review before mapping.</figcaption>
+</figure>
 
 ## Expected review outcome
 
-Every value appears under the column name defined by the source documentation. No empty column is dropped and no downstream column shifts position.
+All five values are preserved in their original order on every record. Source-backed names are used only if you actually confirmed what they mean.
 
 ## Recovery path
 
-If the column count varies, determine whether there are optional fields, multiple event subtypes, quoting rules or malformed records. Do not simply pad every record or reuse one schema across incompatible CSV subtypes without evidence.
+If the column count changes between rows, stop. Some logs from the same product have different shapes. Follow [the multiple-log-types guide](/scenarios/mixed-events) instead of stretching one column definition over every row.
 
-**Next:** [Positional firewall logs](/scenarios/panos-positional).
+<Warning>
+  A field named `field_001` is intentionally neutral. Do not label it "timestamp" merely because a sample value looks like a date unless the source definition supports that interpretation.
+</Warning>

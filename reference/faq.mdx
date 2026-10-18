@@ -1,50 +1,59 @@
 ---
-title: "Frequently asked questions"
-description: "Quick answers to common Parser Studio questions."
+title: "Common beginner questions"
+description: "Short answers about paste, analyze, field mapping, ChatGPT, mixed logs and downloads."
+sidebarTitle: "Common beginner questions"
 ---
 
 # Frequently asked questions
 
-## Do I need to know whether my logs are JSON, CEF or Syslog?
+## I have a log but do not know whether it is CEF, LEEF or JSON. Where do I start?
 
-No. Begin with **Auto Parser → Add Logs**, paste representative events and select **Analyze Logs**. Review the result rather than assuming format detection alone proves correctness.
+Select **Auto Parser**, paste several complete records under **Add Logs**, and press **Analyze Logs**. The application handles initial recognition. [Try the Quickstart](/quickstart).
 
-## Can I create parsers without knowing regular expressions?
+## Analyze Logs was successful. Do I need to do anything else?
 
-Yes, for supported source structures. The default workflow is graphical and begins with source data and field review.
+Yes. Click **Review Fields** to check actual values, then **Map Fields** to check destination names and types. Open **Create Parser** and use **Run Final Test & Create Files** before downloading anything.
 
-## Why does CSV ask me for field names?
+## One part is highlighted. Where do I click?
 
-CSV rows may provide only positions. To avoid assigning the wrong meaning to a value, Parser Studio asks you to review a source-backed column definition.
+Use **Problem to review**, inspect **Original event**, and read **Recommended fix**. Apply only a supported repair, or click **Fix with ChatGPT**. [Full partial-event example](/scenarios/partial-event).
 
-## Is every recognized log immediately ready to generate?
+## It could not understand any part of my log. What now?
 
-No. Parsing, mapping, record-boundary review and current compiler capability all influence generation. Unknown events or unsupported transformations should remain visible.
+Click **ChatGPT Assisted Parser** in the left menu. Review the **Redacted example to copy to ChatGPT**, choose **Prepare ChatGPT Prompt**, manually copy it, and paste a supported JSON response into the application for checking. [Follow the steps](/scenarios/unknown-log).
 
-## What if the normalization suggestion is incorrect?
+## My firewall sends Traffic, Threat and other event types. Can I create one parser?
 
-Change it in **Map Fields**, inspect catalog evidence and re-test. Keep unsupported meanings under vendor-specific fields rather than forcing a guessed official destination.
+Start by pasting representative examples of **all the types together**. If Parser Studio and the generator support the reviewed combination, one combined draft is possible. If the application identifies incompatible groups, review them separately rather than pretending they were merged. [Mixed log example](/scenarios/mixed-events).
 
-## Does ChatGPT read my raw logs automatically?
+## My log has values but no column names. What should I do?
 
-No. The assisted workflow uses explicit user-controlled prompt creation and manual copy/paste. Review and mask the example before sharing it.
+If available, click **Keep all N values with temporary names**, or use **Names to give each value** with your product's actual log definition and confirm it. [Unnamed columns](/scenarios/csv-with-spec).
 
-## May I paste any code produced by ChatGPT?
+## It found the correct address, but the output field is wrong. Should I ask ChatGPT?
 
-No. The assisted path accepts restricted structured ParserRecipe v0.2 JSON and reviews supported operations and source binding.
+Usually not. Use **Map Fields → Review field matches** to correct **Stellar field name** or **Value type**. [Mapping scenario](/scenarios/normalization).
 
-## Why do I need a separate holdout sample?
+## Does ChatGPT see my original logs automatically?
 
-A rule can match the examples used to invent it and still fail on other records. Independent examples help expose regressions.
+No. The assisted method uses explicit, manual copying. Always inspect and mask the text you choose to share. [Privacy instructions](/reference/source-privacy).
 
-## Do I need to install Python packages for the test sender?
+## What should I ask ChatGPT to return?
 
-No. The downloaded script runs with Python 3 standard-library modules. It asks for an authorized destination and explicit confirmation before transmitting.
+Follow the product prompt contract for **ParserRecipe v0.2 JSON**. The application checks it before using it. Arbitrary executable code is not a substitute.
 
-## Can I recover a previous mapping?
+## Where is the final download?
 
-Use **Local Versions** if the working copy was saved in your browser environment. Re-run validation after restoring a version.
+In **Create Parser**, after **Run Final Test & Create Files** succeeds. Generation and integrity checks must pass before verified files are available.
 
-## Where do I find the downloadable parser files?
+## Is it safe to share the downloaded Python test sender?
 
-Finish the four stages under Auto Parser and choose **Create Parser Files**. The companion files appear after generation and integrity verification succeed.
+Not automatically. The script includes your sample encoded as **base64**. Review or mask the content before sharing it. [Test sender guide](/scenarios/test-sender).
+
+## Can I return to an earlier parser attempt?
+
+Open **Local Versions** in the top toolbar if the version was saved in that browser. Restore it and re-run validation before final generation.
+
+## Does a green result guarantee all logs from that vendor will work?
+
+No. It describes the source sample and current checks. Try additional event types and variable values rather than extrapolating from one example.

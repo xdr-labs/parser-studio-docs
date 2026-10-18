@@ -1,49 +1,63 @@
 ---
-title: "Parser Studio User Guide"
-description: "Build, review and download custom log parsers with a guided workflow."
+title: "Parser Studio | Start with your logs"
+sidebarTitle: "Overview"
+description: "You do not need to know the log format. Copy, analyze, review, and create."
 ---
 
-# Parser Studio
+<div className="xdr-hero">
+  <p className="xdr-kicker">XDR Labs / Parser Studio</p>
+  <h1 className="xdr-hero-title">Paste a log. We’ll guide you from there.</h1>
+  <p className="xdr-hero-copy">
+    You do not need to know whether a log is CEF, LEEF, JSON, or something else. Copy a few events into Parser Studio, click Analyze Logs, and follow the results to your parser files.
+  </p>
+  <div className="xdr-hero-actions">
+    <a className="xdr-hero-primary" href="/quickstart">Create my first parser →</a>
+    <a className="xdr-hero-secondary" href="/choose-workflow">What if my logs need help?</a>
+  </div>
+  <div className="xdr-signal-grid">
+    <div className="xdr-signal"><strong>1. Paste</strong><span>Copy a few complete events from your product.</span></div>
+    <div className="xdr-signal"><strong>2. Analyze</strong><span>Find out which events and fields were recognized.</span></div>
+    <div className="xdr-signal"><strong>3. Create</strong><span>Review names, check the sample and download validated draft files.</span></div>
+  </div>
+</div>
 
-**Create a parser from representative security logs without writing parsing code.** Parser Studio analyzes source events, shows extracted fields, assists with normalization and produces reviewable parser files when the current sample passes its checks.
+## What should I do after Analyze Logs?
 
-## Start with the task you need
+You start the **same way in every case**: open **Auto Parser**, paste logs, and press **Analyze Logs**. The next step depends on what the result says.
 
-| Your goal | Where to go |
-| --- | --- |
-| Create your first parser from sample logs | [Quickstart](/quickstart) |
-| Let the application recognize the format | [Auto Parser](/workflows/auto-parser) |
-| Understand an unfamiliar or partly parsed log | [Unknown log scenario](/scenarios/unknown-log) |
-| Review field names for CSV data | [CSV with a field specification](/scenarios/csv-with-spec) |
-| Map fields to the Stellar Cyber naming catalog | [Field mapping](/workflows/map-fields) |
-| Work with ChatGPT by manual, privacy-reviewed copy/paste | [ChatGPT Assisted Parser](/workflows/chatgpt-assisted) |
-| Replay synthetic variants with a downloadable Python script | [Python test sender](/scenarios/test-sender) |
+<CardGroup cols={2}>
+  <Card title="Everything was parsed" icon="circle-check" href="/quickstart">
+    Continue to Review Fields → Map Fields → Create Parser. You do not need to change formats or write rules.
+  </Card>
+  <Card title="Some text needs attention" icon="triangle-exclamation" href="/scenarios/partial-event">
+    Select the flagged event, inspect the highlighted section, and use the recommended fix.
+  </Card>
+  <Card title="Parser Studio does not understand my logs" icon="comments" href="/workflows/chatgpt-assisted">
+    Use ChatGPT Assisted Parser, prepare a masked example, and review the suggested solution.
+  </Card>
+  <Card title="My product has several log types" icon="layer-group" href="/scenarios/mixed-events">
+    Paste representative examples of all types, review the event counts, and choose a combined or separate draft according to the supported result.
+  </Card>
+</CardGroup>
 
-## Two parser creation methods
+## The normal path
 
-### Auto Parser — use this first
+<div className="ps-flow"><span>Add Logs</span><b>→</b><span>Analyze Logs</span><b>→</b><span>Review Fields</span><b>→</b><span>Map Fields</span><b>→</b><span>Create Parser</span></div>
 
-Follow four visible stages:
+<figure className="ps-shot">
+  <img src="/images/02-analyzed-sample.png" alt="Auto Parser showing two of two security log events parsed completely and the Review Fields button" />
+  <figcaption>Actual Parser Studio screen using fictional logs. With 2 of 2 events parsed completely, the user can click Review Fields.</figcaption>
+</figure>
 
-1. **Add Logs:** paste or upload a small, representative sample, then choose **Analyze Logs**.
-2. **Review Fields:** examine individual events and confirm extracted field names and values.
-3. **Map Fields:** inspect suggested normalized destinations and correct mistakes.
-4. **Create Parser:** run the complete-sample checks and generate the downloadable files.
+## Pick an example that matches your situation
 
-[Follow the full Auto Parser guide](/workflows/auto-parser).
+<CardGroup cols={2}>
+  <Card title="My first five minutes" icon="rocket" href="/quickstart">Follow every click from pasted logs to the final file-creation screen.</Card>
+  <Card title="A red or yellow warning appears" icon="wrench" href="/scenarios/unknown-log">Find the exact unparsed text and the next action.</Card>
+  <Card title="My CSV data has no field names" icon="table" href="/scenarios/csv-with-spec">Preserve all columns and confirm their names.</Card>
+  <Card title="Multiple event shapes" icon="layers" href="/scenarios/mixed-events">Review whether one combined parser is supported.</Card>
+</CardGroup>
 
-### ChatGPT Assisted Parser — when you need help
-
-Use the separate **ChatGPT Assisted Parser** navigation item to prepare a masked example and an explicit prompt for ChatGPT. You manually transfer the prompt and copy the resulting structured recipe back into the product. Changes are validated before approval.
-
-[Read the ChatGPT workflow](/workflows/chatgpt-assisted).
-
-## What success means
-
-A successful creation produces a locally downloaded parser logic file and a companion configuration file, with integrity checks. It does **not** mean that every possible log from the same vendor has been recognized. Always test additional representative events, retain the original sample, and resolve any event marked as requiring review.
-
-## Recommended learning path
-
-Start with [a JSON firewall sample](/scenarios/first-firewall-json), learn [field normalization](/scenarios/normalization), then use the [scenario library](/scenarios/index) to practice with other record structures.
-
-No real customer logs are needed for the examples in this manual.
+<Note>
+  The examples use fictional logs, and the screenshots show the actual product UI. A complete sample review supports a draft for those records, not a guarantee for all unseen messages.
+</Note>

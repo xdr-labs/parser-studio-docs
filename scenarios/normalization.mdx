@@ -1,35 +1,39 @@
 ---
-title: "Scenario: correct field normalization"
-description: "Inspect candidate destinations and correct data-type or semantic conflicts."
+title: "The fields were found, but their output names are wrong"
+sidebarTitle: "Wrong Output Field"
+description: "How to change just the mapping rather than rewriting a working parser."
 ---
 
-# Review and correct normalized mappings
+# Parser Studio found the values, but mapped one incorrectly
 
-**Goal:** Keep source extraction intact while assigning accurate, consistent output field names.
+**Situation:** **Analyze Logs** succeeded. **Review Fields** shows the right source IP, user, action or port, but the field's final destination is incorrect.
 
-## Fictional sample
+## Fictional example
 
-~~~json
+```json
 {"action":"blocked","client_ip":"192.0.2.44","server_ip":"198.51.100.8","server_port":"443","device_build":"9.1-demo"}
 {"action":"allowed","client_ip":"192.0.2.45","server_ip":"198.51.100.9","server_port":"80","device_build":"9.1-demo"}
-~~~
+```
 
 ## Walkthrough
 
-1. Paste the two events in **Auto Parser**, analyze and continue to **Review Fields**.
-2. Confirm the source values for action, client_ip, server_ip, server_port and device_build.
-3. Select **Map Fields**. Search for appropriate destinations in the Stellar field catalog.
-4. Treat the labels “client” and “server” as source semantics until the target catalog provides an exact compatible definition; do not equate them automatically with source/destination roles.
-5. If a network-port destination is supported, select the port value type and confirm that numeric text is handled according to the displayed rules.
-6. Keep device_build in the vendor/custom group if no supported catalog field exists.
-7. Correct any collision or unsupported target and re-run the complete sample test.
+1. In **Auto Parser**, paste the logs and select **Analyze Logs**.
+2. If analysis is complete, choose **Review Fields**. Confirm that the correct source values were extracted.
+3. Choose **Map Fields**.
+4. Under **Review field matches**, identify the source field whose destination is wrong.
+5. Use **Choose Stellar field** to review a suitable supported destination, and **Value type** to choose the matching type.
+6. For unclear vendor-only information such as `device_build`, keep a custom/vendor field rather than inventing an official meaning.
+7. Open **Check all sample logs** and **See what will change** to inspect the corrected result.
+8. If **Must fix before continuing = 0**, click **Create Parser**.
+
+<figure className="ps-shot"><img src="/images/04-map-fields.png" alt="Map Fields UI with matched destinations, value types and sample checks" /><figcaption>This is the normal place to correct a destination or type. The original log text remains unchanged.</figcaption></figure>
 
 ## Expected review outcome
 
-Every source value has at most one intended meaning, destinations do not conflict, and each chosen type is compatible with all tested values.
+The output destination matches the actual meaning of the source value on all tested events. Corrected mappings do not erase the original extracted data.
 
 ## Recovery path
 
-If a catalog field is marked as system-managed, unverified or type-incompatible, choose another supported mapping or retain the original field in the vendor group. Never hide a blocking finding by renaming a value to an unrelated destination.
+If a mapping reports **two fields use the same destination**, **value type mismatch** or **reserved field**, follow the on-screen finding. If you cannot determine the meaning, keep the source under a neutral vendor field until verified.
 
-**Read next:** [Map Fields](/workflows/map-fields).
+**Next:** [Mapping explanation](/workflows/map-fields).

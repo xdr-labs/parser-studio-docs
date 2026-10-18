@@ -1,40 +1,44 @@
 ---
-title: "Source data and privacy"
-description: "Control local log analysis, manually shared examples and standalone scripts."
+sidebarTitle: "Protect Sensitive Logs"
+title: "What happens to the logs I paste?"
+description: "Keep local source examples and manually reviewed ChatGPT prompts separate."
 ---
 
-# Source data and privacy
+# What happens to the logs I paste?
 
-Security event logs may contain accounts, hostnames, addresses, email addresses, session identifiers or other confidential data. Prefer synthetic examples or an explicitly approved masked sample.
+Security event logs may contain usernames, hostnames, addresses, email addresses, request paths or secrets. Choose fictional examples while learning and review private data carefully during real authoring.
 
-## Default browser workflow
+## When you click Analyze Logs
 
-Normal source inspection and parsing previews use local browser data. The supported authoring flow can request **capability or schema metadata** from a same-origin service; it does not require automatically transferring original log text to an external AI service.
+**Auto Parser** examines the pasted or uploaded sample using the local analysis workflow. Ordinary analysis is not an automatic external ChatGPT request. The product may request same-origin service capabilities or analysis, depending on the selected operation.
 
-Check the visible control before any export, copy or manual disclosure.
+Do not assume that a displayed source is suitable for public sharing. Treat pasted customer logs as sensitive.
 
-## ChatGPT-assisted workflow
+## When you use ChatGPT Assisted Parser
 
-You control the prompt contents:
+There are **two separate places** on that screen:
 
-1. Keep the original logs in the local analysis area.
-2. Review the prefilled fictional example or replace it with an independently masked example.
-3. Confirm exactly which example is shareable.
-4. Read the generated prompt **before** copying.
-5. Paste the prompt into ChatGPT manually, only if you intend to share that content.
+- **Original local logs**: source events kept for local analysis and checking.
+- **Redacted example to copy to ChatGPT**: the visible example you may choose to share manually.
 
-A redacted example can still leak details through text you leave unchanged. Review names, URLs, record IDs, user fields, emails, source fragments and unique tokens.
+1. Inspect the redacted example. A prefilled fictional example does **not** guarantee that the content you add is safe.
+2. Remove or replace confidential identifiers.
+3. Click **Prepare ChatGPT Prompt** and read the entire resulting text.
+4. Click **Copy Prompt** only if you intend to share what is visible.
+5. Open ChatGPT yourself and paste the prompt.
 
-## Downloaded test scripts
+No automatic external model request is performed by this workflow. An inline **Fix with ChatGPT** prompt can contain original source fragments—**redact it before copying**, too.
 
-The downloadable Python utility embeds the submitted sample as base64. This is an encoding, **not confidentiality protection**. Anybody with access to the file can recover the original sample. The script's transformations are intended for test variation, **not guaranteed irreversible anonymization**.
+## When you download the Python test sender
 
-## Source hygiene checklist
+The standalone Python file contains the sample logs encoded as **base64, not encryption**. Someone with the file may decode the values. Supported fields can be varied for testing, but not all sensitive values are necessarily transformed.
 
-- Remove secrets, credentials, authorization headers and unique personal identifiers.
-- Replace real addresses with documentation networks such as 192.0.2.0/24, 198.51.100.0/24 and 203.0.113.0/24.
-- Use example.test for fictional email domains and generic account names.
-- Keep local source history only as long as necessary.
-- Inspect files and clipboard contents before sharing them outside your controlled environment.
+## Safe practice examples
 
-For a complete guided example, see [ChatGPT Assisted Parser](/workflows/chatgpt-assisted).
+Use documentation-only addresses such as `192.0.2.10`, `198.51.100.20`, and `203.0.113.30`; use a fictional user like `demo-user` and email under `example.test`.
+
+## When you save Local Versions
+
+Saved working versions belong to the current browser environment. They are not a shared backup. Review who has access to that browser and keep an independent copy of important approved outputs.
+
+[Full ChatGPT workflow](/workflows/chatgpt-assisted) · [Test sender](/scenarios/test-sender).
