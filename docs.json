@@ -1,0 +1,83 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Parser Studio",
+  "description": "User guides and practical scenario playbooks for reviewing security logs, mapping fields, and creating parser drafts.",
+  "colors": {
+    "primary": "#1F59E0",
+    "light": "#2982E8",
+    "dark": "#5B8CFF"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Start Here",
+        "pages": [
+          "index",
+          "quickstart",
+          "choose-workflow"
+        ]
+      },
+      {
+        "group": "Auto Parser",
+        "pages": [
+          "workflows/auto-parser",
+          "workflows/review-fields",
+          "workflows/map-fields",
+          "workflows/create-and-download"
+        ]
+      },
+      {
+        "group": "ChatGPT Assisted Parser",
+        "pages": [
+          "workflows/chatgpt-assisted",
+          "workflows/holdout-validation"
+        ]
+      },
+      {
+        "group": "Scenario Playbooks",
+        "pages": [
+          "scenarios/index",
+          "scenarios/first-firewall-json",
+          "scenarios/syslog-kv",
+          "scenarios/cef-leef",
+          "scenarios/csv-with-spec",
+          "scenarios/panos-positional",
+          "scenarios/unknown-log",
+          "scenarios/mixed-events",
+          "scenarios/multiline-java",
+          "scenarios/normalization",
+          "scenarios/recipe-ai",
+          "scenarios/test-sender",
+          "scenarios/revisions"
+        ]
+      },
+      {
+        "group": "Reference",
+        "pages": [
+          "reference/supported-formats",
+          "reference/output-artifacts",
+          "reference/source-privacy",
+          "reference/troubleshooting",
+          "reference/glossary",
+          "reference/faq"
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "type": "github",
+        "href": "https://github.com/xdr-labs/parser-studio"
+      }
+    ]
+  },
+  "search": {
+    "prompt": "Search Parser Studio user guides..."
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  }
+}
