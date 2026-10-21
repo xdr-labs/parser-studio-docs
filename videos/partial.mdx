@@ -15,15 +15,42 @@ English narration and permanently visible English captions accompany this record
 
 [Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/narration-en.md)
 
-## Walkthrough
+## Practice along with the video
 
-1. Paste two long original Sophos Firewall source records and click Analyze Logs.
-2. Inspect the highlighted regions that prevent complete source extraction.
-3. Expand Values already found to examine fields that must remain unchanged.
-4. Open Tools & Diagnostics and choose Re-analyze difficult logs.
-5. Select Review unparsed text when the exact residual range is available.
-6. Use Fix with ChatGPT to prepare a focused additional parsing rule and redact any sensitive data before copying.
-7. Test a proposed rule against different events; do not export until all blocking errors are resolved.
+Keep this page open to pause or replay the demonstration while working in a second tab.
+
+**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
+
+- [Download the complex original Sophos Firewall logs](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/02-sophos-xg.log)
+
+**Use the source files above exactly as shown in the video.** Each file contains the public documented sample events used during the recording, with source attribution and SHA-256 checksums in the ZIP bundle.
+
+### Follow the on-screen steps
+
+1. Open Auto Parser in another tab. Enter Manufacturer: Sophos and Product: XG Firewall.
+2. Open the sample file and paste both original long firewall records into Add Logs. Keep their wording, unusual separators and empty values intact.
+3. Click Analyze Logs. Open Problem to review and expand Values already found: some fields are valid while the remaining source spans still require review.
+4. Open Tools & Diagnostics, select Re-analyze difficult logs, and choose Review unparsed text if the exact residual source region is available.
+5. Select Fix with ChatGPT to prepare a focused reviewed prompt. Only use a manually redacted, user-approved excerpt with external ChatGPT.
+6. Do not claim success or download a parser while blocking residuals remain. Any additional rule must be tested on different events before explicit approval.
+
+**Expected sample result:** 0 of 2 log events parsed completely (but many original field values extracted).
+
+### Video chapter timestamps
+
+| Timestamp | What to follow |
+|---|---|
+| 00:28 | Paste the original logs |
+| 00:38 | Analyze Logs |
+| 00:56 | Inspect source text not yet parsed |
+| 01:04 | Review preserved fields |
+| 01:14 | Open Tools & Diagnostics |
+| 01:23 | Re-analyze difficult logs |
+| 01:30 | Select unresolved text |
+| 01:38 | Fix with ChatGPT |
+| 02:04 | Understand the stop condition |
+
+*The chapter times are approximate seek positions in the narrated demonstration. Pause playback to follow the corresponding controls.*
 
 ## Expected review outcome
 
