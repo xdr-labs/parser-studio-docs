@@ -27,6 +27,122 @@ Keep this page open to pause or replay the demonstration while working in a seco
 
 **Use the source files above exactly as shown in the video.** Each file contains the public documented sample events used during the recording, with source attribution and SHA-256 checksums in the ZIP bundle.
 
+{/* PARSER-STUDIO-EXACT-SAMPLE-START */}
+
+### Copy the exact logs used in the video
+
+Use the **copy icon** on each code block, then paste the entire content into Parser Studio. Each line is one unmodified event from the published source. Do not omit difficult events or replace values to force a passing result.
+
+#### Original Snort 3 alert_fast event — paste this one line into Add Logs
+
+**Exact source:** 225 bytes · **File:** `03-snort-alert.log` · Keep both lines when the file has two events.
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
+#### Two independent Snort alerts — paste these ONLY into Additional test logs
+
+**Exact source:** 342 bytes · **File:** `03-snort-holdout.log` · Keep both lines when the file has two events.
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
+
+#### Optional: the reviewed demonstration ParserRecipe JSON
+
+This JSON is an **educational proposal, not an automatically trusted AI answer**. Analyze the one original event first, test this proposal with two independent alerts, and approve the tested change explicitly.
+
+Download the same reviewed JSON: [03-snort-reviewed-recipe.json](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-reviewed-recipe.json).
+
+```json
+{
+  "contract": "parser-studio.recipe.v0.2",
+  "schemaRevision": "0.2",
+  "compilerMode": "REVIEW_ONLY",
+  "projectId": "draft-snort_snort_3",
+  "sourceFormat": "regex",
+  "bodyFormat": "regex",
+  "sample": {
+    "sha256": "a3e78f6e4660338664eae29c4be53f5714eebfb2f0d38f84ba1aad0224226cc4",
+    "events": 1
+  },
+  "stages": [
+    {
+      "op": "split_event",
+      "boundary": "single-line"
+    },
+    {
+      "op": "parse_regex",
+      "pattern": "^(?<raw_event>.*?(?:\\[Classification: (?<classification>[^\\]]+)\\] )?\\[Priority: (?<priority>\\d+)\\](?: \\[AppID: (?<appid>[^\\]]+)\\])? \\{(?<protocol>\\w+)\\} (?<srcendpoint>[\\d.]+:\\d+) -> (?<dstendpoint>[\\d.]+:\\d+))$"
+    },
+    {
+      "op": "map_field",
+      "source": "raw_event",
+      "target": "raw_event",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "classification",
+      "target": "classification",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "priority",
+      "target": "priority",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "appid",
+      "target": "appid",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "protocol",
+      "target": "protocol",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "srcendpoint",
+      "target": "srcendpoint",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "dstendpoint",
+      "target": "dstendpoint",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "classify",
+      "defaultIndex": "syslog",
+      "rules": []
+    },
+    {
+      "op": "fallback_unparsed",
+      "mode": "retain_unparsed"
+    }
+  ],
+  "nativeVerified": false,
+  "targetVerified": false
+}
+```
+
+{/* PARSER-STUDIO-EXACT-SAMPLE-END */}
+
 ### Follow the on-screen steps
 
 1. Open Auto Parser in another tab. Enter Manufacturer: Snort and Product: Snort 3.

@@ -1,0 +1,30 @@
+{
+  "01-juniper-srx.log": {
+    "sha256": "51d892ff0b8924be7f5b5e73f4c5c1c7ac8830be655d431ff9153c8bf5d4d052",
+    "size_bytes": 1510
+  },
+  "02-sophos-xg.log": {
+    "sha256": "356a4fdd8f08b39b6beca04e6c9a2d2d9c1c7636f14da659886fc677eef6535b",
+    "size_bytes": 1821
+  },
+  "03-snort-alert.log": {
+    "sha256": "a3e78f6e4660338664eae29c4be53f5714eebfb2f0d38f84ba1aad0224226cc4",
+    "size_bytes": 225
+  },
+  "03-snort-holdout.log": {
+    "sha256": "aec64f2199386f16108196cdd134d974b745edc5bafa69f600b3a2ac640f0cc0",
+    "size_bytes": 342
+  },
+  "03-snort-reviewed-recipe.json": {
+    "sha256": "e2b1df4cea8ddd401155769c4e95428e068d9ba68a5a91a2966b9af8942ce0f7",
+    "size_bytes": 2007
+  },
+  "04-fortigate-traffic.log": {
+    "sha256": "009bfe0d8054435c76d602caee7903ffdc066d908d34e4199739b1c73a39a187",
+    "size_bytes": 1745
+  },
+  "04-fortigate-threat.log": {
+    "sha256": "22d634527f1758e8244413bf7a82478f3a992043f92be44647c96737a1c68c38",
+    "size_bytes": 1373
+  }
+}

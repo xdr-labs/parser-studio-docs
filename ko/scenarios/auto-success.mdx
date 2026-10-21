@@ -12,6 +12,25 @@ description: "완전 파싱된 원본 이벤트를 검토하고 파일 생성까
 
 [Juniper SRX 원본 로그 다운로드](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/01-juniper-srx.log) · [실제 화면 교육 영상](/ko/videos/complete)
 
+{/* PARSER-STUDIO-EXACT-SAMPLE-START */}
+
+### 영상과 동일한 로그 원본 직접 복사
+
+각 코드 블록의 **복사 아이콘**으로 모든 내용을 복사한 다음 Parser Studio에 붙여 넣으세요. 각 줄은 하나의 원본 이벤트이며 영상과 같은 결과를 재현하기 위해 수정하지 마세요.
+
+[전체 화면 영상 및 다운로드 자료](/ko/videos/complete).
+
+#### Juniper SRX 원본 2건 — Add Logs에 붙여 넣기
+
+**원본 크기:** 1510 bytes · **파일명:** `01-juniper-srx.log` · 영상과 같은 이벤트 줄 수를 유지합니다.
+
+```text
+<14>1 2019-11-14T09:37:51.184+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_CREATE [junos@67.43.156.15 source-address="10.0.0.1" source-port="594" destination-address="67.43.156.13" destination-port="10400" connection-tag="0" service-name="icmp" nat-source-address="10.0.0.1" nat-source-port="594" nat-destination-address="67.43.156.13" nat-destination-port="10400" nat-connection-tag="0" src-nat-rule-type="N/A" src-nat-rule-name="N/A" dst-nat-rule-type="N/A" dst-nat-rule-name="N/A" protocol-id="1" policy-name="vpn_trust_permit-all" source-zone-name="vpn" destination-zone-name="trust" session-id-32="6093" username="N/A" roles="N/A" packet-incoming-interface="st0.0" application="UNKNOWN" nested-application="UNKNOWN" encrypted="UNKNOWN" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+<14>1 2019-11-14T11:12:46.573+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_DENY [junos@67.43.156.15 source-address="10.0.0.26" source-port="37233" destination-address="67.43.156.13" destination-port="161" connection-tag="0" service-name="None" protocol-id="17" icmp-type="0" policy-name="MgmtAccess-trust-cleanup" source-zone-name="trust" destination-zone-name="junos-host" application="UNKNOWN" nested-application="UNKNOWN" username="N/A" roles="N/A" packet-incoming-interface=".local..0" encrypted="No" reason="Denied by policy" session-id-32="7087" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+```
+
+{/* PARSER-STUDIO-EXACT-SAMPLE-END */}
+
 ## 따라 하기
 
 1. **Auto Parser**에서 Manufacturer는 Juniper, Product는 SRX를 입력하고 원본 두 이벤트를 넣습니다.

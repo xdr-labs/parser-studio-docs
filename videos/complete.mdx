@@ -25,6 +25,23 @@ Keep this page open to pause or replay the demonstration while working in a seco
 
 **Use the source files above exactly as shown in the video.** Each file contains the public documented sample events used during the recording, with source attribution and SHA-256 checksums in the ZIP bundle.
 
+{/* PARSER-STUDIO-EXACT-SAMPLE-START */}
+
+### Copy the exact logs used in the video
+
+Use the **copy icon** on each code block, then paste the entire content into Parser Studio. Each line is one unmodified event from the published source. Do not omit difficult events or replace values to force a passing result.
+
+#### Copy the two original Juniper SRX RT_FLOW events into Add Logs
+
+**Exact source:** 1510 bytes · **File:** `01-juniper-srx.log` · Keep both lines when the file has two events.
+
+```text
+<14>1 2019-11-14T09:37:51.184+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_CREATE [junos@67.43.156.15 source-address="10.0.0.1" source-port="594" destination-address="67.43.156.13" destination-port="10400" connection-tag="0" service-name="icmp" nat-source-address="10.0.0.1" nat-source-port="594" nat-destination-address="67.43.156.13" nat-destination-port="10400" nat-connection-tag="0" src-nat-rule-type="N/A" src-nat-rule-name="N/A" dst-nat-rule-type="N/A" dst-nat-rule-name="N/A" protocol-id="1" policy-name="vpn_trust_permit-all" source-zone-name="vpn" destination-zone-name="trust" session-id-32="6093" username="N/A" roles="N/A" packet-incoming-interface="st0.0" application="UNKNOWN" nested-application="UNKNOWN" encrypted="UNKNOWN" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+<14>1 2019-11-14T11:12:46.573+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_DENY [junos@67.43.156.15 source-address="10.0.0.26" source-port="37233" destination-address="67.43.156.13" destination-port="161" connection-tag="0" service-name="None" protocol-id="17" icmp-type="0" policy-name="MgmtAccess-trust-cleanup" source-zone-name="trust" destination-zone-name="junos-host" application="UNKNOWN" nested-application="UNKNOWN" username="N/A" roles="N/A" packet-incoming-interface=".local..0" encrypted="No" reason="Denied by policy" session-id-32="7087" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+```
+
+{/* PARSER-STUDIO-EXACT-SAMPLE-END */}
+
 ### Follow the on-screen steps
 
 1. Open Auto Parser in a second tab and enter Manufacturer: Juniper and Product: SRX. Use the same sample file as in the recording.
