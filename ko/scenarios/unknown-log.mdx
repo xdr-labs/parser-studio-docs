@@ -12,6 +12,124 @@ description: "원본 이벤트의 미파싱 영역을 보존하고 ChatGPT Assis
 
 [Snort 3 alert_fast 원본 로그](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-alert.log) · [ChatGPT 복구 영상](/ko/videos/unknown)
 
+{/* PARSER-STUDIO-EXACT-SAMPLE-START */}
+
+### 영상과 동일한 로그 원본 직접 복사
+
+각 코드 블록의 **복사 아이콘**으로 모든 내용을 복사한 다음 Parser Studio에 붙여 넣으세요. 각 줄은 하나의 원본 이벤트이며 영상과 같은 결과를 재현하기 위해 수정하지 마세요.
+
+[전체 화면 영상 및 다운로드 자료](/ko/videos/unknown).
+
+#### Snort 3 원본 alert_fast 1건 — Add Logs에 붙여 넣기
+
+**원본 크기:** 225 bytes · **파일명:** `03-snort-alert.log` · 영상과 같은 이벤트 줄 수를 유지합니다.
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
+#### Snort 추가 검증 2건 — Add Logs가 아닌 Additional test logs에 붙여 넣기
+
+**원본 크기:** 342 bytes · **파일명:** `03-snort-holdout.log` · 영상과 같은 이벤트 줄 수를 유지합니다.
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
+
+#### 선택: 영상에서 사용한 검토용 ParserRecipe JSON
+
+이 JSON은 **교육용 규칙 제안**이며 자동으로 신뢰하거나 적용해서는 안 됩니다. 원본 이벤트 한 건으로 분석한 다음 별도 로그 2건으로 테스트하고 명시적으로 승인하세요.
+
+검토용 JSON 파일 다운로드: [03-snort-reviewed-recipe.json](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-reviewed-recipe.json).
+
+```json
+{
+  "contract": "parser-studio.recipe.v0.2",
+  "schemaRevision": "0.2",
+  "compilerMode": "REVIEW_ONLY",
+  "projectId": "draft-snort_snort_3",
+  "sourceFormat": "regex",
+  "bodyFormat": "regex",
+  "sample": {
+    "sha256": "a3e78f6e4660338664eae29c4be53f5714eebfb2f0d38f84ba1aad0224226cc4",
+    "events": 1
+  },
+  "stages": [
+    {
+      "op": "split_event",
+      "boundary": "single-line"
+    },
+    {
+      "op": "parse_regex",
+      "pattern": "^(?<raw_event>.*?(?:\\[Classification: (?<classification>[^\\]]+)\\] )?\\[Priority: (?<priority>\\d+)\\](?: \\[AppID: (?<appid>[^\\]]+)\\])? \\{(?<protocol>\\w+)\\} (?<srcendpoint>[\\d.]+:\\d+) -> (?<dstendpoint>[\\d.]+:\\d+))$"
+    },
+    {
+      "op": "map_field",
+      "source": "raw_event",
+      "target": "raw_event",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "classification",
+      "target": "classification",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "priority",
+      "target": "priority",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "appid",
+      "target": "appid",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "protocol",
+      "target": "protocol",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "srcendpoint",
+      "target": "srcendpoint",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "map_field",
+      "source": "dstendpoint",
+      "target": "dstendpoint",
+      "group": "vendor_fields",
+      "data_type": "string"
+    },
+    {
+      "op": "classify",
+      "defaultIndex": "syslog",
+      "rules": []
+    },
+    {
+      "op": "fallback_unparsed",
+      "mode": "retain_unparsed"
+    }
+  ],
+  "nativeVerified": false,
+  "targetVerified": false
+}
+```
+
+{/* PARSER-STUDIO-EXACT-SAMPLE-END */}
+
 ## 따라 하기
 
 1. **Auto Parser**에 원본 Snort 로그를 넣고 **Analyze Logs**를 누릅니다.
