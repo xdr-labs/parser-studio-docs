@@ -1,0 +1,47 @@
+---
+title: "Unrecognized Snort Alert: ChatGPT-Assisted Recovery"
+sidebarTitle: "03 \u00b7 Unrecognized Snort Alert"
+description: "Use a reviewed bounded parser recipe with independent documented alert examples."
+---
+
+# Unrecognized Snort Alert: ChatGPT-Assisted Recovery
+
+English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/scenario-english.mp4" type="video/mp4" />
+  Your browser does not support native video playback.
+</video>
+
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/narration-en.md)
+
+## Walkthrough
+
+1. Paste the documented Snort 3 alert_fast example and run Auto Parser.
+2. Inspect unrecognized source regions and the values already found.
+3. Choose Fix with ChatGPT and manually review the repair prompt.
+4. Paste a bounded ParserRecipe JSON proposal that preserves the raw event and recognized fields.
+5. Provide two different published Snort examples, confirm they are independent, and run Test Proposed Fix.
+6. Approve a passing result explicitly before continuing to Review Fields and Map Fields.
+7. Run the final sample test and download the supported package.
+
+## Expected review outcome
+
+The original Snort alert_fast sample is not fully parsed at first. A bounded, reviewed parser proposal passes a two-example independent holdout check and the final sample test.
+
+Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
+
+## Recovery path
+
+For a different log shape, keep the original records and examine the highlighted source spans, following the [related workflow](/scenarios/unknown-log). Only apply additional parsing rules after different examples pass a separate regression test. Never delete failing events merely to obtain a passing total.
+
+## Original log provenance
+
+- [Official Snort 3 Rule Writing Guide: Alert Logging](https://docs.snort.org/start/alert_logging)
+- [Public Snort fast-alert test example](https://www.simplified.guide/snort/alert-log-view)
+
+<Note>
+Customer logs may include private information. Review, sanitize and manually approve any excerpt before copying it into an external ChatGPT conversation. The Auto Parser does not automatically share those logs.
+</Note>
+
+[All video tutorials](/videos/index) · [Launch Parser Studio](https://app.parser.xdr.ooo/)

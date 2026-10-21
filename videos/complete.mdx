@@ -1,0 +1,45 @@
+---
+title: "Complete Parsing: Real Juniper SRX Logs"
+sidebarTitle: "01 \u00b7 Complete Parsing"
+description: "Watch a complete source-to-parser workflow using published Juniper SRX RT_FLOW events."
+---
+
+# Complete Parsing: Real Juniper SRX Logs
+
+English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/scenario-english.mp4" type="video/mp4" />
+  Your browser does not support native video playback.
+</video>
+
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/01-juniper-srx-complete/narration-en.md)
+
+## Walkthrough
+
+1. Open Auto Parser and enter Juniper / SRX as the source product.
+2. Paste two RT_FLOW records from the upstream Juniper SRX test corpus.
+3. Choose Analyze Logs and verify that both source events parse completely.
+4. Under Review Fields, confirm source and destination addresses, protocol, policy and session ID.
+5. Review suggested Stellar Cyber 7.0 dictionary mapping in Map Fields.
+6. Run the final test and download the reviewed parser package.
+
+## Expected review outcome
+
+Both publicly available Juniper SRX events parse completely; final sample validation and parser package download succeed.
+
+Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
+
+## Recovery path
+
+For a different log shape, keep the original records and examine the highlighted source spans, following the [related workflow](/scenarios/auto-success). Only apply additional parsing rules after different examples pass a separate regression test. Never delete failing events merely to obtain a passing total.
+
+## Original log provenance
+
+- [Elastic integrations: Juniper SRX upstream test fixtures](https://github.com/elastic/integrations/tree/ee918d03f4a90dacd32673546c64a633308796ef/packages/juniper_srx/data_stream/log/_dev/test/pipeline)
+
+<Note>
+Customer logs may include private information. Review, sanitize and manually approve any excerpt before copying it into an external ChatGPT conversation. The Auto Parser does not automatically share those logs.
+</Note>
+
+[All video tutorials](/videos/index) · [Launch Parser Studio](https://app.parser.xdr.ooo/)

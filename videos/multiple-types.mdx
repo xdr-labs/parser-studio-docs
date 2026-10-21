@@ -1,0 +1,48 @@
+---
+title: "Multiple Event Types: Real FortiGate Traffic and Threat Logs"
+sidebarTitle: "04 \u00b7 Multiple Event Types"
+description: "Create and test a single parser project using official FortiGate Traffic, Web Filter and IPS records."
+---
+
+# Multiple Event Types: Real FortiGate Traffic and Threat Logs
+
+English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
+  Your browser does not support native video playback.
+</video>
+
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/narration-en.md)
+
+## Walkthrough
+
+1. Identify Fortinet / FortiGate as the source product and select Add Another Log Type.
+2. Create Traffic and Threat source groups.
+3. Paste two manufacturer-published traffic records and the web-filter and IPS samples.
+4. Choose Analyze Logs and confirm that all four source events parse completely.
+5. Review the Traffic and Threat field differences; the documented corresponding traffic and web-filter records share session ID 381780.
+6. Inspect type and subtype values; do not invent unverified conditional routing rules.
+7. Review Stellar Cyber 7.0 mappings and run the final four-event test before download.
+
+## Expected review outcome
+
+Four original Fortinet documentation log examples parse completely in one project. The final four-event test and package generation pass.
+
+Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
+
+## Recovery path
+
+For a different log shape, keep the original records and examine the highlighted source spans, following the [related workflow](/scenarios/mixed-events). Only apply additional parsing rules after different examples pass a separate regression test. Never delete failing events merely to obtain a passing total.
+
+## Original log provenance
+
+- [Fortinet Document Library: Sample logs by log type](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type)
+
+The published traffic and web-filter records share a session ID. These example logs are not claimed to be from a physical appliance independently inspected in this video.
+
+<Note>
+Customer logs may include private information. Review, sanitize and manually approve any excerpt before copying it into an external ChatGPT conversation. The Auto Parser does not automatically share those logs.
+</Note>
+
+[All video tutorials](/videos/index) · [Launch Parser Studio](https://app.parser.xdr.ooo/)

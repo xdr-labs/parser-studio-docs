@@ -46,6 +46,7 @@
 
 - [Start here](index.mdx)
 - [Quickstart with screenshots](quickstart.mdx)
+- [English video tutorials using documented real security logs](videos/index.mdx)
 - [Choose what to do after Analyze Logs](choose-workflow.mdx)
 - [Auto Parser](workflows/auto-parser.mdx)
 - [Review Fields](workflows/review-fields.mdx)
