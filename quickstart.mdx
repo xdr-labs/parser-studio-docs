@@ -14,11 +14,11 @@ description: "A click-by-click walkthrough for somebody who has never used a log
 
 Open Parser Studio and choose **Auto Parser** in the left menu. You should see these four stages at the top: **Add Logs**, **Review Fields**, **Map Fields**, and **Create Parser**.
 
-![Default Auto Parser screen with four guided stages and an empty log input](/images/01-auto-parser-start.png)
+![Default Auto Parser screen with four guided stages and an empty log input](/images/current-01-auto-parser-start.png)
 
 *Start in Auto Parser. Leave Tools & Diagnostics closed until the application asks you to investigate a problem.*
 
-The **Manufacturer**, **Product**, and optional **Version** boxes identify the parser you are creating. You can start analyzing first; enter the source product identity before generating files.
+Enter **Manufacturer** and **Product** before generating. **Version** is optional if known. The generated CONF listener uses **Parser listener port (.conf)**, which defaults to **6801**. No live system is configured by merely downloading parser files.
 
 ## Step 2 — Paste the logs and analyze
 
@@ -33,7 +33,7 @@ Click the orange **Analyze Logs** button. **Do not select JSON, CEF, LEEF, or a 
 
 If you see **2 of 2 log events parsed completely**, click **Review Fields**. If the count is incomplete, follow [what to do with a warning](/scenarios/unknown-log) first.
 
-![Two log events completely parsed after clicking Analyze Logs](/images/02-analyzed-sample.png)
+![Two log events completely parsed after clicking Analyze Logs](/images/current-02-completely-parsed.png)
 
 *Notice the green result and the orange Review Fields button below it.*
 
@@ -45,7 +45,7 @@ Check the three areas: **Original log**, **Fields Parser Studio found**, and **C
 
 If the extraction is correct, click **Map Fields** at the bottom. You do not need to repair a passing event.
 
-![Review Fields screen showing original log, extracted values and output preview](/images/03-review-fields.png)
+![Review Fields screen showing original log, extracted values and output preview](/images/current-03-review-fields.png)
 
 *Compare original text with the extracted value, not only the status badge.*
 
@@ -55,7 +55,7 @@ On **Map Fields**, confirm that the address, action, port, and timestamp go to t
 
 Check **Must fix before continuing**. If it shows **0** and the sample values make sense, click **Create Parser**.
 
-![Map Fields screen with candidate normalized fields, examples and mapping checks](/images/04-map-fields.png)
+![Map Fields screen with candidate normalized fields, examples and mapping checks](/images/current-04-stellar7-mapping.png)
 
 *The mapping review is where you verify field meanings. You do not need to edit a correct suggestion.*
 
@@ -65,14 +65,18 @@ On the **Create Parser** screen:
 
 1. Confirm that **Need fixing** is **0**.
 2. Choose **Run Final Test & Create Files**.
-3. When the file generator completes its checks, download the **Ruby parser logic** and the companion **CONF** file; use the package option if available.
+3. When the file generator completes its checks, download **Download parser logic** and **Download listener configuration** individually, or **Download Parser Package** for the ZIP.
 4. Keep the files together with the sample and your reviewed mappings.
 
-![Final Create Parser screen with Run Final Test and Create Files button](/images/05-create-parser.png)
+![Final Create Parser screen with Run Final Test and Create Files button](/images/current-06-parser-download.png)
 
-*This screenshot shows the final pre-generation screen, not a claim that a download has already succeeded. File controls appear only after the backend accepts the reviewed draft.*
+*This current screen capture shows the file-creation success and download options for the demonstrated sample. It does not show an installation.*
 
 If the final test is blocked, **do not skip the warning**. Return to Review Fields or Map Fields and correct the reason shown on screen. If the file-generation service is unavailable, the analysis result is still useful, but no files have been generated.
+
+## Additional tools
+
+Use [Local Versions](/workflows/local-versions) to save/compare mapping experiments. See [Parser setup](/workflows/parser-setup) for port 6801 and explicit forwarding marks. Use [the real-log video library](/videos/index) for practical downloadable examples.
 
 ## Which guide comes next?
 

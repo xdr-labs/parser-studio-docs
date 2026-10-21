@@ -13,7 +13,7 @@ Canonical Engineering System: https://github.com/datarelay-labs/engineering-syst
 
 Only the Parser Studio user manual, how-to workflows and practical usage scenarios belong in this repository. Do not edit application repositories or unrelated documentation.
 
-- All document content, UI references and examples must be in **English**.
+- Preserve English on the original site routes. Author requested (2026-10-21) complete Korean localized user docs under ko/ with Korean explanations; keep exact English product UI labels, code, raw log data and serialized fields unchanged.
 - A playbook includes prerequisites or a sample, exact UI steps, expected observed behavior and recovery guidance.
 - Preserve factual scope: do not claim completeness for unseen vendor logs based on one sample.
 - Use reserved documentation addresses, fictional identities and neutral sample data.

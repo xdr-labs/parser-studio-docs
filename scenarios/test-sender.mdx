@@ -43,3 +43,11 @@ You have a self-contained Python file based on your sample; when you run it, it 
 If the receiver shows no events, check the entered address, port, mode and receiving application first. If the sample is confidential, do not share the generated file: base64 is recoverable text.
 
 **Next:** [Source privacy](/reference/source-privacy).
+
+## Current downloaded sender behavior
+
+The generated Python 3 script uses the standard library, prompts for a sensor IP, destination port, UDP/TCP, and event count, and sends **at most one event per second**. Defaults are **60 events**; transmission requires explicit **YES** confirmation and can be stopped by Ctrl-C.
+
+The .py file includes base64-encoded sample logs (**not encrypted**). Unknown source values may remain unchanged. The browser does not install parser files, send test traffic, or check sensor reception.
+
+![Current Python sender generation tool](/images/current-11-python-sender.png)

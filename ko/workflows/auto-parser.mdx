@@ -1,0 +1,34 @@
+---
+title: "Auto Parser 사용법"
+sidebarTitle: "자동 파서"
+description: "원본 로그 입력부터 구조 자동 분석과 결과별 복구 안내."
+---
+
+# Auto Parser: 로그를 입력하면 다음 작업이 안내됩니다
+
+Auto Parser는 보안 로그의 구조를 자동 탐색합니다. 사용자는 제조사 로그가 JSON·CEF·LEEF·CSV·Syslog·KV인지 미리 구분하지 않아도 됩니다.
+
+## 실제 UI의 순서
+
+1. **Add Logs**: Manufacturer, Product, 필요한 경우 Version과 CONF 수신 포트를 입력합니다. 원본 로그를 붙여 넣거나 업로드합니다.
+2. **Analyze Logs**: 인식된 필드, 이벤트 수, 오류 위치와 권고 동작을 확인합니다.
+3. **Review Fields**: Original log / Fields Parser Studio found / Current output preview의 값을 비교합니다.
+4. **Map Fields**: Stellar Cyber 7.0 Dictionary와 자료형 매핑을 검증합니다.
+5. **Create Parser**: Run Final Test & Create Files로 전체 샘플을 재검사한 뒤 파일을 내려받습니다.
+
+![현재 Auto Parser 화면](/images/current-01-auto-parser-start.png)
+
+## 추가 입력 옵션
+
+- **Add Another Log Type**: 한 제조사 제품의 Traffic·Threat·User·Asset 등 최대 10개 유형에 대표 로그를 따로 입력합니다.
+- **Optional: mark a forwarded prefix or trailing suffix**: 전달 장비가 덧붙인 문자열을 사용자가 원본에서 선택·표시합니다. 자동 제거로 처리되지 않습니다.
+- **Optional: declare Syslog forwarder hostnames**: 알려진 릴레이 이름을 직접 선언합니다.
+- **Generate a Python Test Sender**: 현재 샘플로 오프라인 테스트용 Python 파일을 생성합니다.
+
+브라우저 입력 상한은 **64 KiB 또는 500개 논리 이벤트**입니다. 원본의 정확한 CRLF 및 UTF-8 바이트 위치가 중요한 경우 붙여 넣기보다 파일 업로드가 적합합니다.
+
+## 완전히 파싱되지 않았다면
+
+제품이 **Part of this event still needs parsing** 또는 유사한 경고를 보여주면 문제 이벤트를 선택하세요. **Values already found**를 유지한 채 미파싱 영역만 추가 분석합니다. **Re-analyze difficult logs**는 기술 진단이며 최종 파서 호환성 증거가 아닙니다.
+
+[부분 파싱 복구](/ko/scenarios/partial-event) · [모르는 로그 처리](/ko/scenarios/unknown-log)

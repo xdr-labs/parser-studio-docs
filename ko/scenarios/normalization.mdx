@@ -1,0 +1,25 @@
+---
+title: "값은 맞지만 Stellar Cyber 필드가 틀릴 때"
+sidebarTitle: "정규화 수정"
+description: "정상 추출된 소스 필드를 Stellar Cyber 7.0 필드에 올바르게 매핑하는 방법."
+---
+
+# 파싱은 됐지만 출력 필드 이름이 이상합니다
+
+**상황:** srcip가 정상 추출됐는데 dstip로 연결되거나, severity의 문자열 값이 숫자 전용 필드에 매핑됩니다.
+
+## 따라 하기
+
+1. 먼저 **Review Fields**에서 원본과 추출 결과를 비교해 extraction 자체가 올바른지 확인합니다.
+2. 추출값이 올바르면 **Map Fields**로 이동합니다. 다시 파서 엔진 규칙을 작성할 필요는 없습니다.
+3. 해당 **Source field**의 실제 예시 값을 확인하고 **Target field / Value type**을 검토합니다.
+4. 추천 이름이 의미상 맞지 않으면 적합한 Stellar Cyber **7.0** 필드를 선택하거나 벤더 필드에 값을 보존합니다.
+5. **Must fix before continuing**과 전체 샘플 예시를 다시 확인한 뒤 **Create Parser**로 이동합니다.
+
+## 예상 결과
+
+원본의 의미가 보존되고 출력 이름·자료형만 바로잡힙니다. 해당 필드가 없는 다른 이벤트에는 임의 값을 생성하지 않습니다.
+
+## 복구 방법
+
+값 자체가 잘못 추출된 경우에는 [필드 추출 검토](/ko/workflows/review-fields)로 돌아가거나 [부분 파싱](/ko/scenarios/partial-event)을 사용합니다. 확인되지 않은 의미를 스키마에 억지로 맞추지 않습니다.

@@ -1,0 +1,28 @@
+---
+title: "추가 로그로 수정 규칙 재검증"
+sidebarTitle: "독립 테스트"
+description: "ChatGPT 제안 규칙이 원본 예시만 처리하는 오류를 방지하는 독립 샘플 검증."
+---
+
+# 다른 로그로 수정 규칙을 테스트하는 이유
+
+규칙이 최초로 보여준 한 줄에만 맞으면 실제 제품 로그에서 쉽게 실패할 수 있습니다. 따라서 ChatGPT가 제안한 변경은 **원본과 별도의 Holdout 로그**로 검증해야 합니다.
+
+## 실습 흐름
+
+1. Auto Parser의 **Fix with ChatGPT** 또는 ChatGPT Assisted Parser에서 검토할 규칙을 준비합니다.
+2. **Additional test logs**에 같은 제품의 *다른* 이벤트를 입력합니다.
+3. **Confirm different test examples** 또는 같은 의미의 승인 체크박스를 선택합니다.
+4. **Test Proposed Fix**로 원본 및 별도 로그 모두의 결과를 비교합니다.
+5. 기존 필드나 미파싱 원본 영역이 손실되지 않는지 확인합니다.
+6. 성공한 경우에만 **Approve tested fix / Apply Tested Fix**로 검토 내용을 적용합니다.
+
+## 실패하면?
+
+**UNTRUSTED_RECIPE**, **SOURCE_IDENTITY_MISMATCH**, 정규식 안전성 문제, 필드 손실, 미파싱 영역 손실 등의 오류는 승인할 수 없습니다. 결과를 억지로 PASS 처리하지 말고 규칙을 더 좁게 수정하세요.
+
+## 실제 영상과 실습 파일
+
+[Snort 실제 복구 동영상](/ko/videos/unknown)에는 원본 alert와 별도 검증 로그, 검토용 JSON이 함께 제공됩니다. **외부 ChatGPT에 자동 전송하거나 무조건 신뢰하는 파일이 아닙니다.**
+
+[ChatGPT 전체 사용법](/ko/workflows/chatgpt-assisted)

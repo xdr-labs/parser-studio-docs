@@ -1,0 +1,38 @@
+---
+title: "Parser identity, listener port, and forwarded log boundaries"
+sidebarTitle: "Parser Setup"
+description: "Configure source metadata, the listener port, and explicit relay prefix or postfix marks."
+---
+
+# Configure the parser source and listener
+
+The current Auto Parser uses **Parser identity** to name files and choose the listener port stored in the generated configuration.
+
+## Identity fields
+
+- **Manufacturer**: the product manufacturer, such as Fortinet.
+- **Product**: the actual device or service product, such as FortiGate.
+- **Version**: optional, only if established from a reliable product record.
+- **Parser listener port (.conf)**: the receiving port in the generated CONF. The current default is **6801**.
+
+The customized_vendor_product naming convention derives from manufacturer/product; version belongs to metadata, not the filename.
+
+![Current Parser Studio source identity and listener settings](/images/current-01-auto-parser-start.png)
+
+## Explicit forwarding boundaries
+
+Some upstream relays add text before or after a vendor record. Parser Studio does **not** assume it can safely strip this prefix automatically.
+
+1. Paste the original forwarded records.
+2. Expand **Optional: mark a forwarded prefix or trailing suffix**.
+3. Select the exact bytes corresponding to the relay's addition, then choose **Mark selection as prefix** or **Mark selection as postfix**.
+4. Check the proposed marks and select **Apply declared relay profile** only when they match the actual source.
+5. For known Syslog relays, optionally use **Optional: declare Syslog forwarder hostnames**.
+
+Check sample framing and exact byte positions. Upload original files instead of pasting if CRLF preservation matters.
+
+## Practical limits and verification
+
+The current analysis limit is **64 KiB or 500 logical events** per input. Successful source extraction alone does not verify a deployable Fluentd parser or Stellar Cyber ingestion.
+
+[Auto Parser workflow](/workflows/auto-parser) · [Create and download](/workflows/create-and-download)

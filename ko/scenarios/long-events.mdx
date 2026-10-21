@@ -1,0 +1,37 @@
+---
+title: "한 이벤트가 여러 줄로 나뉠 때"
+sidebarTitle: "여러 줄 이벤트"
+description: "Java Stacktrace와 여러 줄 데이터의 이벤트 경계를 확인하고 처리하는 시나리오."
+---
+
+# 로그 한 건이 여러 줄로 기록된다면
+
+**상황:** Java 예외 Stacktrace 또는 여러 줄 메시지가 물리적인 줄 단위로 잘못 분리될 수 있습니다.
+
+## 연습용 예시
+
+~~~text
+2026-10-21 10:00:00 ERROR Request failed
+java.lang.IllegalStateException: Unexpected response
+    at demo.Service.execute(Service.java:42)
+
+2026-10-21 10:00:01 ERROR Another request failed
+java.lang.RuntimeException: Timeout
+    at demo.Client.call(Client.java:25)
+~~~
+
+## 따라 하기
+
+1. 가능하면 원본 **파일 업로드**로 줄바꿈과 UTF-8 위치를 보존합니다.
+2. **Analyze Logs** 결과에서 이벤트 개수와 경계가 실제 원본과 일치하는지 확인합니다.
+3. 제품이 Java 오류의 **빈 줄 구분 TCP 프레이밍**을 요청한다면 실제 송신 방식에 해당 경계가 있는지 검증합니다.
+4. 명확한 메시지 경계가 확인된 경우에만 **I Confirm Each Java Error Is Separated by a Blank Line** 같은 확인 절차를 수행합니다.
+5. 여러 이벤트를 독립적으로 검사한 뒤 필드를 검토합니다.
+
+## 예상 결과
+
+한 건의 오류 이벤트가 무리하게 여러 개로 나뉘지 않고, 원본의 논리 이벤트 개수가 보존됩니다.
+
+## 복구 방법
+
+실제 송신 방식이 TCP 빈 줄 구분과 다르면 확인 버튼을 누르지 않습니다. 지원되지 않는 프레이밍이 있다면 추가 증거를 확보하고 별도 검토합니다.

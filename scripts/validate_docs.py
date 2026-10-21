@@ -85,9 +85,17 @@ for page in PAGES:
             error(page, "image has no nonempty alt text")
 
     if page.parent.name == "scenarios" and page.name != "index.mdx":
-        for required in ("## Walkthrough", "## Expected review outcome", "## Recovery path"):
+        localized = "ko" in page.parts and page.relative_to(ROOT).parts[0] == "ko"
+        sections = (
+            ("## 따라 하기", "## 예상 결과", "## 복구 방법")
+            if localized else
+            ("## Walkthrough", "## Expected review outcome", "## Recovery path")
+        )
+        for required in sections:
             if required not in content:
                 error(page, f"scenario is missing {required}")
+    if page.relative_to(ROOT).parts[0] == "ko" and not re.search(r"[가-힣]", content):
+        error(page, "Korean localized page has no Hangul instructional text")
     if re.search(r"(?i)\bmintlify\b|data processor deployment|sensor integration", content):
         error(page, "out-of-scope documentation or integration claim")
 
@@ -97,8 +105,29 @@ if not manifest.exists():
 else:
     try:
         config = json.loads(manifest.read_text(encoding="utf-8"))
-        groups = config["navigation"]["groups"]
-        menu_paths = [path for group in groups for path in group["pages"]]
+        nav = config["navigation"]
+        localized_nav = nav.get("languages")
+        if localized_nav:
+            languages = [section.get("language") for section in localized_nav]
+            if languages != ["en", "ko"]:
+                ERRORS.append(f"unexpected bilingual locale sequence: {languages}")
+            menu_paths = [
+                path for section in localized_nav
+                for group in section["groups"] for path in group["pages"]
+            ]
+            english = {
+                path for group in localized_nav[0]["groups"] for path in group["pages"]
+            }
+            korean = {
+                path for group in localized_nav[1]["groups"] for path in group["pages"]
+            }
+            if korean != {"ko/" + path for path in english}:
+                ERRORS.append("missing or extra localized EN/KO page counterpart")
+            if any(path.startswith("ko/") for path in english):
+                ERRORS.append("English navigation contains localized paths")
+        else:
+            groups = nav["groups"]
+            menu_paths = [path for group in groups for path in group["pages"]]
         if len(menu_paths) != len(set(menu_paths)):
             ERRORS.append("docs.json navigation contains duplicate pages")
         if set(menu_paths) != PAGE_NAMES:

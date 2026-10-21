@@ -1,0 +1,30 @@
+---
+title: "최종 테스트 및 파서 다운로드"
+sidebarTitle: "파서 파일 생성"
+description: "원본 샘플 테스트와 CONF·파서 로직·통합 패키지의 생성 방법."
+---
+
+# Create Parser: 최종 테스트와 결과물
+
+**Create Parser**는 현재 샘플을 다시 테스트한 다음 사용자가 다운로드할 파일을 생성하는 마지막 단계입니다.
+
+![파서 생성 요청 화면](/images/current-05-create-files.png)
+
+## 파일 생성 방법
+
+1. **Sample logs / Parsed successfully / Ready to output / Need fixing** 숫자를 확인합니다.
+2. 모든 샘플을 처리할 수 있고 **Need fixing**이 0이면 **Run Final Test & Create Files**를 누릅니다.
+3. 실제로 **Parser files created successfully**가 표시된 후 다운로드 옵션을 확인합니다.
+4. 필요한 경우 **Download listener configuration**, **Download parser logic**, **Download Parser Package**를 사용합니다.
+
+![파일 생성 후 다운로드 옵션](/images/current-06-parser-download.png)
+
+## 생성 파일과 포트
+
+파일은 일반적으로 customized_제조사_제품 형태의 파서 로직과 같은 이름의 **.conf**로 구성됩니다. 생성된 CONF 수신 포트는 **Parser listener port (.conf)**에서 설정하며 기본값은 **6801**입니다. 파일명은 버전이 아니라 제조사/제품을 기준으로 정해지고, 제품 버전은 메타데이터에 보관됩니다.
+
+## 검증 범위
+
+브라우저의 성공 메시지는 **현재 샘플 테스트와 파일 생성 결과**를 말합니다. 실제 Fluentd 실행, Stellar Cyber 설치, 센서 수신, 운영 호환성을 뜻하지 않습니다. 환경이 지원되지 않는 경우 **NOT VERIFIED** 등의 표시를 유지해야 합니다.
+
+[최신 Auto Parser 안내](/ko/workflows/auto-parser) · [출력 파일 설명](/ko/reference/output-artifacts)

@@ -9,87 +9,199 @@
     "dark": "#5B8CFF"
   },
   "navigation": {
-    "groups": [
+    "languages": [
       {
-        "group": "Start Here",
-        "pages": [
-          "index",
-          "quickstart",
-          "choose-workflow"
-        ],
-        "icon": "rocket"
-      },
-      {
-        "group": "Video Tutorials",
-        "icon": "circle-play",
-        "pages": [
-          "videos/index",
-          "videos/complete",
-          "videos/partial",
-          "videos/unknown",
-          "videos/multiple-types"
+        "language": "en",
+        "groups": [
+          {
+            "group": "Start Here",
+            "pages": [
+              "index",
+              "quickstart",
+              "choose-workflow"
+            ],
+            "icon": "rocket"
+          },
+          {
+            "group": "Video Tutorials",
+            "icon": "circle-play",
+            "pages": [
+              "videos/index",
+              "videos/complete",
+              "videos/partial",
+              "videos/unknown",
+              "videos/multiple-types"
+            ]
+          },
+          {
+            "group": "Auto Parser",
+            "pages": [
+              "workflows/auto-parser",
+              "workflows/review-fields",
+              "workflows/map-fields",
+              "workflows/create-and-download",
+              "workflows/parser-setup",
+              "workflows/local-versions"
+            ],
+            "icon": "wand-magic-sparkles"
+          },
+          {
+            "group": "ChatGPT Assisted Parser",
+            "pages": [
+              "workflows/chatgpt-assisted",
+              "workflows/holdout-validation"
+            ],
+            "icon": "comments"
+          },
+          {
+            "group": "Scenario Playbooks",
+            "icon": "compass",
+            "pages": [
+              "scenarios/index"
+            ]
+          },
+          {
+            "group": "Auto Parser Scenarios",
+            "icon": "wand-magic-sparkles",
+            "pages": [
+              "scenarios/auto-success",
+              "scenarios/partial-event",
+              "scenarios/mixed-events",
+              "scenarios/unnamed-values",
+              "scenarios/normalization",
+              "scenarios/long-events",
+              "scenarios/revisions",
+              "scenarios/test-sender"
+            ]
+          },
+          {
+            "group": "ChatGPT Assisted Scenarios",
+            "icon": "comments",
+            "pages": [
+              "scenarios/unknown-log",
+              "scenarios/recipe-ai",
+              "scenarios/ai-invalid-response",
+              "scenarios/ai-test-change"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/supported-formats",
+              "reference/output-artifacts",
+              "reference/source-privacy",
+              "reference/troubleshooting",
+              "reference/glossary",
+              "reference/faq"
+            ],
+            "icon": "book-open"
+          }
         ]
       },
       {
-        "group": "Auto Parser",
-        "pages": [
-          "workflows/auto-parser",
-          "workflows/review-fields",
-          "workflows/map-fields",
-          "workflows/create-and-download"
-        ],
-        "icon": "wand-magic-sparkles"
-      },
-      {
-        "group": "ChatGPT Assisted Parser",
-        "pages": [
-          "workflows/chatgpt-assisted",
-          "workflows/holdout-validation"
-        ],
-        "icon": "comments"
-      },
-      {
-        "group": "Scenario Playbooks",
-        "icon": "compass",
-        "pages": [
-          "scenarios/index"
+        "language": "ko",
+        "navbar": {
+          "links": [
+            {
+              "label": "XDR Labs",
+              "href": "https://xdr.ooo"
+            },
+            {
+              "label": "영어 문서",
+              "href": "https://parser.xdr.ooo/"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "로그로 시작하기",
+            "href": "/ko/quickstart"
+          }
+        },
+        "groups": [
+          {
+            "group": "시작하기",
+            "pages": [
+              "ko/index",
+              "ko/quickstart",
+              "ko/choose-workflow"
+            ],
+            "icon": "rocket"
+          },
+          {
+            "group": "동영상 교육",
+            "icon": "circle-play",
+            "pages": [
+              "ko/videos/index",
+              "ko/videos/complete",
+              "ko/videos/partial",
+              "ko/videos/unknown",
+              "ko/videos/multiple-types"
+            ]
+          },
+          {
+            "group": "자동 파서",
+            "pages": [
+              "ko/workflows/auto-parser",
+              "ko/workflows/review-fields",
+              "ko/workflows/map-fields",
+              "ko/workflows/create-and-download",
+              "ko/workflows/parser-setup",
+              "ko/workflows/local-versions"
+            ],
+            "icon": "wand-magic-sparkles"
+          },
+          {
+            "group": "ChatGPT 보조 파서",
+            "pages": [
+              "ko/workflows/chatgpt-assisted",
+              "ko/workflows/holdout-validation"
+            ],
+            "icon": "comments"
+          },
+          {
+            "group": "상황별 사용법",
+            "icon": "compass",
+            "pages": [
+              "ko/scenarios/index"
+            ]
+          },
+          {
+            "group": "자동 파서 사례",
+            "icon": "wand-magic-sparkles",
+            "pages": [
+              "ko/scenarios/auto-success",
+              "ko/scenarios/partial-event",
+              "ko/scenarios/mixed-events",
+              "ko/scenarios/unnamed-values",
+              "ko/scenarios/normalization",
+              "ko/scenarios/long-events",
+              "ko/scenarios/revisions",
+              "ko/scenarios/test-sender"
+            ]
+          },
+          {
+            "group": "ChatGPT 보조 사례",
+            "icon": "comments",
+            "pages": [
+              "ko/scenarios/unknown-log",
+              "ko/scenarios/recipe-ai",
+              "ko/scenarios/ai-invalid-response",
+              "ko/scenarios/ai-test-change"
+            ]
+          },
+          {
+            "group": "참고 자료",
+            "pages": [
+              "ko/reference/supported-formats",
+              "ko/reference/output-artifacts",
+              "ko/reference/source-privacy",
+              "ko/reference/troubleshooting",
+              "ko/reference/glossary",
+              "ko/reference/faq"
+            ],
+            "icon": "book-open"
+          }
         ]
-      },
-      {
-        "group": "Auto Parser Scenarios",
-        "icon": "wand-magic-sparkles",
-        "pages": [
-          "scenarios/auto-success",
-          "scenarios/partial-event",
-          "scenarios/mixed-events",
-          "scenarios/unnamed-values",
-          "scenarios/normalization",
-          "scenarios/long-events",
-          "scenarios/revisions",
-          "scenarios/test-sender"
-        ]
-      },
-      {
-        "group": "ChatGPT Assisted Scenarios",
-        "icon": "comments",
-        "pages": [
-          "scenarios/unknown-log",
-          "scenarios/recipe-ai",
-          "scenarios/ai-invalid-response",
-          "scenarios/ai-test-change"
-        ]
-      },
-      {
-        "group": "Reference",
-        "pages": [
-          "reference/supported-formats",
-          "reference/output-artifacts",
-          "reference/source-privacy",
-          "reference/troubleshooting",
-          "reference/glossary",
-          "reference/faq"
-        ],
-        "icon": "book-open"
       }
     ]
   },

@@ -14,6 +14,7 @@ description: "You do not need to know the log format. Copy, analyze, review, and
     <a className="xdr-hero-primary" href="/quickstart">Create my first parser →</a>
     <a className="xdr-hero-secondary" href="/choose-workflow">What if my logs need help?</a>
     <a className="xdr-hero-secondary" href="/videos/index">Watch real-log tutorials →</a>
+    <a className="xdr-hero-secondary" href="/ko/index">한국어 사용자 설명서 →</a>
   </div>
   <div className="xdr-signal-grid">
     <div className="xdr-signal"><strong>1. Paste</strong><span>Copy a few complete events from your product.</span></div>
@@ -45,9 +46,21 @@ You start the **same way in every case**: open **Auto Parser**, paste logs, and 
 
 <div className="ps-flow"><span>Add Logs</span><b>→</b><span>Analyze Logs</span><b>→</b><span>Review Fields</span><b>→</b><span>Map Fields</span><b>→</b><span>Create Parser</span></div>
 
-![Auto Parser showing two of two security log events parsed completely and the Review Fields button](/images/02-analyzed-sample.png)
+![Auto Parser showing two of two security log events parsed completely and the Review Fields button](/images/current-02-completely-parsed.png)
 
 *Actual Parser Studio screen using fictional logs. With 2 of 2 events parsed completely, the user can click Review Fields.*
+
+## Current public Parser Studio tools
+
+The product exposes **Auto Parser** and **ChatGPT Assisted Parser** only. The old Wizard and Workbench are not user navigation paths.
+
+- **Parser identity:** Enter manufacturer and product, with optional version and **Parser listener port (.conf)** (default **6801**). [Configure your parser](/workflows/parser-setup).
+- **Stellar Cyber 7.0:** Review target names, data types, original values and vendor-only fields rather than choosing old mapping schemas.
+- **Up to 10 log types:** Click **Add Another Log Type** for Traffic, Threat, User and other types from one product.
+- **Local Versions:** Save, compare, and restore up to **30** browser-local checkpoints. [Learn more](/workflows/local-versions).
+- **Original source boundaries:** Explicitly mark relay prefix/postfix text, or declare known forwarder names. Upload original files when CRLF or exact UTF-8 byte offsets matter.
+- **Python Test Sender:** Optionally generate an offline standard-library Python script, with explicit operator input before sending.
+- **Input limit:** 64 KiB / 500 logical events per analysis. No browser DP upload, automatic sensor transmission or live target verification.
 
 ## Pick an example that matches your situation
 
@@ -59,5 +72,5 @@ You start the **same way in every case**: open **Auto Parser**, paste logs, and 
 </CardGroup>
 
 <Note>
-  The examples use fictional logs, and the screenshots show the actual product UI. A complete sample review supports a draft for those records, not a guarantee for all unseen messages.
+  Examples are fictional or publicly documented original vendor fixtures as labeled. Screenshots show the current public Web UI. Sample extraction and file creation do not establish native target compatibility.
 </Note>

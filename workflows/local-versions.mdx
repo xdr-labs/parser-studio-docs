@@ -1,0 +1,34 @@
+---
+title: "Save, compare, and restore browser-local parser versions"
+sidebarTitle: "Local Versions"
+description: "Use Local Versions for up to 30 local parser checkpoints with source and mapping comparison."
+---
+
+# Save, compare, and restore local versions
+
+The **Local Versions** control opens a browser-local workspace for saving the current parser state.
+
+![Current Local Versions workspace](/images/current-07-local-versions.png)
+
+## Save a checkpoint
+
+1. Enter or analyze some sample logs.
+2. Open **Local Versions**.
+3. Enter a meaningful **Version name**, such as Before normalization.
+4. Select **Save Version**.
+5. Make a deliberate change to mappings or sample groups, then save another named version.
+
+## Compare and restore
+
+Under **Compare Versions**, choose Version A and Version B (or Current working copy) to review differences in source logs, parser settings, and field mappings. Use a saved version's **Restore** action when you need to roll back your browser workspace.
+
+## Storage boundaries
+
+- Up to **30 saved versions**, scoped to the current browser profile and website origin.
+- Versions are **not stored on the Parser Studio server** and do not sync between devices.
+- The saved data can include raw security logs and is **not encrypted by Parser Studio**.
+- Clearing site data, private browser cleanup, or changing profiles/origins may make versions unavailable.
+
+Saving a local version is not a native parser test, repository commit, or deployment operation.
+
+[Auto Parser](/workflows/auto-parser) · [Compare versions scenario](/scenarios/revisions)

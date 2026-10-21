@@ -12,35 +12,23 @@ description: "Analyze traffic, threat and user events together, review optional 
 
 Begin in **Auto Parser**. You do not have to choose a log format or create a separate parser before examining the records.
 
-## Practice with three event types
+## Practice with published FortiGate samples
 
-Paste these **fictional** records together into **Add Logs**:
-
-```text
-{"event_type":"traffic","timestamp":"2026-10-18T00:00:00Z","action":"allow","src_ip":"192.0.2.10","dst_ip":"198.51.100.20","dst_port":443}
-{"event_type":"threat","timestamp":"2026-10-18T00:00:01Z","action":"block","src_ip":"192.0.2.11","threat_name":"Example signature","severity":"high"}
-{"event_type":"authentication","timestamp":"2026-10-18T00:00:02Z","action":"login_failed","user":"demo-user","src_ip":"192.0.2.12"}
-```
-
-These represent three distinct security activities from one fictional product.
+- [Traffic logs: two original events](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-traffic.log).
+- [Threat logs: web filter and IPS](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-threat.log).
+- [Watch the current Web UI walkthrough](/videos/multiple-types).
 
 ## Walkthrough
 
-1. Open **Auto Parser → Add Logs**. Paste all three events without deleting or rearranging any of them.
-2. Press **Analyze Logs**. Check that all **3 of 3 log events** are accounted for.
-3. Click **Review Fields**. Select each source event and check the values particular to that event type: destination and port for traffic, detection and severity for threat, username for authentication.
-4. Click **Map Fields**. Do not assume a field missing from one type must be missing from all types. Check each mapping against the events that actually contain it.
-5. Look at **Must fix before continuing** and **Check all sample logs**. The example screenshot shows a warning: `severity` contains the text `high` but the proposed match expects an integer. Use **Value type** and the destination catalog to correct the meaning and type, or retain the value as an appropriately named vendor-specific field.
-6. Resolve every **blocking** mapping finding. Do not hide warnings by deleting events.
-7. If the sample and mapping checks pass, continue to **Create Parser** and press **Run Final Test & Create Files**. One combined draft is available only if that complete reviewed source and the current generator support it.
+1. Open **Auto Parser** and enter Fortinet / FortiGate.
+2. Choose **Add Another Log Type** to create **Traffic** and **Threat** groups.
+3. Paste the two original traffic events in Traffic and the web filter/IPS records in Threat. Do not invent a combined log format.
+4. Choose **Analyze Logs**. The published four-event source sample reports **4 of 4 events parsed completely**.
+5. Open **Review Fields**. Inspect the actual source **type/subtype** values and verify the webfilter and traffic samples' shared **sessionid 381780**.
+6. Inspect the **Optional: one parser for several event types** review when needed. Labels alone do not create a verified discriminator.
+7. Review Stellar Cyber **7.0** mappings and test **all four samples** under Create Parser before downloading the package.
 
-![Three different event types parsed successfully after one Analyze Logs action](/images/10-multi-event-types-analysis.png)
-
-*Actual Parser Studio screen with three fictional events. A single analysis accounts for traffic, threat and authentication records together.*
-
-![Mapping screen displaying optional fields and a value-type warning across event types](/images/11-multi-event-types-mappings.png)
-
-*Actual mapping review. The red issue counter is a request to review field semantics and data types—not evidence that the analysis discarded events.*
+![Latest source-value inspection in the real Web UI](/images/current-03-review-fields.png)
 
 ## What if some event types are not recognized?
 

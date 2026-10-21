@@ -1,0 +1,38 @@
+---
+title: "제조사·수신 포트·전달 장비 표시"
+sidebarTitle: "파서 설정"
+description: "Manufacturer, Product, Version, 기본 포트 6801 및 전달 장비 prefix/postfix 선언 방법."
+---
+
+# 파서 생성 전에 확인할 정보
+
+최신 Auto Parser의 **Parser identity** 영역에서 수집 대상 장비를 식별합니다.
+
+## 제품 정보
+
+| 입력 | 사용법 |
+|---|---|
+| Manufacturer | 실제 로그를 만든 제조사 이름 |
+| Product | 제품/장비 종류 |
+| Version | 확인된 경우에만 기입하는 버전 정보 |
+| Parser listener port (.conf) | 생성된 .conf의 수신 포트, 기본 **6801** |
+
+파일명은 일반적으로 customized_제조사_제품 형태이고, 버전은 파일명이 아닌 메타데이터에 기록됩니다. 제품 이름만으로 로그 구조·필드 의미를 확정하지 않습니다.
+
+![수신 포트를 포함한 실제 파서 입력 화면](/images/current-01-auto-parser-start.png)
+
+## 전달 장비가 접두부나 접미부를 붙였다면
+
+1. 실제 원본 로그 중 일부를 입력합니다.
+2. **Optional: mark a forwarded prefix or trailing suffix**를 펼칩니다.
+3. 원본 텍스트에서 전달 장비가 붙인 영역을 직접 선택하고 **Mark selection as prefix / postfix**를 누릅니다.
+4. **Apply declared relay profile**로 선언한 범위가 맞는지 검토합니다.
+5. 또는 **Optional: declare Syslog forwarder hostnames**에서 알려진 전달 호스트명을 명시합니다.
+
+원본 구조를 알기 전에 자동으로 접두부를 제거한다고 가정하면 안 됩니다. 변경한 원본 바이트 범위를 직접 확인해야 합니다.
+
+## 입력 용량과 정확성
+
+하나의 분석 입력에는 최대 **64 KiB / 500개 이벤트** 한도가 적용됩니다. 정확한 UTF-8 바이트 범위 또는 원본 CRLF 유지가 중요한 로그는 파일로 업로드하세요.
+
+[Auto Parser 전체 흐름](/ko/workflows/auto-parser) · [출력 파일과 포트](/ko/reference/output-artifacts)

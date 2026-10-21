@@ -1,0 +1,58 @@
+---
+title: "Parser Studio | 로그에서 파서 파일까지"
+sidebarTitle: "제품 소개"
+description: "로그 형식을 몰라도 시작할 수 있는 Parser Studio 한국어 사용자 설명서."
+---
+
+<div className="xdr-hero">
+  <p className="xdr-kicker">XDR Labs / Parser Studio · 한국어 설명서</p>
+  <h1 className="xdr-hero-title">로그를 붙여 넣으세요. 파서 제작까지 안내합니다.</h1>
+  <p className="xdr-hero-copy">보안 장비의 로그가 JSON, CEF, LEEF, CSV 또는 다른 형식인지 몰라도 됩니다. Auto Parser에 대표 로그를 입력하고 Analyze Logs를 누른 다음, 화면의 결과에 따라 필드를 확인하고 매핑하여 파일을 생성합니다.</p>
+  <div className="xdr-hero-actions">
+    <a className="xdr-hero-primary" href="/ko/quickstart">처음부터 따라 하기 →</a>
+    <a className="xdr-hero-secondary" href="/ko/choose-workflow">파싱이 안 되면?</a>
+    <a className="xdr-hero-secondary" href="/ko/videos/index">영어 음성·자막 동영상 보기</a>
+  </div>
+  <div className="xdr-signal-grid">
+    <div className="xdr-signal"><strong>1. 로그 입력</strong><span>제조사와 제품을 입력하고 원본 로그를 붙여 넣습니다.</span></div>
+    <div className="xdr-signal"><strong>2. 분석·검토</strong><span>이미 추출한 값과 미파싱 영역, 매핑을 확인합니다.</span></div>
+    <div className="xdr-signal"><strong>3. 파일 생성</strong><span>원본 샘플 재검증 뒤 CONF와 파서 로직을 다운로드합니다.</span></div>
+  </div>
+</div>
+
+## 최신 제품에서 제공하는 메뉴
+
+사용자 화면에는 **Auto Parser**와 **ChatGPT Assisted Parser** 두 가지 작업 흐름이 있습니다. 이전 Wizard 또는 Workbench 메뉴를 찾을 필요는 없습니다.
+
+<CardGroup cols={2}>
+  <Card title="정상 파싱" icon="circle-check" href="/ko/scenarios/auto-success">
+    모든 이벤트가 완전히 파싱되면 Review Fields → Map Fields → Create Parser를 진행합니다.
+  </Card>
+  <Card title="부분 파싱" icon="triangle-exclamation" href="/ko/scenarios/partial-event">
+    이미 인식된 필드는 유지하고, 강조 표시된 미파싱 영역만 추가 검토합니다.
+  </Card>
+  <Card title="모르는 로그" icon="comments" href="/ko/scenarios/unknown-log">
+    자동 분석으로 해결되지 않을 때 수동 ChatGPT 복구 절차를 사용합니다.
+  </Card>
+  <Card title="한 제품의 여러 로그 유형" icon="layers" href="/ko/scenarios/mixed-events">
+    Traffic·Threat·User 등의 샘플을 로그 유형별로 입력하고 함께 검증합니다.
+  </Card>
+</CardGroup>
+
+## 화면을 따라가는 기본 순서
+
+<div className="ps-flow"><span>Add Logs</span><b>→</b><span>Analyze Logs</span><b>→</b><span>Review Fields</span><b>→</b><span>Map Fields</span><b>→</b><span>Create Parser</span></div>
+
+![실제 최신 제품 화면의 Auto Parser 로그 입력 단계](/images/current-01-auto-parser-start.png)
+
+## 자주 사용하는 기능
+
+- **장비 식별과 포트:** Manufacturer·Product·Version 및 생성할 CONF의 수신 포트(기본값 **6801**)를 설정합니다. [설정 안내](/ko/workflows/parser-setup)
+- **Stellar Cyber 7.0:** 실제 필드 값을 확인한 뒤 7.0 Dictionary에 맞춰 매핑합니다. [매핑 안내](/ko/workflows/map-fields)
+- **Local Versions:** 최대 30개의 브라우저 로컬 체크포인트를 저장·비교·복원합니다. [버전 관리](/ko/workflows/local-versions)
+- **Python Test Sender:** 현재 샘플에서 표준 라이브러리 기반의 선택적 테스트 송신 스크립트를 다운로드합니다. [사용법](/ko/scenarios/test-sender)
+- **동영상 실습:** 실제 공개된 Juniper, Sophos, Snort, Fortinet 로그를 이용한 네 시나리오를 영상과 함께 실습할 수 있습니다. [동영상 자료실](/ko/videos/index)
+
+<Note>
+  브라우저의 파싱 성공과 파일 생성은 **입력한 샘플에 대한 검증**입니다. 실제 Stellar Cyber 환경에 배포되었거나 그 환경에서 호환성이 확인되었다는 뜻은 아닙니다. 제품 Web UI는 영어이며, 이 설명서는 버튼명을 영어 원문으로 표기합니다.
+</Note>

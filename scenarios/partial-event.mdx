@@ -10,25 +10,23 @@ description: "What to click when some fields are correct but one portion of an e
 
 **Situation:** You pasted several logs, clicked **Analyze Logs**, and the result says some events need attention. A few fields look right, but the application has highlighted a particular region.
 
-## Example you can try
+## Real complex vendor example
 
-```text
-action=allow src=192.0.2.10 reason="policy denied
-action=deny src=198.51.100.20 reason=blocked
-```
+This scenario does not rely on a deliberately malformed quotation mark. Use **unaltered public Sophos XG firewall records** that contain dozens of key/value fields. The current Auto Parser recognizes many fields but cannot account for the entire source.
 
-The first record has an unclosed quotation mark. Parser Studio must not pretend that its remaining text is parsed correctly.
+- [Download the original Sophos firewall logs](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/02-sophos-xg.log).
+- [Watch the partial-parsing video and follow-along steps](/videos/partial).
 
-![Partly recognized key/value log where a quoted value is not closed](/images/07-partial-analysis.png)
+For the documented two-event sample, **0 of 2 events parsed completely** is correct despite many preserved extracted fields. The challenge is the remaining raw source region.
 
-*One event needs attention. The warning identifies the exact original text that cannot be trusted yet.*
+![Unresolved original Sophos region in current UI](/images/current-09-unparsed-region.png)
 
 ## Walkthrough
 
 1. Stay in **Auto Parser → Add Logs** after clicking **Analyze Logs**.
 2. If multiple events are flagged, choose one from **Problem to review**.
 3. Read **What needs attention**. Then look at **Original event** to see the highlighted fragment.
-4. Read **Recommended fix**. If the problem is an incomplete source copy, obtain the complete original event and paste it again.
+4. Read **Recommended fix**. If the full original source is present but some grammar is unsupported, preserve the existing fields and inspect the exact residual region before selecting an additional reviewed rule.
 5. If the source is complete but needs an additional supported rule, click **Fix with ChatGPT**. A reviewable prompt appears—**inspect and mask the original text** before copying it outside the browser.
 6. Return a supported structured result, test it against additional source events, and apply only a change that passes.
 7. Click **Analyze Logs** again if the source has changed. Proceed to **Review Fields** only when no blocking events remain.
@@ -44,3 +42,7 @@ Use the left navigation **ChatGPT Assisted Parser**, starting with the same loca
 <Warning>
   Do not remove a warning by deleting the problematic row. Keeping all important event types is more useful than creating a parser that quietly ignores some of them.
 </Warning>
+
+### Extra diagnostic controls
+
+Open **Tools & Diagnostics** and use **Re-analyze difficult logs** when needed. Select **Review unparsed text** for a specific unresolved source span; a tested rule may then be proposed via **Fix with ChatGPT**. Do not delete the original source or claim a complete parser unless the candidate passes independent tests.

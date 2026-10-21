@@ -1,0 +1,40 @@
+---
+title: "어떤 로그 상황인가요?"
+sidebarTitle: "상황별 사용법"
+description: "정상·부분·미인식·여러 유형 등의 상황에 따라 따라 할 시나리오 선택."
+---
+
+# Analyze Logs 결과에 따라 해결 방법 선택하기
+
+로그 형식을 먼저 선택하는 대신 **Auto Parser에서 로그를 입력하고 Analyze Logs를 누른 결과**를 기준으로 사용법을 찾습니다.
+
+## 실제 로그를 사용하는 네 가지 핵심 시나리오
+
+<CardGroup cols={2}>
+ <Card title="모두 완전히 파싱됨" icon="circle-check" href="/ko/videos/complete">Juniper SRX 원본으로 파서 생성까지 따라 합니다.</Card>
+ <Card title="복잡한 로그가 부분 파싱됨" icon="triangle-exclamation" href="/ko/videos/partial">Sophos XG의 기존 인식 필드와 미파싱 텍스트를 검토합니다.</Card>
+ <Card title="원본 구조를 이해하지 못함" icon="comments" href="/ko/videos/unknown">실제 Snort 로그의 ChatGPT 보조 복구를 배웁니다.</Card>
+ <Card title="한 장비에 로그 유형이 여러 개" icon="layers" href="/ko/videos/multiple-types">FortiGate Traffic·Threat·IPS 샘플을 함께 분석합니다.</Card>
+</CardGroup>
+
+## Auto Parser의 다른 작업
+
+- [정상 파싱 후 매핑과 파일 생성](/ko/scenarios/auto-success)
+- [부분 파싱과 미파싱 원본 영역](/ko/scenarios/partial-event)
+- [여러 유형을 한 파서 프로젝트에 입력](/ko/scenarios/mixed-events)
+- [CSV처럼 필드명이 없는 값](/ko/scenarios/unnamed-values)
+- [필드 대상과 자료형 오류](/ko/scenarios/normalization)
+- [여러 줄 메시지](/ko/scenarios/long-events)
+- [브라우저 로컬 버전 비교·되돌리기](/ko/scenarios/revisions)
+- [Python 테스트 송신기 생성](/ko/scenarios/test-sender)
+
+## ChatGPT가 필요할 때
+
+- [알 수 없는 로그](/ko/scenarios/unknown-log)
+- [일부만 추가 추출하거나 수정](/ko/scenarios/recipe-ai)
+- [제안 JSON이 거부됨](/ko/scenarios/ai-invalid-response)
+- [별도 예시로 회귀 검증](/ko/scenarios/ai-test-change)
+
+<Note>
+  DP 업로드·센서 수신 여부 확인은 현재 제품의 브라우저 파서 제작 범위에 포함되지 않습니다. 모든 이벤트가 처리됐는지 원본 샘플 기준으로 판단하세요.
+</Note>

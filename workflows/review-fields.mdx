@@ -50,3 +50,11 @@ For example, an original record includes `reason="policy denied"`, but the resul
 </Warning>
 
 **Next:** [Map Fields](/workflows/map-fields).
+
+## Preserve correct fields and inspect residual source text
+
+When a complex log is partially parsed, open **Problem to review**, compare **Values already found** with **Text not yet assigned to fields**, and keep the original source unchanged. Use **Tools & Diagnostics → Re-analyze difficult logs** and **Review unparsed text** when a more precise source span is required.
+
+Any added rule must preserve already recognized values and pass independent holdout examples before approval.
+
+![Current partial-source review](/images/current-09-unparsed-region.png)

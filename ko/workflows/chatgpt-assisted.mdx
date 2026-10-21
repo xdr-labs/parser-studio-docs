@@ -1,0 +1,33 @@
+---
+title: "ChatGPT Assisted Parser 사용법"
+sidebarTitle: "ChatGPT 보조 파서"
+description: "모르는 로그를 수동으로 안전하게 공유하고 ParserRecipe 규칙을 검증하는 방법."
+---
+
+# ChatGPT Assisted Parser: 자동 분석이 어려울 때
+
+왼쪽 메뉴의 **ChatGPT Assisted Parser**는 사람이 직접 프롬프트를 복사해 ChatGPT로 보내는 경로입니다. **Parser Studio가 자동으로 외부 AI 서비스에 원본 로그를 보내지 않습니다.**
+
+![ChatGPT Assisted Parser 최신 화면](/images/current-08-chatgpt-assisted.png)
+
+## 1. 로그 준비
+
+- **Original local logs**: Parser Studio에서 검증할 원본을 입력합니다.
+- **What do you want Parser Studio to find?**: 필요한 source IP, destination IP, 사용자, 액션, URL 등을 자연어로 설명합니다.
+- **Redacted example to copy to ChatGPT**: 외부에 공유 가능한 가명화·마스킹 예시만 별도로 입력합니다.
+
+## 2. 수동으로 프롬프트 전달
+
+**Prepare ChatGPT Prompt**를 클릭하고 생성된 텍스트 전체를 검토합니다. **Copy Prompt**를 눌러 직접 ChatGPT에 붙여 넣고, 제품이 요구하는 **ParserRecipe v0.2 JSON**을 요청합니다. Grok·Ruby·임의 스크립트를 대체 실행 규칙으로 제출하지 마세요.
+
+## 3. 제안된 결과 검토
+
+1. 응답 JSON을 **3. Paste the ChatGPT result**에 붙여 넣습니다.
+2. **Check ChatGPT Result**를 눌러 스키마·안전성을 확인합니다.
+3. 변경 규칙이 있는 경우 **Additional ChatGPT test logs**에 원본과 다른 예시를 붙여 넣습니다.
+4. **Test Proposed Fix**가 원본과 추가 로그를 모두 통과한 뒤 명시적으로 승인합니다.
+5. 검증된 변경을 적용하고 필드 검토·매핑·최종 테스트로 이어갑니다.
+
+제품이 응답을 거부했다면 에러를 읽고 더 제한적인 JSON을 다시 요청하세요. 안전 검증을 건너뛰지 않습니다.
+
+[추가 로그 테스트 방법](/ko/workflows/holdout-validation) · [실제 Snort 복구 영상](/ko/videos/unknown)
