@@ -1,0 +1,63 @@
+---
+title: "처음 만드는 보안 로그 파서"
+sidebarTitle: "첫 번째 파서"
+description: "Auto Parser에서 샘플 로그 분석과 필드 매핑, 파서 다운로드까지 단계별 한국어 안내."
+---
+
+# 첫 번째 파서를 만드는 5단계
+
+로그의 형식을 모르더라도 시작할 수 있습니다. 브라우저에서 [Parser Studio 열기](https://app.parser.xdr.ooo/)를 눌러 **Auto Parser**로 이동합니다.
+
+## 1. 장비 정보 입력
+
+**Manufacturer**와 **Product**에 로그를 만든 장비 정보를 입력합니다. **Version**은 확인된 경우에만 적습니다. **Parser listener port (.conf)** 는 기본 **6801**이며, 생성된 CONF 파일에 기록될 수신 포트입니다. 실제 수신 시스템에서 사용할 수 있는 포트인지 배포 전에 확인해야 합니다.
+
+![최신 제품의 로그 입력 화면](/images/current-01-auto-parser-start.png)
+
+## 2. 대표 로그 입력 후 분석
+
+아래와 같은 **연습용 가상 로그** 두 줄을 Add Logs 입력 영역에 붙여 넣습니다.
+
+~~~json
+{"timestamp":"2026-10-21T10:00:00Z","action":"allow","src_ip":"192.0.2.10","dst_ip":"198.51.100.20","dst_port":443,"user":"demo-user"}
+{"timestamp":"2026-10-21T10:00:01Z","action":"deny","src_ip":"192.0.2.11","dst_ip":"203.0.113.5","dst_port":22,"user":"demo-admin"}
+~~~
+
+**Analyze Logs**를 누릅니다. 파일을 사용한다면 **Upload a log file**로 원본을 올릴 수 있습니다. 현재 기준 입력 상한은 **64 KiB 및 500개 이벤트**입니다.
+
+모든 이벤트가 완전히 파싱됐다면 다음으로 진행합니다. 일부가 누락되면 원본 이벤트의 **Problem to review**부터 확인하세요. JSON·CEF·LEEF 같은 형식을 사용자가 먼저 고를 필요는 없습니다.
+
+![현재 UI에서 분석이 완료된 예시](/images/current-02-completely-parsed.png)
+
+## 3. 추출 필드 확인
+
+**Review Fields**에서 **Choose a source event**를 변경하며 세 영역을 비교합니다.
+
+- **Original log**: 변경하지 않은 원본 이벤트입니다.
+- **Fields Parser Studio found**: 엔진이 추출한 필드명과 값입니다.
+- **Current output preview**: 현재 매핑에 따른 예상 출력입니다.
+
+원본의 src_ip·dst_ip가 올바르게 구분되었는지 직접 확인하고 **Map Fields**로 이동합니다.
+
+![Review Fields 화면](/images/current-03-review-fields.png)
+
+## 4. Stellar Cyber 필드 매핑
+
+**Map Fields**에서 Stellar Cyber **7.0** 필드 사전의 추천 이름·자료형을 검토합니다. 출발지 IP와 목적지 IP, 포트, 액션을 혼동하지 마세요. 표준 필드로 안전하게 연결할 수 없는 원본 값은 벤더 전용 필드로 유지할 수 있습니다. **Must fix before continuing**이 0인지 확인합니다.
+
+![Stellar Cyber 7.0 필드 매핑 화면](/images/current-04-stellar7-mapping.png)
+
+## 5. 최종 테스트와 파일 다운로드
+
+**Create Parser** → **Run Final Test & Create Files**를 누릅니다. 모든 샘플이 통과하면 **Download listener configuration**, **Download parser logic**, **Download Parser Package** 중 필요한 파일을 다운로드할 수 있습니다.
+
+![실제 파일 생성 성공 화면](/images/current-06-parser-download.png)
+
+파일은 보통 customized_제조사_제품 형태의 파서 로직과 이에 대응하는 **.conf**입니다. 다운로드만으로 실제 센서 또는 데이터 프로세서에 설치되지 않습니다.
+
+## 계속 읽기
+
+<CardGroup cols={2}>
+  <Card title="부분만 인식되었다면" icon="wrench" href="/ko/scenarios/partial-event">이미 찾은 필드를 보존하면서 남은 부분을 처리합니다.</Card>
+  <Card title="다른 장비 로그로 연습" icon="circle-play" href="/ko/videos/index">실제 공개 장비 로그를 사용한 영상과 실습 파일을 봅니다.</Card>
+</CardGroup>

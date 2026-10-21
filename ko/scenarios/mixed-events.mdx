@@ -1,0 +1,33 @@
+---
+title: "하나의 보안 장비에서 여러 로그 유형을 처리"
+sidebarTitle: "다중 로그 유형"
+description: "Traffic·Threat·User 등 유형별 원본을 하나의 파서 프로젝트에서 분석하는 방법."
+---
+
+# 한 장비의 여러 로그 타입을 처리하기
+
+**상황:** FortiGate에서 Traffic, Web Filter, IPS 로그가 함께 발생합니다. 모두 같은 필드 구조를 갖는 것은 아닙니다.
+
+## 실습 로그
+
+- [FortiGate Traffic 로그 2개](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-traffic.log)
+- [FortiGate Threat 로그 2개](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-threat.log)
+- [다중 유형 교육 영상](/ko/videos/multiple-types)
+
+## 따라 하기
+
+1. **Auto Parser**에서 Manufacturer를 Fortinet, Product를 FortiGate로 입력합니다.
+2. **Add Another Log Type**을 눌러 두 개의 샘플 그룹을 만듭니다.
+3. 첫 번째 유형 이름을 **Traffic**, 두 번째를 **Threat**로 지정하고 각각 해당 로그 2개를 입력합니다.
+4. **Analyze Logs**를 실행해 **4 of 4 log events parsed completely**와 그룹별 이벤트 2건을 확인합니다.
+5. **Review Fields**에서 traffic과 utm 등 실제 원본의 type/subtype 값을 살펴보고 서로 다른 필드가 유지되는지 검토합니다.
+6. **Optional: one parser for several event types**의 분기 기준을 검토합니다. 이름만으로 이벤트 유형을 추정하면 안 됩니다.
+7. Stellar Cyber 7.0으로 필드를 매핑하고 전체 4건을 **Run Final Test & Create Files**에서 다시 검사합니다.
+
+## 예상 결과
+
+제공된 공개 원본 샘플 4건은 모두 구조적으로 파싱되고, 이 샘플에 대한 통합 파서 패키지가 생성됩니다. 해당 traffic과 webfilter 예시에는 동일한 sessionid **381780**이 있습니다.
+
+## 복구 방법
+
+실제 장비의 이벤트 유형이 더 다양하거나 명확한 분기 필드가 없으면 억지로 하나의 조건부 파서라고 주장하지 마세요. 인식되지 않는 그룹을 따로 검토하고 추가 원본을 확보해야 합니다.

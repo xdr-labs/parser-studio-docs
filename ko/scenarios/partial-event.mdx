@@ -1,0 +1,35 @@
+---
+title: "이미 일부 필드는 파싱되지만 나머지는 남는 로그"
+sidebarTitle: "부분 파싱"
+description: "복잡한 Sophos Firewall 로그의 미파싱 영역을 별도로 검토하는 실무 시나리오."
+---
+
+# 일부 필드만 파싱될 때
+
+**상황:** 수십 개의 값이 추출됐지만 긴 메시지의 일부 텍스트가 남아 **log events need attention**이 표시됩니다. 이 문제는 따옴표 하나를 수정하는 단순 문법 오류와 다릅니다.
+
+## 실제 연습 자료
+
+[복잡한 Sophos XG 원본 로그 2건](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/02-sophos-xg.log) · [부분 파싱 교육 영상](/ko/videos/partial)
+
+![미파싱 영역이 남아 있는 실제 Web UI 화면](/images/current-09-unparsed-region.png)
+
+## 따라 하기
+
+1. Auto Parser에 Manufacturer **Sophos**, Product **XG Firewall**을 입력하고 원본 두 로그를 붙여 넣습니다.
+2. **Analyze Logs**를 누릅니다. 이 사례는 **0 of 2 log events parsed completely**가 표시되지만, 이미 찾은 많은 원본 필드는 그대로 유지됩니다.
+3. **Problem to review**에서 **Original event**와 **Text not yet assigned to fields**를 확인합니다.
+4. **Values already found**를 펼쳐 기존 필드·값을 목록으로 확인합니다.
+5. 필요하다면 **Tools & Diagnostics → Re-analyze difficult logs**를 사용합니다. **Review unparsed text**가 제공되면 해당 바이트 영역을 선택합니다.
+6. **Recommended fix**가 안전한 내장 조치를 제공하는지 먼저 확인합니다. 필요한 경우 **Fix with ChatGPT**로 기존 필드와 남은 원본 범위를 보존하도록 제안받습니다.
+7. 새로운 규칙은 원본과 별도의 테스트 로그를 모두 통과하고 사람이 승인한 경우에만 적용합니다.
+
+## 예상 결과
+
+**이 실습은 의도적으로 완전 파싱으로 끝나지 않습니다.** 복잡한 미지원 영역을 올바르게 찾아내고 기존 추출값이 유지되는 것을 확인하는 것이 목표입니다.
+
+## 복구 방법
+
+미지원 문법에 대해 검증 가능한 추가 규칙이 없다면 원본을 보존하고 멈춰야 합니다. 경고를 지우려고 로그 행이나 잔여 영역을 삭제하지 않습니다.
+
+[추가 추출 규칙을 ChatGPT로 검토](/ko/scenarios/recipe-ai)

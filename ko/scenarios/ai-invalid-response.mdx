@@ -1,0 +1,26 @@
+---
+title: "ChatGPT 제안 JSON이 거부될 때"
+sidebarTitle: "AI 결과 거부"
+description: "지원하지 않는 ParserRecipe·검증 실패 메시지를 보고 안전하게 수정하는 방법."
+---
+
+# ChatGPT의 응답을 Parser Studio가 거부했습니다
+
+**상황:** **Check ChatGPT Result** 또는 **Test Proposed Fix**에서 오류가 표시됩니다.
+
+## 따라 하기
+
+1. 오류 메시지를 확인합니다. 예: **UNTRUSTED_RECIPE**, **INVALID_JSON**, **SOURCE_IDENTITY_MISMATCH**.
+2. 제출 텍스트가 코드 펜스나 설명 문장이 아니라 제품이 요구한 **ParserRecipe v0.2 JSON 객체**인지 확인합니다.
+3. 지원되는 선언형 파싱 단계인지, 원본 샘플 식별값과 샘플 수가 일치하는지 확인합니다.
+4. 원본 미파싱 텍스트와 이미 인식된 값을 보존하는지 검토합니다.
+5. ChatGPT에는 **오류 원인과 수동 마스킹 예시**만 전달하여 좁은 범위로 다시 제안받습니다.
+6. 수정된 결과를 다시 검토하고 원본·별도 테스트 로그를 통과시킨 뒤 승인합니다.
+
+## 예상 결과
+
+지원되는 JSON만 **검토 후보**가 됩니다. JSON 형식이 맞다고 바로 신뢰하거나 적용하지 않습니다.
+
+## 복구 방법
+
+추가 규칙이 제품 엔진에서 실행될 수 없다면 자동 실행을 시도하지 않습니다. [ChatGPT 보조 파서 사용법](/ko/workflows/chatgpt-assisted)을 참고해 지원 범위에 맞춰 다시 요청합니다.

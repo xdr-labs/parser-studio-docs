@@ -1,0 +1,72 @@
+---
+title: "FortiGate Traffic·Web Filter·IPS 로그를 하나의 파서로 검토하기"
+sidebarTitle: "04 · 다중 이벤트 유형"
+description: "Fortinet 공식 문서의 서로 다른 로그 유형 네 건을 하나의 Parser Studio 프로젝트에서 분석한 실제 영상입니다."
+---
+
+# FortiGate Traffic·Web Filter·IPS 로그를 하나의 파서로 검토하기
+
+Fortinet 공식 문서의 서로 다른 로그 유형 네 건을 하나의 Parser Studio 프로젝트에서 분석한 실제 영상입니다.
+
+영상 나레이션과 하단 캡션은 **영어**입니다. 여기에서는 실제 화면에서 눌러야 할 버튼과 기대 결과를 한국어로 설명합니다.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
+  동영상이 보이지 않으면 아래 링크를 이용하세요.
+</video>
+
+[영상 크게 보기](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/watch.html) · [MP4 다운로드](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4) · [영어 SRT 자막](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/subtitles-en.srt) · [나레이션 원고](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/narration-en.md)
+
+## 실습 원본 다운로드
+
+[모든 연습용 공개 로그 ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Parser Studio 실행](https://app.parser.xdr.ooo/)
+
+- [FortiGate Traffic 원본 2건](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-traffic.log)
+- [FortiGate Web Filter / IPS 원본 2건](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-threat.log)
+
+이 파일에는 영상에서 사용한 원본 샘플이 들어 있습니다. 불완전한 이벤트를 삭제하거나 변경하면 영상과 같은 결과를 비교할 수 없습니다.
+
+## 따라 하기
+
+1. Auto Parser에서 Manufacturer는 Fortinet, Product는 FortiGate로 설정합니다.
+2. Add Another Log Type를 눌러 두 그룹을 만들고 이름을 Traffic과 Threat로 지정합니다.
+3. Traffic 샘플 두 건과 Web Filter/IPS 두 건을 각각 알맞은 그룹에 입력합니다.
+4. Analyze Logs로 4 of 4 log events parsed completely를 확인합니다.
+5. Review Fields에서 각 이벤트의 type, subtype 및 서로 다른 필드를 확인합니다.
+6. Optional: one parser for several event types에서 확인된 분기 필드가 실제로 적절한지 검토합니다.
+7. Map Fields에서 Stellar Cyber 7.0 매핑을 검토한 후 Run Final Test & Create Files로 네 건 모두 재검증합니다.
+
+## 예상 결과
+
+원본 네 건이 완전 파싱되어 통합 프로젝트에서 파일 생성이 통과합니다. 문서상의 Traffic 및 Web Filter 예시는 동일한 session ID 381780을 공유합니다.
+
+## 영상 구간
+
+| 시작 시각 | 확인할 기능 |
+|---|---|
+| 00:25 | 새 유형 추가 |
+| 00:32 | 유형 이름 |
+| 00:40 | Traffic 입력 |
+| 00:50 | Threat 입력 |
+| 01:00 | 자동 파싱 |
+| 01:13 | 필드 검토 |
+| 01:27 | 타입 구분 |
+| 01:47 | Stellar 매핑 |
+| 02:09 | 최종 테스트 |
+| 02:15 | 파일 다운로드 |
+
+*각 타임스탬프는 안내가 시작되는 근사 위치입니다. 잠깐 멈추고 해당 작업을 따라 하세요.*
+
+## 복구 방법
+
+실제 장비에 새로운 이벤트 유형이 있다면 대표 로그를 추가로 검사하세요. 네 건 통과만으로 전체 펌웨어 또는 실장비 수신 호환성이 증명되지는 않습니다.
+
+## 원본 출처
+
+- [Fortinet 공식 Sample logs by log type](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type)
+
+<Warning>
+샘플 파싱이나 파서 파일 생성은 실제 Stellar Cyber 환경에 설치하거나 수신을 확인한 결과가 아닙니다. 원본 고객 로그를 ChatGPT로 수동 복사할 때에는 민감 정보를 검토하고 마스킹하세요.
+</Warning>
+
+[한국어 영상 목록](/ko/videos/index) · [영문 안내](/videos/multiple-types)

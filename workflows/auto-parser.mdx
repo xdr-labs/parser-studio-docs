@@ -69,3 +69,11 @@ Confirm **Need fixing = 0**, then click **Run Final Test & Create Files**. If th
   <Card title="The product sends several log types" icon="layer-group" href="/scenarios/mixed-events">Check all event families before making a combined parser.</Card>
   <Card title="Cannot create or download files" icon="circle-alert" href="/reference/troubleshooting">Understand final-test and service errors.</Card>
 </CardGroup>
+
+## Current release controls
+
+Set **Parser listener port (.conf)** as part of Parser identity (default **6801**). One input accepts up to 64 KiB / 500 logical events. Use **Add Another Log Type** for up to 10 source groups from one product.
+
+Optional controls include **mark a forwarded prefix or trailing suffix**, **declare Syslog forwarder hostnames**, **Generate a Python Test Sender**, and **Local Versions**. Each feature is an explicit user action. Neither parser download nor sender-script generation performs live DP deployment or tests sensor ingestion.
+
+[Parser setup](/workflows/parser-setup) · [Local Versions](/workflows/local-versions)

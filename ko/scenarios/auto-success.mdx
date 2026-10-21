@@ -1,0 +1,32 @@
+---
+title: "모든 로그가 정상 파싱됐을 때"
+sidebarTitle: "정상 파싱"
+description: "완전 파싱된 원본 이벤트를 검토하고 파일 생성까지 진행."
+---
+
+# 모든 이벤트가 인식되었으면 무엇을 하나요?
+
+**상황:** Analyze Logs 결과가 2/2 또는 N/N **log events parsed completely**로 표시되었습니다. 이제 추출 필드의 의미를 확인한 뒤 파일을 만듭니다.
+
+## 연습 자료
+
+[Juniper SRX 원본 로그 다운로드](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/01-juniper-srx.log) · [실제 화면 교육 영상](/ko/videos/complete)
+
+## 따라 하기
+
+1. **Auto Parser**에서 Manufacturer는 Juniper, Product는 SRX를 입력하고 원본 두 이벤트를 넣습니다.
+2. **Analyze Logs**를 누릅니다. 공개 연습 예시에서는 **2 of 2 log events parsed completely**가 표시됩니다.
+3. **Review Fields**에서 각 이벤트의 원본과 정책명, source/destination 주소, 포트를 비교합니다.
+4. **Map Fields**에서 Stellar Cyber 7.0 대상 필드와 값 자료형을 확인합니다.
+5. **Must fix before continuing**이 0인 경우 **Create Parser**로 이동합니다.
+6. **Run Final Test & Create Files**를 누르고 성공한 파일 패키지를 다운로드합니다.
+
+![완전 파싱을 표시하는 최신 Auto Parser UI](/images/current-02-completely-parsed.png)
+
+## 예상 결과
+
+원본 2개 이벤트가 모두 출력 가능 상태로 확인되고, 최종 샘플 테스트 뒤 CONF·파서 로직·ZIP 패키지가 표시됩니다. 이것은 특정 샘플 기준 결과일 뿐 다른 펌웨어나 실제 수신 성공을 증명하지는 않습니다.
+
+## 복구 방법
+
+결과가 다르면 원본 로그 줄바꿈과 버전, 입력 내용을 확인하세요. 일부 텍스트가 남으면 [부분 파싱 가이드](/ko/scenarios/partial-event)로 이동하세요.

@@ -1,0 +1,32 @@
+---
+title: "파서 관련 용어 정리"
+sidebarTitle: "용어집"
+description: "Parser Studio 주요 용어·화면 버튼·검증 상태를 한국어로 설명."
+---
+
+# 자주 사용하는 용어
+
+| 용어 | 의미 |
+|---|---|
+| Auto Parser | 입력 로그 구조를 자동 분석하고 4단계로 파서 파일을 만드는 사용자 경로 |
+| ChatGPT Assisted Parser | 사용자가 마스킹 예시를 수동으로 ChatGPT에 보내고 제한된 규칙 결과를 검증하는 경로 |
+| Event | 원본에서 하나의 보안 이벤트로 취급하는 논리 기록 |
+| Original log | 수정하지 않은 원본 이벤트 텍스트 |
+| Parsed fields | 원본에서 인식된 필드명과 값 |
+| Residual / unparsed region | 원본은 남아 있으나 완전히 구조화되지 않은 텍스트 범위 |
+| Source span | 필드나 미파싱 영역에 해당하는 원본 UTF-8 바이트 범위 |
+| Map Fields | 추출 필드를 Stellar Cyber 7.0 사전에 대응시키는 단계 |
+| Vendor-only field | 표준 필드 의미로 단정하지 않고 제조사 전용으로 보존하는 필드 |
+| Holdout | 파싱 규칙 설계에 사용하지 않은 독립적인 추가 테스트 로그 |
+| ParserRecipe v0.2 | ChatGPT가 반환할 수 있는 선언형 검토용 규칙 JSON |
+| CONF | 생성 파서의 수신기 설정 파일 |
+| Local Versions | 서버 계정이 아니라 현재 브라우저에만 저장되는 버전 체크포인트 |
+| Python Test Sender | 선택적 로컬 테스트 로그 송신 스크립트 |
+| Native verified | 실제 호환 런타임에서 실행 검증된 상태(단순 미리보기와 다름) |
+| NOT VERIFIED | 실제 타깃이나 실행 호환성이 아직 확인되지 않은 상태 |
+
+## 기억해야 할 구분
+
+**완전 파싱 ≠ 모든 제조사 로그 지원 ≠ Fluentd 네이티브 실행 ≠ Stellar Cyber 실제 배포 성공**입니다.
+
+[처음부터 따라 하기](/ko/quickstart)

@@ -1,0 +1,31 @@
+---
+title: "다운로드하는 파서 파일의 종류"
+sidebarTitle: "다운로드 결과물"
+description: "CONF·파서 로직·ZIP 패키지와 수신 포트 및 검증 범위 설명."
+---
+
+# Parser Studio가 만들어 주는 파일
+
+**Create Parser → Run Final Test & Create Files**를 통과한 경우 다음 항목이 표시됩니다.
+
+| 화면 버튼 | 용도 |
+|---|---|
+| Download listener configuration | 지정된 수신 포트가 반영된 .conf 파일 |
+| Download parser logic | 사용자 정의 파서 로직 파일 |
+| Download Parser Package | 파서 관련 파일과 메타데이터를 묶은 ZIP |
+
+![완료 후 파일 다운로드 UI](/images/current-06-parser-download.png)
+
+## 파일 이름과 리스너 포트
+
+제품/제조사 이름을 기반으로 **customized_제조사_제품** 및 **customized_제조사_제품.conf** 형태로 구성합니다. 제품 버전은 파일명에 이어 붙이는 것이 아니라 메타데이터에 반영됩니다.
+
+**Parser listener port (.conf)** 의 기본값은 **6801**입니다. 다른 포트를 선택하려면 실제 대상 시스템의 포트 충돌 가능성도 확인해야 합니다.
+
+## 무엇이 검증된 것인가요?
+
+실제 UI에서 **All sample logs passed the final test**는 그 시점에 입력한 예시들의 최종 테스트를 뜻합니다. 파일 생성 성공은 자동 설치·센서 데이터 수신·운영 배포·Stellar Cyber 네이티브 검증이 아닙니다.
+
+**NOT VERIFIED / PARTIAL / UNSUPPORTED** 등의 제한이 표시되면 문서화된 사실 그대로 취급하세요.
+
+[파일 생성 절차](/ko/workflows/create-and-download) · [입력 장비와 포트 설정](/ko/workflows/parser-setup)
