@@ -1,0 +1,46 @@
+---
+title: "Partial Parsing: Complex Sophos XG Firewall Logs"
+sidebarTitle: "02 \u00b7 Partial Parsing"
+description: "Identify real unparsed regions without discarding already extracted Sophos Firewall fields."
+---
+
+# Partial Parsing: Complex Sophos XG Firewall Logs
+
+English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/scenario-english.mp4" type="video/mp4" />
+  Your browser does not support native video playback.
+</video>
+
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/narration-en.md)
+
+## Walkthrough
+
+1. Paste two long original Sophos Firewall source records and click Analyze Logs.
+2. Inspect the highlighted regions that prevent complete source extraction.
+3. Expand Values already found to examine fields that must remain unchanged.
+4. Open Tools & Diagnostics and choose Re-analyze difficult logs.
+5. Select Review unparsed text when the exact residual range is available.
+6. Use Fix with ChatGPT to prepare a focused additional parsing rule and redact any sensitive data before copying.
+7. Test a proposed rule against different events; do not export until all blocking errors are resolved.
+
+## Expected review outcome
+
+The original long Sophos Firewall examples retain dozens of recognized source values, but neither sample is fully parsed. The video demonstrates diagnosis and the additional-rule workflow without claiming an unverified repair succeeded.
+
+Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
+
+## Recovery path
+
+For a different log shape, keep the original records and examine the highlighted source spans, following the [related workflow](/scenarios/partial-event). Only apply additional parsing rules after different examples pass a separate regression test. Never delete failing events merely to obtain a passing total.
+
+## Original log provenance
+
+- [Elastic integrations: Sophos XG Firewall test fixtures](https://github.com/elastic/integrations/tree/ee918d03f4a90dacd32673546c64a633308796ef/packages/sophos/data_stream/xg/_dev/test/pipeline)
+
+<Note>
+Customer logs may include private information. Review, sanitize and manually approve any excerpt before copying it into an external ChatGPT conversation. The Auto Parser does not automatically share those logs.
+</Note>
+
+[All video tutorials](/videos/index) · [Launch Parser Studio](https://app.parser.xdr.ooo/)

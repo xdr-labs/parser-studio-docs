@@ -1,0 +1,41 @@
+---
+title: "Parser Studio Video Tutorials"
+sidebarTitle: "Video Tutorials"
+description: "English narrated tutorials recorded from the real Parser Studio Web UI using published manufacturer or upstream security logs."
+---
+
+# Learn Parser Studio with real security logs
+
+Watch four independent guided tutorials covering successful extraction, incomplete extraction, ChatGPT-assisted recovery and multiple log families from the same security product. All videos use the current deployed Web UI, English narration, and bottom-of-screen captions.
+
+<CardGroup cols={2}>
+  <Card title="Complete Parsing: Real Juniper SRX Logs" icon="circle-check" href="/videos/complete">
+    Watch a complete source-to-parser workflow using published Juniper SRX RT_FLOW events.
+  </Card>
+  <Card title="Partial Parsing: Complex Sophos XG Firewall Logs" icon="triangle-exclamation" href="/videos/partial">
+    Identify real unparsed regions without discarding already extracted Sophos Firewall fields.
+  </Card>
+  <Card title="Unrecognized Snort Alert: ChatGPT-Assisted Recovery" icon="comments" href="/videos/unknown">
+    Use a reviewed bounded parser recipe with independent documented alert examples.
+  </Card>
+  <Card title="Multiple Event Types: Real FortiGate Traffic and Threat Logs" icon="layers" href="/videos/multiple-types">
+    Create and test a single parser project using official FortiGate Traffic, Web Filter and IPS records.
+  </Card>
+</CardGroup>
+
+## Download or watch the whole collection
+
+Use the individual pages above for videos and provenance details. You can also [open all four dedicated video players](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/index.html).
+
+## What these examples demonstrate
+
+- **Juniper SRX:** complete extraction, field mapping and parser-file creation from published RT_FLOW examples.
+- **Sophos XG:** dozens of source values recognized in a complex log while unresolved text still requires an additional reviewed parsing rule.
+- **Snort 3:** a real alert_fast line that needs a tested, explicitly approved ChatGPT-assisted recipe.
+- **FortiGate:** combined Traffic, Web Filter and IPS samples; the documented traffic and web-filter examples share a session ID.
+
+<Warning>
+Successful source extraction in these samples does not prove native parser compatibility for every firmware or a verified live Stellar Cyber target installation. Never claim unsupported source regions were parsed or silently discard events.
+</Warning>
+
+[Quickstart](/quickstart) · [Scenario playbooks](/scenarios/index) · [Create a parser now](https://app.parser.xdr.ooo/)

@@ -20,6 +20,17 @@
         "icon": "rocket"
       },
       {
+        "group": "Video Tutorials",
+        "icon": "circle-play",
+        "pages": [
+          "videos/index",
+          "videos/complete",
+          "videos/partial",
+          "videos/unknown",
+          "videos/multiple-types"
+        ]
+      },
+      {
         "group": "Auto Parser",
         "pages": [
           "workflows/auto-parser",
