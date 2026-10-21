@@ -15,15 +15,45 @@ English narration and permanently visible English captions accompany this record
 
 [Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/narration-en.md)
 
-## Walkthrough
+## Practice along with the video
 
-1. Paste the documented Snort 3 alert_fast example and run Auto Parser.
-2. Inspect unrecognized source regions and the values already found.
-3. Choose Fix with ChatGPT and manually review the repair prompt.
-4. Paste a bounded ParserRecipe JSON proposal that preserves the raw event and recognized fields.
-5. Provide two different published Snort examples, confirm they are independent, and run Test Proposed Fix.
-6. Approve a passing result explicitly before continuing to Review Fields and Map Fields.
-7. Run the final sample test and download the supported package.
+Keep this page open to pause or replay the demonstration while working in a second tab.
+
+**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
+
+- [Download the original Snort alert](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-alert.log)
+- [Download the two different holdout alerts](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-holdout.log)
+- [Optional: download the reviewed educational JSON recipe](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-reviewed-recipe.json)
+
+**Use the source files above exactly as shown in the video.** Each file contains the public documented sample events used during the recording, with source attribution and SHA-256 checksums in the ZIP bundle.
+
+### Follow the on-screen steps
+
+1. Open Auto Parser in another tab. Enter Manufacturer: Snort and Product: Snort 3.
+2. Paste ONLY the single original line from 03-snort-alert.log into Add Logs and click Analyze Logs. Do not include the separate holdout lines yet.
+3. Choose Fix with ChatGPT. Review the generated prompt and manually redact any confidential information before choosing to share it.
+4. The optional JSON file is the exact reviewed demo proposal. Paste its contents into ChatGPT JSON result only if you understand the restrictions; it is not an automatically trusted AI output.
+5. Paste the two different lines from 03-snort-holdout.log into Additional test logs. Check Confirm different test examples, then click Test Proposed Fix.
+6. Approve a passing result before clicking Apply Tested Fix. Continue through Review Fields, Map Fields, and Create Parser; run the final test before downloading any file.
+
+**Expected sample result:** 0 of 1 log event parsed completely at first; after an independently reviewed and approved fix, 1 of 1 completely parsed.
+
+### Video chapter timestamps
+
+| Timestamp | What to follow |
+|---|---|
+| 00:26 | Paste the original logs |
+| 00:36 | Analyze Logs |
+| 00:59 | Fix with ChatGPT |
+| 01:23 | Review the proposal |
+| 01:34 | Add different test logs |
+| 01:50 | Test Proposed Fix |
+| 02:06 | Approve the tested fix |
+| 02:14 | Apply Tested Fix |
+| 02:49 | Run final sample test |
+| 02:57 | Download the parser files |
+
+*The chapter times are approximate seek positions in the narrated demonstration. Pause playback to follow the corresponding controls.*
 
 ## Expected review outcome
 
