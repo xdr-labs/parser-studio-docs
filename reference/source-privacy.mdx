@@ -1,50 +1,37 @@
 ---
 title: "What happens to the logs I paste?"
 sidebarTitle: "Protect Sensitive Logs"
-description: "Keep local source examples and manually reviewed ChatGPT prompts separate."
+description: "Understand browser previews, first-party Parser Studio analysis, manual ChatGPT sharing and local versions."
 ---
 
 # What happens to the logs I paste?
 
-Security event logs may contain usernames, hostnames, addresses, email addresses, request paths or secrets. Choose fictional examples while learning and review private data carefully during real authoring.
+Security logs can contain usernames, customer addresses, tokens, hostnames and confidential request paths. **Use fictional logs for training.** Only submit customer-origin records when authorized.
 
-## When you click Analyze Logs
+## Browser input versus server analysis
 
-**Auto Parser** examines the pasted or uploaded sample using the local analysis workflow. Ordinary analysis is not an automatic external ChatGPT request. The product may request same-origin service capabilities or analysis, depending on the selected operation.
+Typing, initial local browser previews and **Local Versions** operate within your browser. However, **Analyze Logs** is a different operation: clicking it sends the **original sample** as a POST to the same-origin Parser Studio server for Multi-Pass analysis.
 
-Do not assume that a displayed source is suitable for public sharing. Treat pasted customer logs as sensitive.
+- **Same-origin Parser Studio server:** Receives the log sample when you select **Analyze Logs**. This is not a strictly browser-only operation.
+- **External ChatGPT:** Receives **nothing automatically** from Auto Parser or ChatGPT Assisted. External sharing happens only if you manually paste a prepared prompt elsewhere.
+- **Upload a log file:** The file is first read in the browser; choosing Analyze Logs subsequently sends the selected source to this Parser Studio server. File uploads preserve original bytes more faithfully than pasted text with altered line endings.
 
-## When you use ChatGPT Assisted Parser
+Do not rely on a lack of automatic LLM transfer as proof that logs never leave the browser. Review your organization's approval requirements before submitting sensitive samples.
 
-There are **two separate places** on that screen:
+## ChatGPT Assisted Parser
 
-- **Original local logs**: source events kept for local analysis and checking.
-- **Redacted example to copy to ChatGPT**: the visible example you may choose to share manually.
+There is **one Original local logs editor**, not a separate redacted-example box. **Prepare ChatGPT Prompt** includes the exact entered source along with its identity digest and context. You must inspect the entire generated text, **including the original-source block**, before using **Copy Prompt** to send it manually to ChatGPT.
 
-1. Inspect the redacted example. A prefilled fictional example does **not** guarantee that the content you add is safe.
-2. Remove or replace confidential identifiers.
-3. Click **Prepare ChatGPT Prompt** and read the entire resulting text.
-4. Click **Copy Prompt** only if you intend to share what is visible.
-5. Open ChatGPT yourself and paste the prompt.
+If data is not approved for external sharing, remove or mask it **before preparing the prompt**. Editing the original source changes the test input; rerun the relevant analysis and Holdout validation. An inline **Fix with ChatGPT** prompt may also include the actual unparsed source and must be inspected before copying.
 
-No automatic external model request is performed by this workflow. An inline **Fix with ChatGPT** prompt can contain original source fragments—**redact it before copying**, too.
+## Local Versions and downloaded tools
 
-## When you download the Python test sender
+**Local Versions** can store the original samples and project settings in the current browser profile. They are not a shared backup and Parser Studio does not separately encrypt them.
 
-The standalone Python file contains the sample logs encoded as **base64, not encryption**. Someone with the file may decode the values. Supported fields can be varied for testing, but not all sensitive values are necessarily transformed.
+**Generate a Python Test Sender** downloads an optional script containing base64-encoded copies of samples. Base64 is **not encryption**: inspect or mask the file before sharing or running it. The download alone does not transmit anything to a sensor.
 
-## Safe practice examples
+## Practice safely
 
-Use documentation-only addresses such as `192.0.2.10`, `198.51.100.20`, and `203.0.113.30`; use a fictional user like `demo-user` and email under `example.test`.
+Use documentation-only IP blocks such as `192.0.2.10`, `198.51.100.20` and `203.0.113.30`, and fictional identities such as `demo-user@example.test`.
 
-## When you save Local Versions
-
-Saved working versions belong to the current browser environment. They are not a shared backup. Review who has access to that browser and keep an independent copy of important approved outputs.
-
-[Full ChatGPT workflow](/workflows/chatgpt-assisted) · [Test sender](/scenarios/test-sender).
-
-## Local Versions and downloaded sender privacy
-
-Local Versions can contain raw log samples in the browser's origin/profile storage. These checkpoints are not encrypted by Parser Studio and do not sync to a server account.
-
-The optional downloaded Python Test Sender includes base64-encoded copies of sample source logs. Base64 is not encryption; review or redact the file before distributing or running it.
+[Current ChatGPT Assisted workflow](/workflows/chatgpt-assisted) · [Test sender](/scenarios/test-sender) · [Local Versions](/workflows/local-versions)

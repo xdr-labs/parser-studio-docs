@@ -1,33 +1,43 @@
 ---
 title: "ChatGPT Assisted Parser 사용법"
 sidebarTitle: "ChatGPT 보조 파서"
-description: "모르는 로그를 수동으로 안전하게 공유하고 ParserRecipe 규칙을 검증하는 방법."
+description: "현재 제품 화면에서 원본 로그가 포함된 프롬프트를 검토하고, JSON 레시피와 별도 테스트 로그를 확인하는 방법."
 ---
 
 # ChatGPT Assisted Parser: 자동 분석이 어려울 때
 
-왼쪽 메뉴의 **ChatGPT Assisted Parser**는 사람이 직접 프롬프트를 복사해 ChatGPT로 보내는 경로입니다. **Parser Studio가 자동으로 외부 AI 서비스에 원본 로그를 보내지 않습니다.**
+**ChatGPT Assisted Parser**는 Auto Parser가 미지원 로그 또는 미파싱 영역을 보고할 때 사용하는 **수동 복사·붙여넣기** 작업 흐름입니다. Parser Studio가 로그를 외부 ChatGPT로 자동 전송하지 않습니다.
 
-![ChatGPT Assisted Parser 최신 화면](/images/current-08-chatgpt-assisted.png)
+![원본 로그 입력과 공유 경고가 표시된 현재 ChatGPT Assisted Parser 화면](/images/current-08-chatgpt-assisted.png)
 
-## 1. 로그 준비
+## 1. 실제 로그 입력 및 검토
 
-- **Original local logs**: Parser Studio에서 검증할 원본을 입력합니다.
-- **What do you want Parser Studio to find?**: 필요한 source IP, destination IP, 사용자, 액션, URL 등을 자연어로 설명합니다.
-- **Redacted example to copy to ChatGPT**: 외부에 공유 가능한 가명화·마스킹 예시만 별도로 입력합니다.
+1. 좌측 **ChatGPT Assisted Parser** 또는 분석 결과의 **Fix with ChatGPT**를 엽니다.
+2. **Original local logs**의 원문을 확인합니다. 프롬프트를 만들면 **여기에 입력한 로그가 그대로 포함됩니다.**
+3. **What do you want Parser Studio to find?**에 필요한 필드를 입력합니다.
+4. 필요한 경우 **Log-generating solution**에 제조사·제품·버전·수집 방식을 적습니다. 이는 문법이 검증됐다는 뜻이 아닙니다.
+5. 민감정보 공유 경고를 확인합니다. **별도의 Redacted example 입력칸이나 마스킹 승인 체크박스는 없습니다.** 외부 공유가 금지된 값은 프롬프트를 만들기 전에 원본 입력에서 수정하거나 삭제해야 합니다. 이 경우 테스트 대상 원본도 변경됩니다.
 
-## 2. 수동으로 프롬프트 전달
+## 2. 프롬프트 수동 전송
 
-**Prepare ChatGPT Prompt**를 클릭하고 생성된 텍스트 전체를 검토합니다. **Copy Prompt**를 눌러 직접 ChatGPT에 붙여 넣고, 제품이 요구하는 **ParserRecipe v0.2 JSON**을 요청합니다. Grok·Ruby·임의 스크립트를 대체 실행 규칙으로 제출하지 마세요.
+1. **Prepare ChatGPT Prompt**를 누릅니다.
+2. 생성된 프롬프트 전체와 **BEGIN ORIGINAL LOG SOURCE** 아래의 실제 원문을 확인합니다.
+3. 직접 **Copy Prompt**를 누르고 별도 ChatGPT 창에 붙여 넣습니다.
+4. 지원되는 **ParserRecipe v0.2 JSON**만 요청합니다. 구조가 불명확하면 억지 레시피 대신 **REVIEW_REQUIRED** 진단을 받아야 합니다.
 
-## 3. 제안된 결과 검토
+## 3. 레시피 검사 및 테스트
 
-1. 응답 JSON을 **3. Paste the ChatGPT result**에 붙여 넣습니다.
-2. **Check ChatGPT Result**를 눌러 스키마·안전성을 확인합니다.
-3. 변경 규칙이 있는 경우 **Additional ChatGPT test logs**에 원본과 다른 예시를 붙여 넣습니다.
-4. **Test Proposed Fix**가 원본과 추가 로그를 모두 통과한 뒤 명시적으로 승인합니다.
-5. 검증된 변경을 적용하고 필드 검토·매핑·최종 테스트로 이어갑니다.
+1. 받은 JSON을 **ChatGPT result JSON**에 붙여 넣고 **Check ChatGPT Result**를 누릅니다.
+2. 거부된 규칙은 강제로 적용하지 않고 소스·SHA·스키마 문제를 수정합니다.
+3. 변경된 규칙에는 학습 로그와 다른 **Additional ChatGPT test logs**를 입력합니다.
+4. **Confirm test examples are different**를 체크하고 **Test Proposed Fix**를 누릅니다.
+5. 원본과 추가 로그가 모두 통과해야 합니다. 필요한 경우 잘못된 날짜·포트·메시지 경계처럼 **실패해야 하는 반례**도 검증합니다.
+6. 명시적 승인 후 **Apply Fix & Create Parser Files**로 Ruby/CONF DRAFT 파일을 생성합니다.
 
-제품이 응답을 거부했다면 에러를 읽고 더 제한적인 JSON을 다시 요청하세요. 안전 검증을 건너뛰지 않습니다.
+성공한 DRAFT는 실제 Stellar Cyber 7.0에 설치되거나 수신 검증됐다는 뜻이 아닙니다.
 
-[추가 로그 테스트 방법](/ko/workflows/holdout-validation) · [실제 Snort 복구 영상](/ko/videos/unknown)
+<Warning>
+  프롬프트에는 원본 로그가 **그대로 들어 있습니다.** 외부 복사 전에 민감정보를 직접 검토하세요. Auto Parser에서 **Analyze Logs**를 누를 때에는 로그가 ChatGPT가 아닌 **동일한 Parser Studio 서버**로 전송되어 Multi-Pass 분석에 사용됩니다.
+</Warning>
+
+[추가 로그 테스트 방법](/ko/workflows/holdout-validation) · [모르는 로그 해결](/ko/scenarios/unknown-log) · [개인정보 보호](/ko/reference/source-privacy)

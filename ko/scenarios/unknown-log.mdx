@@ -136,7 +136,7 @@ description: "원본 이벤트의 미파싱 영역을 보존하고 ChatGPT Assis
 2. **Problem to review**에서 **Original event**, **Text not yet assigned to fields**, **Values already found**를 확인합니다.
 3. 제품이 안전한 내장 수정 기능을 제안하는지 먼저 확인합니다.
 4. 해결되지 않으면 **Fix with ChatGPT**를 누르거나 좌측의 **ChatGPT Assisted Parser** 메뉴를 엽니다.
-5. 원본 로그는 브라우저 안에 두고, 외부 공유용 **Redacted example**은 개인정보·비밀값을 지운 별도 텍스트로 준비합니다.
+5. **Original local logs**에 입력한 원문이 프롬프트에 그대로 포함됩니다. 민감정보는 **Prepare ChatGPT Prompt** 이전에 원본에서 직접 수정하거나 삭제합니다. 별도 Redacted example 입력 영역은 없습니다.
 6. **Prepare ChatGPT Prompt → Copy Prompt**로 수동 요청을 보냅니다.
 7. 응답을 제품이 요구하는 JSON 형식으로 붙여 넣고 **Check ChatGPT Result**를 실행합니다.
 8. 서로 다른 로그로 테스트한 다음 승인하고, 원래 이벤트를 다시 검토합니다.

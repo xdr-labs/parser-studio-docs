@@ -47,8 +47,8 @@ device="SFW" date=2018-05-30 time=13:14:26 timezone="IST" device_name="XG125w" d
 1. Manufacturer에 Sophos, Product에 XG Firewall을 입력하고 원본 두 건을 붙여 넣습니다.
 2. Analyze Logs를 누릅니다. 0 of 2 log events parsed completely라는 경고를 확인합니다.
 3. Problem to review에서 오류 이벤트를 선택하고 Text not yet assigned to fields와 Values already found를 나눠 봅니다.
-4. Tools & Diagnostics에서 Re-analyze difficult logs를 실행합니다.
-5. Review unparsed text가 있으면 잔여 영역만 선택해 이미 인식된 값을 유지합니다.
+4. 현재 제품에서는 **Problem to review**에서 **Original event**와 **Text not yet assigned to fields**를 비교합니다.
+5. 영상 속 Tools & Diagnostics와 Re-analyze difficult logs는 이전 화면에만 등장하며, 현재 제품에서는 제거됐습니다. 이미 인식된 필드를 유지합니다.
 6. Fix with ChatGPT에서 작은 추가 규칙을 검토합니다. 외부 공유 전 프롬프트를 직접 마스킹합니다.
 7. 추가 로그로 Test Proposed Fix를 통과하지 않았다면 파일 생성 성공을 주장하거나 실패 이벤트를 제거하지 않습니다.
 

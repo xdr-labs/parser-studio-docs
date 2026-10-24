@@ -56,7 +56,7 @@ The result should identify each event as completely parsed or as a reviewed, sup
 
 ## Recovery path
 
-Use the left navigation **ChatGPT Assisted Parser**, starting with the same local logs and a separate masked example. Follow [the full assistant workflow](/workflows/chatgpt-assisted).
+Use the left navigation **ChatGPT Assisted Parser** and inspect the same original log source before preparing a manually shared prompt. There is no separate masked-example editor. Follow [the full assistant workflow](/workflows/chatgpt-assisted).
 
 <Warning>
   Do not remove a warning by deleting the problematic row. Keeping all important event types is more useful than creating a parser that quietly ignores some of them.
@@ -64,4 +64,4 @@ Use the left navigation **ChatGPT Assisted Parser**, starting with the same loca
 
 ### Extra diagnostic controls
 
-Open **Tools & Diagnostics** and use **Re-analyze difficult logs** when needed. Select **Review unparsed text** for a specific unresolved source span; a tested rule may then be proposed via **Fix with ChatGPT**. Do not delete the original source or claim a complete parser unless the candidate passes independent tests.
+The normal **Analyze Logs** result already provides **Problem to review**, **Original event**, **Values already found** and **Text not yet assigned to fields**. Inspect those areas directly. The old Tools & Diagnostics menu is no longer part of the product. Use **Fix with ChatGPT** only for a reviewed, tested rule and never delete the unresolved original source.

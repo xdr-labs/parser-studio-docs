@@ -47,7 +47,7 @@ If the source value itself was correct, **do not re-parse the logs** to fix the 
 
 ## ChatGPT did not solve it
 
-1. Verify that the copied prompt was masked and described only the missing field.
+1. Verify that you reviewed and, where necessary, masked the actual original-source block before manually sharing the prompt.
 2. Ask for **ParserRecipe v0.2 JSON**, not arbitrary executable code.
 3. Paste under **3. Paste the ChatGPT result**, then **Check ChatGPT Result**.
 4. If a changed rule fails the additional-sample comparison, **do not approve it**.
@@ -61,8 +61,8 @@ Keep a **fictional or masked** example, note which stage failed, copy the exact 
   <Card title="Unknown source walkthrough" icon="comments" href="/scenarios/unknown-log">Use the supported manual ChatGPT workflow.</Card>
 </CardGroup>
 
-## Current advanced diagnostic workflow
+## Current inline event review
 
-When a complex event contains a partial source extraction, use **Problem to review** and **Values already found** first. **Tools & Diagnostics → Re-analyze difficult logs** can show precise UTF-8 source ranges and **Review unparsed text** targets.
+When a complex event is partially parsed, use **Problem to review**, **Original event**, **Text not yet assigned to fields** and **Values already found** in the normal analysis result. The separate Tools & Diagnostics menu and Re-analyze difficult logs action have been removed.
 
 ![Current unparsed source span inspector](/images/current-09-unparsed-region.png)

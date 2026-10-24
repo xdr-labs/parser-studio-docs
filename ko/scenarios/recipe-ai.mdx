@@ -12,7 +12,7 @@ description: "이미 추출된 필드를 보존하면서 특정 잔여 영역만
 
 1. **Problem to review**에서 미파싱 이벤트를 선택합니다.
 2. **Text not yet assigned to fields**를 확인하고 **Values already found**의 원본 값 목록을 보존합니다.
-3. **Tools & Diagnostics → Re-analyze difficult logs**가 필요하다면 실행하고, 남은 영역에 대해 **Review unparsed text**를 선택합니다.
+3. 기본 **Problem to review** 결과에서 **Original event**와 **Text not yet assigned to fields**를 비교합니다. 제거된 Tools & Diagnostics 메뉴를 찾을 필요는 없습니다.
 4. **Fix with ChatGPT**를 누릅니다. 자동으로 생성된 프롬프트에는 원본의 정확한 영역과 보존해야 할 값이 포함될 수 있습니다.
 5. 원본이 고객 데이터라면 민감정보를 마스킹한 뒤 **Copy Prompt**를 수동으로 사용합니다.
 6. ChatGPT에 제품에서 지원하는 **ParserRecipe v0.2**의 제한된 단계만 요청합니다.

@@ -24,7 +24,7 @@ Suppose the value of `reason` is incomplete. Do not throw away the working `acti
 3. Choose **Fix with ChatGPT** or **ChatGPT Assisted Parser** from the left.
 4. In **Original local logs**, retain the original events for local testing.
 5. In **What do you want Parser Studio to find?**, enter a specific goal: “Preserve the complete values of action and reason, including quoted spaces, without changing source addresses.”
-6. In **Redacted example to copy to ChatGPT**, confirm that every value is fictional or properly masked.
+6. Review **Original local logs** and remove sensitive values there before preparing a prompt. There is no separate redacted-example editor.
 7. Click **Prepare ChatGPT Prompt**, review it under **2. Copy to ChatGPT**, and click **Copy Prompt**.
 8. Open ChatGPT manually and ask for a JSON response using the requested **ParserRecipe v0.2** contract.
 9. Paste the result under **3. Paste the ChatGPT result** and click **Check ChatGPT Result**.
@@ -32,7 +32,7 @@ Suppose the value of `reason` is incomplete. Do not throw away the working `acti
 
 ![The actual ChatGPT Assisted Parser screen for manual source review and prompt preparation](/images/06-chatgpt-assisted.png)
 
-*Use the three sections in order: prepare examples, copy the prompt, paste the JSON result.*
+*Use the steps in order: inspect the original logs, prepare and manually copy the prompt, then paste and test the JSON result.*
 
 ## Expected review outcome
 

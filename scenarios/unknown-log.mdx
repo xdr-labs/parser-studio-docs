@@ -139,13 +139,13 @@ Download the same reviewed JSON: [03-snort-reviewed-recipe.json](https://app.par
 3. Check **Original event**, **What needs attention**, and **Recommended fix**.
 4. If a supported on-screen fix such as **Use extracted fields** is offered, review it first. If no safe local repair is available, click **Fix with ChatGPT** or select **ChatGPT Assisted Parser** on the left.
 5. In **Original local logs**, keep the source for local checking. Describe the fields you need in **What do you want Parser Studio to find?**.
-6. Review and mask the separate **Redacted example to copy to ChatGPT**.
+6. Review and mask **Original local logs** before preparing the prompt. The original text is included verbatim; there is no separate redacted-example editor.
 7. Click **Prepare ChatGPT Prompt** → **Copy Prompt**, then paste that prompt into ChatGPT yourself.
 8. Ask for **supported ParserRecipe v0.2 JSON**, return the response to **3. Paste the ChatGPT result**, then click **Check ChatGPT Result**.
 9. If Parser Studio requests additional test logs, provide different examples, check the comparison and approve only a passing supported change.
 10. Return to Auto Parser and re-review all records before mapping and generation.
 
-![ChatGPT Assisted Parser preparation with local logs, masked example and prompt button](/images/06-chatgpt-assisted.png)
+![Current ChatGPT Assisted Parser with original logs, sharing warning and prompt preparation](/images/current-08-chatgpt-assisted.png)
 
 *Use this menu when automatic analysis cannot safely understand the source. Nothing is automatically sent to ChatGPT.*
 
