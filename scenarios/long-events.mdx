@@ -8,30 +8,42 @@ description: "Confirm where one full event ends when source text spans several l
 
 **Situation:** You copy a Java application error that contains an exception title followed by many indented lines. Those lines might belong to **one event** instead of several.
 
-## Fictional example
+## Actual published source — copy all lines
+
+This is the unchanged published example. [Original publication](https://github.com/elastic/elasticsearch/issues/44732) · [Same downloadable file](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/07-elasticsearch-java-error.log).
 
 ```text
-java.lang.IllegalArgumentException: invalid argument
-    at example.Service.process(Service.java:42)
-    at example.Main.main(Main.java:10)
-
-java.lang.IllegalStateException: cannot continue
-    at example.Worker.run(Worker.java:51)
-    at example.Main.main(Main.java:12)
-
+Exception in thread "main" java.lang.NoSuchMethodError: org.elasticsearch.action.DocWriteRequest.ifSeqNo()J
+	at org.elasticsearch.client.RequestConverters.bulk(RequestConverters.java:197)
+	at org.elasticsearch.client.RestHighLevelClient.internalPerformRequest(RestHighLevelClient.java:1760)
+	at org.elasticsearch.client.RestHighLevelClient.performRequest(RestHighLevelClient.java:1734)
+	at org.elasticsearch.client.RestHighLevelClient.performRequestAndParseEntity(RestHighLevelClient.java:1696)
+	at org.elasticsearch.client.RestHighLevelClient.bulk(RestHighLevelClient.java:472)
+	at fulltext.storage.http.impl.HighLevelClient.batchSave(HighLevelClient.java:198)
+	at fulltext.storage.http.impl.HighLevelClient.main(HighLevelClient.java:99)
+	Suppressed: java.lang.IllegalStateException: Failed to close the XContentBuilder
+		at org.elasticsearch.common.xcontent.XContentBuilder.close(XContentBuilder.java:1002)
+		at org.elasticsearch.client.RequestConverters.bulk(RequestConverters.java:163)
+		... 6 more
+	Caused by: java.io.IOException: Unclosed object or array found
+		at org.elasticsearch.common.xcontent.json.JsonXContentGenerator.close(JsonXContentGenerator.java:469)
+		at org.elasticsearch.common.xcontent.XContentBuilder.close(XContentBuilder.java:1000)
+		... 7 more
 ```
 
 ## Walkthrough
 
-1. Paste the **complete text**, including the empty line between the two exceptions, into **Auto Parser → Add Logs**.
-2. Click **Analyze Logs**. Look at the number of logical events reported. The example has **two exceptions**, not six separate events.
+1. Paste the **complete 16-line issue report stack trace**, into **Auto Parser → Add Logs**.
+2. Click **Analyze Logs**. Look at the number of logical events reported. This official GitHub issue contains a single Java exception spread over 16 physical lines. Default analysis showed **0 of 16 lines completely parsed**; this is not a successful generated parser.
 3. If the app offers **These look like Java error stack traces**, read the explanation and use **I Confirm Each Java Error Is Separated by a Blank Line** only when it matches the actual way records are separated at the source.
-4. Continue to **Review Fields** and inspect the exception class, optional cause class and number of frames.
-5. Review mapping, then use **Create Parser** only if that exact, reviewed multiline framing is supported.
+4. The real **0 of 16** result does not qualify the source for parser creation. First establish actual event boundaries.
+5. Retain all original bytes; only create a native parser after a separately validated multiline rule passes the complete test.
+
+![Real public browser analysis of the published 16-line Elasticsearch exception](/images/current-14-java-error.png)
 
 ## Expected review outcome
 
-The complete stack trace stays together under one event. Parser Studio does not independently parse each indented line as another exception.
+The source exception is one logical event but the current public UI reported **0/16 complete physical records** with default settings. Confirm the true event boundary before applying a multiline rule; do not claim a verified parser from this unreviewed source.
 
 ## Recovery path
 

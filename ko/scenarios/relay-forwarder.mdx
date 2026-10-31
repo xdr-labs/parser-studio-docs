@@ -1,79 +1,80 @@
 ---
-title: "Syslog 릴레이: 전달된 로그로 파서 만들기"
-sidebarTitle: "릴레이 로그 실습"
-description: "원본·릴레이 전달본·검증 로그를 다운로드하고 실제 화면에서 따라 하는 RFC3164 릴레이 실습입니다."
+title: "FortiGate 실제 로그를 rsyslog로 릴레이한 실습"
+sidebarTitle: "FortiGate 실제 릴레이"
+description: "Fortinet 공식 원본 로그를 실제 rsyslog로 UDP 전달·수신한 원문과 웹 UI 검증 결과를 그대로 복사해서 따라 합니다."
 ---
 
-# 따라 하기: 로그 릴레이를 거쳐 전달된 보안 로그
+# 실습: FortiGate 공식 보안 로그를 실제 rsyslog로 전달하고 파싱하기
 
-보안 장비의 원본 로그가 릴레이를 통과하면 바깥쪽에 **릴레이 시간·호스트명·Syslog 헤더**가 붙을 수 있습니다. 따라서 수집 시스템에서 캡처한 문자열은 원본 장비 로그와 다릅니다. Parser Studio에는 **릴레이가 출력한 로그를 복사하거나 파일로 업로드**해야 합니다. Parser Studio 웹 UI 자체가 실시간 Syslog 수신기가 되는 것은 아닙니다.
+이 실습은 **Fortinet에서 공개한 실제 FortiGate Traffic 및 Web Filter 로그 예제**를 사용합니다. 가상 방화벽 이벤트를 만들어 넣은 것이 아닙니다. 실제 `rsyslogd` 프로세스에 원문을 UDP로 전달하고, 릴레이가 Syslog 헤더를 추가하여 다시 전송한 **실제 UDP 수신 내용**을 캡처했습니다. 아래 로그를 그대로 복사해서 Parser Studio에 붙여 넣으면 됩니다.
 
 <Note>
-이 파일은 **재현용 합성 예제**이며 제조사 공식 원본 로그나 실운영 릴레이 캡처가 아닙니다. 예약된 테스트 IP를 사용합니다. [제품 main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927) 및 2026년 10월 31일 공개 UI에서 직접 검증했습니다.
+**출처와 전달 환경을 구분하세요.** 보안 이벤트 본문은 [Fortinet 공식 Sample logs by log type](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type)의 공개 예제이고, 바깥쪽 `relay01` 헤더는 **테스트 서버에서 실제 rsyslog가 생성**한 것입니다. 운영 중인 FortiGate 장비·고객 네트워크를 캡처했다고 주장하지 않습니다. 원본 이벤트의 모든 바이트가 릴레이 후에도 보존되는지 확인했습니다. 테스트 제품 기준: [main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927).
 </Note>
 
-## 실습 파일 내려받기
+## 실습용 원본 파일
 
-- [릴레이 전달 전 로그 2건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log)
-- [릴레이 전달 후 로그 2건 · 실제 입력 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log)
-- [별도 검증 로그 1건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log)
-- [샘플 설명 및 출처](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/README.md)
+- [FortiGate Traffic 공식 원본 로그 2건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — 릴레이 이전.
+- [rsyslog가 전달한 실제 수신 로그 2건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — **Parser Studio에 입력**.
+- [별도 검증용 FortiGate Web Filter 공식 원본](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout-original.log).
+- [별도 검증용 실제 rsyslog 수신 로그](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — **추가 검증용**.
+- [Actual rsyslog capture evidence](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-rsyslog-capture-evidence.json) — 원본·수신 로그 해시와 rsyslog 버전.
+- [실제 rsyslog 전송·캡처 스크립트](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/capture_with_rsyslog.py) — 필요한 권한을 갖춘 별도 Linux 실습 환경에서만 선택 실행.
 
-**릴레이를 거치기 전:**
+## 1. 릴레이 전: Fortinet에서 공개한 원본 로그 두 건
 
-```text
-date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
-date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
-```
-
-**릴레이를 거친 후 (Parser Studio에 입력):**
+아래 두 줄은 실습에 사용한 원본 이벤트 그대로입니다. 릴레이 기능을 실습할 때는 **다음 절의 수신 로그**를 입력하세요.
 
 ```text
-<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
-<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+date=2019-05-13 time=16:29:50 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557790190452146185 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=381780 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Germany" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=44258 duration=5 sentbyte=736 rcvdbyte=3138 sentpkt=14 rcvdpkt=5 appcat="unscanned" utmaction="block" countweb=1 crscore=30 craction=4194304 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65497-796
+date=2019-05-10 time=11:37:47 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557513467369913239 srcip=10.1.100.11 srcport=58012 srcintf="port12" srcintfrole="undefined" dstip=23.59.154.35 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=105048 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Canada" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=58012 appid=34050 app="HTTP.BROWSER_Firefox" appcat="Web.Client" apprisk="elevated" applist="g-default" duration=116 sentbyte=1188 rcvdbyte=1224 sentpkt=17 rcvdpkt=16 utmaction="allow" countapp=1 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65500-742
 ```
 
-`relay01`은 이벤트를 처음 생성한 방화벽 이름이 아니라 **중계 장비의 호스트명**입니다. 메시지에 적힌 호스트명이 실제 네트워크 송신자의 신원을 증명하지는 않습니다.
+## 2. 릴레이 후: 실제 rsyslog UDP 수신 로그 두 건 — 이 부분을 복사하세요
+
+실제 `rsyslogd`가 `omfwd`를 통해 송신하고 수신 소켓이 확보한 원문입니다. 바깥쪽 Syslog 헤더의 시간은 **릴레이 수행 시각**, 내부 `date=2019-...`는 **원본 보안 이벤트 시간**입니다.
+
+```text
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:50 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557790190452146185 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=381780 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Germany" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=44258 duration=5 sentbyte=736 rcvdbyte=3138 sentpkt=14 rcvdpkt=5 appcat="unscanned" utmaction="block" countweb=1 crscore=30 craction=4194304 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65497-796
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-10 time=11:37:47 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557513467369913239 srcip=10.1.100.11 srcport=58012 srcintf="port12" srcintfrole="undefined" dstip=23.59.154.35 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=105048 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Canada" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=58012 appid=34050 app="HTTP.BROWSER_Firefox" appcat="Web.Client" apprisk="elevated" applist="g-default" duration=116 sentbyte=1188 rcvdbyte=1224 sentpkt=17 rcvdpkt=16 utmaction="allow" countapp=1 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65500-742
+```
+
+첫 이벤트의 `srcip=10.1.100.11`, `dstip=185.244.31.158`, `sessionid=381780`, `action="close"`는 원본 FortiGate 필드입니다. `relay01`은 방화벽 이름이 아닌 **릴레이의 호스트명**입니다.
 
 ## 따라 하기
 
-1. [Parser Studio](https://app.parser.xdr.ooo/)의 **Auto Parser**를 선택하고 **Add Logs**에 위의 **릴레이 전달 후 2개 로그**를 모두 붙여 넣습니다. 또는 **Upload a log file**로 `05-relay-forwarded.log`를 선택합니다.
-2. **Manufacturer**에 `Training`, **Product**에 `Relay KV demo`를 입력하고 기본 포트 **6801**을 유지합니다. 실제 제조사명이 아닌 실습용 식별자입니다.
-3. **Optional: declare Syslog forwarder hostnames**를 펼칩니다. **Relay hostnames (comma-separated)**에 `relay01`을 입력하고 **Maximum declared hops**를 `1`로 둡니다.
-4. **Relay source preview**가 **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**인지 확인합니다. **Apply declared relay profile**을 클릭한 다음 `Local profile: relay01`을 확인합니다.
-5. **Analyze Logs**를 클릭합니다. **2 of 2 log events parsed completely**가 표시되는지 확인합니다. 다른 결과가 나오면 문제 이벤트를 삭제하지 말고 원문부터 확인합니다.
-6. **Review Fields**에서 `srcip`, `dstip`, `action`, `proto`, `sessionid` 값을 원본과 비교하고, 릴레이 호스트명을 원본 보안 장비로 혼동하지 않았는지 확인합니다.
-7. **Map Fields**에서 Stellar Cyber 7.0 매핑과 데이터 유형을 점검합니다. UI가 허용하면 **Create Parser** → **Run Final Test & Create Files** → 다운로드를 진행합니다. 다운로드는 실제 대상 시스템 설치 검증이 아닙니다.
-8. `05-relay-holdout.log`는 파서 생성에 넣지 말고 별도의 재검증에 사용합니다. 동일한 `relay01` 설정으로 추가 샘플이 해석되는지 확인합니다.
+1. [Parser Studio](https://app.parser.xdr.ooo/) → **Auto Parser**를 선택하고 **Manufacturer**에 `Fortinet`, **Product**에 `FortiGate`를 입력합니다. 샘플에 없는 펌웨어 버전은 임의로 지정하지 않습니다. 기본 수신 포트는 **6801**로 둡니다.
+2. **2번 절의 릴레이 전달 후 로그 두 줄 전체**를 `<134>`부터 끝까지 복사해 **Add Logs**에 입력합니다. 또는 `05-relay-forwarded.log` 파일을 업로드합니다.
+3. **Optional: declare Syslog forwarder hostnames**를 열고 **Relay hostnames (comma-separated)**에 `relay01`, **Maximum declared hops**에 `1`을 입력합니다.
+4. **Relay source preview**에서 **2 of 2 events recognized, 0 unsafe and 0 not matching a declared relay**를 확인한 뒤 **Apply declared relay profile**을 클릭합니다.
+5. **Analyze Logs**를 눌러 **2 of 2 log events parsed completely**가 표시되는지 확인합니다. 실제 공개 UI에서 해당 결과를 확인했습니다.
+6. **Review Fields**에서 원문 `srcip`, `dstip`, `action`, `proto`, `sessionid` 값을 비교합니다. 이어서 **Map Fields**에서 Stellar Cyber 7.0 매핑과 실제 값을 검토합니다.
+7. **Create Parser**로 진행하고 **Run Final Test & Create Files**가 허용되면 실행합니다. 파서 파일 생성 여부와 별개로 실제 Stellar Cyber DP 설치·수신은 검증되지 않았습니다.
 
-![실제 웹 UI의 선언된 릴레이 프로필과 파싱 결과](/images/current-12-relay-profile.png)
+![실제 rsyslog로 전달한 FortiGate 로그를 분석한 Parser Studio 화면](/images/current-12-relay-profile.png)
 
-### 두 가지 릴레이 기능의 차이
+## 3. 별도 검증용 실제 FortiGate Web Filter 이벤트 — 처음 학습에 넣지 마세요
 
-- **Optional: declare Syslog forwarder hostnames**: 신뢰할 수 있는 운영자가 지정한 RFC3164/RFC5424 릴레이 호스트의 외부 헤더를 검토해 처리합니다. 최대 3홉을 지원하며, 모르는 호스트를 무조건 제거하지 않습니다.
-- **Optional: mark a forwarded prefix or trailing suffix**: 모든 이벤트에서 같은 **고정 문자열의 시작·끝 범위만 검토**합니다. 실제 `.rb` 규칙이 생성되는 기능이 아닙니다. 매번 바뀌는 릴레이 타임스탬프를 고정 접두어로 제거하려고 사용하지 마세요.
+아래 한 줄은 **다른 유형의 Fortinet 공식 Web Filter 로그**를 실제 rsyslog로 전달해 캡처한 것입니다. 원래 Traffic 두 건의 파서 작성에 섞지 말고, **새 Auto Parser 검증**에 붙여 넣어 동일한 `relay01` 설정으로 확인합니다.
 
-실제 로그 릴레이를 운영하고 있다면 릴레이의 **전달 후 캡처 파일**을 확보하여 같은 절차로 분석합니다. 이 실습은 운영 네트워크 송신, 수집기 수신, Stellar Cyber DP 수신을 검증하지 않습니다.
-
-
-### 선택 실습: 로컬 UDP에서 실제 전달 과정 재현
-
-Python 3가 있는 PC에서 [practice 파일 4개](https://github.com/xdr-labs/parser-studio-docs/tree/main/practice)를 내려받거나 문서 저장소를 복제한 뒤 다음 명령을 실행할 수 있습니다.
-
-```bash
-python3 practice/replay_relay_loopback.py
+```text
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:45 logid="0316013056" type="utm" subtype="webfilter" eventtype="ftgd_blk" level="warning" vd="vdom1" eventtime=1557790184975119738 policyid=1 sessionid=381780 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" proto=6 service="HTTP" hostname="morrishittu.ddns.net" profile="test-webfilter" action="blocked" reqtype="direct" url="/" sentbyte=84 rcvdbyte=0 direction="outgoing" msg="URL belongs to a denied category in policy" method="domain" cat=26 catdesc="Malicious Websites" crscore=30 craction=4194304 crlevel="high"
 ```
 
-스크립트는 **127.0.0.1의 두 UDP 홉**으로 원본 로그 2개를 송신하고, 중간 릴레이에서 RFC3164 헤더를 붙인 다음 로컬 수신단에 캡처합니다. **2/2 전달 PASS**와 `05-relay-forwarded.log`의 원문 바이트 일치가 확인됩니다. 출력된 `parser-studio-relay-captured.log`를 Parser Studio에 올려보세요. 실제 운영 릴레이 장비나 Stellar Cyber DP에 연결하지 않습니다.
+실제 검증 결과는 릴레이 헤더 **1/1 인식**, 보안 이벤트 **1/1 완전 파싱**입니다. 한 개의 Web Filter 이벤트를 성공했다고 전체 FortiGate 이벤트 유형이 검증된 것은 아닙니다.
+
+## 실제 수신 로그 생성 방법
+
+사용한 릴레이는 `rsyslogd 8.2312.0`입니다. 독립 실행한 `imudp` 입력에서 원문을 받아 `omfwd` UDP 출력으로 다시 전송했습니다. 출력 템플릿이 `<134>`, 릴레이 호스트명 `relay01`, `forwarder:` 레이블 및 릴레이 시간을 추가했고, **`%rawmsg%`를 이용해 공식 로그 원문 3건을 바이트 단위 그대로 보존**했습니다.
+
+재현이 꼭 필요한 경우에만 권한이 분리된 Linux 실습 서버에서 [rsyslog 캡처 스크립트](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/capture_with_rsyslog.py)를 실행할 수 있습니다. 시스템 rsyslog 서비스를 재시작하지 않으며 운영 장비 연결을 요구하지 않습니다. 단순한 Python 문자열 접두어 시뮬레이션이 아닙니다.
 
 ## 예상 결과
 
-2026년 10월 31일 Chromium 기반 공개 UI 테스트에서 릴레이 헤더 **2/2 인식**, 원본 이벤트 **2/2 완전 파싱**, **Review Fields 활성화**를 직접 확인했습니다. 다른 릴레이 헤더, 펌웨어 및 실제 대상 시스템의 동작까지 입증된 것은 아닙니다.
+공개 웹 UI 실제 테스트 결과: FortiGate Traffic **2/2 완전 파싱**, 별도 Web Filter **1/1 완전 파싱**. 실제 고객 장비의 수신·Stellar Cyber DP 수집·원어민 파서 런타임 호환성은 이번 웹 실습의 검증 범위가 아닙니다.
 
 ## 복구 방법
 
-- 릴레이 헤더가 인식되지 않으면 `<134>`로 시작하는지, 호스트명이 정확히 `relay01`인지, `forwarder:` 레이블이 있는지 확인합니다. `<PRI>`가 없는 RFC3164 문자열은 이 기능의 대상이 아닙니다.
-- 일부 필드만 인식되면 **Problem to review**, **Text not yet assigned to fields**를 확인하고 원본을 보존합니다. **Fix with ChatGPT**의 `REVIEW_ONLY` 결과는 검증되지 않은 초안일 수 있습니다.
-- 실운영 릴레이 형식이 다르다면 원본을 억지로 수정하지 말고 실제 전달본을 별도의 샘플로 검증합니다.
+릴레이 헤더 인식에 실패하면 `relay01`과 Syslog `<134>` 형식을 확인하세요. **Optional: mark a forwarded prefix or trailing suffix**는 고정 문자열 범위만 검토하며, 변하는 타임스탬프까지 처리하는 파서 규칙을 자동 생성하지 않습니다. 미해석 영역이 있으면 원본을 지우지 말고 **Text not yet assigned to fields**에서 확인합니다.
 
-[릴레이 동영상 실습](/ko/videos/relay) · [원본 로그 동영상](/ko/videos/complete) · [로그 보안 주의사항](/ko/reference/source-privacy)
+[실제 로그로 다시 녹화한 동영상](/ko/videos/relay) · [공식 제조사 원본](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type) · [다중 유형 로그 실습](/ko/scenarios/mixed-events)

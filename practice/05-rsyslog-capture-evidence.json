@@ -1,0 +1,22 @@
+{
+  "classification": "REAL_RSYSLOG_WIRE_CAPTURE_OF_PUBLIC_MANUFACTURER_SAMPLES",
+  "origin": "Fortinet Document Library FortiOS 6.2.0 sample logs by log type",
+  "origin_url": "https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type",
+  "origin_is_real_published_vendor_sample": true,
+  "transmission": "actual rsyslogd imudp -> omfwd UDP on loopback, independent process",
+  "rsyslog_version": "rsyslogd  8.2312.0 (aka 2023.12) compiled with:",
+  "profile": "RFC3164 PRI=134, hostname=relay01, app=forwarder",
+  "source_payload_preserved_exactly": true,
+  "transport_scope": "127.0.0.1 only, no production equipment or live Stellar target",
+  "source_sha256": {
+    "05-relay-original.log": "009bfe0d8054435c76d602caee7903ffdc066d908d34e4199739b1c73a39a187",
+    "05-relay-holdout-original.log": "bd5af4523b64aed7dc4fe6f9722f6698278ffeb8477c64016788717efd9df777"
+  },
+  "capture_sha256": {
+    "05-relay-forwarded.log": "2b8e87b318ba2eac1b2e6863db938666648a7b725ef30970c6c82d48bfe74107",
+    "05-relay-holdout.log": "a567eb3753233ed9f008ae0a80aa2ecfaffc68e0274699773fa0d9714c014826"
+  },
+  "source_events": 2,
+  "independent_holdout_events": 1,
+  "parser_studio_expected_status": "requires separate browser test, not asserted by this script"
+}

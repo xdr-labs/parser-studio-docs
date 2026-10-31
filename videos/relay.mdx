@@ -1,68 +1,73 @@
 ---
-title: "Video: RFC3164 Syslog Relay Walkthrough"
-sidebarTitle: "05 · Syslog Relay"
-description: "Real October 31 UI video with English narration and captions, supplied relay-capture logs, exact UI clicks and holdout guidance."
+title: "Video: Real FortiGate Logs Forwarded by rsyslog"
+sidebarTitle: "05 · Real rsyslog Relay"
+description: "Follow real Fortinet published logs actually forwarded over UDP by rsyslogd and analyzed in Parser Studio."
 ---
 
-# Video 05 — Syslog relay-forwarded security logs
+# Video 05 — Actual FortiGate logs through an rsyslog relay
 
-This refreshed tutorial was recorded from the actual October 31, 2026 Parser Studio Web UI. It shows the **declared relay hostname** controls, the two-event analysis result, field review, target mapping and the creation-stage decision.
+This screen recording shows the **real Parser Studio Web UI**, using two actual UDP relay-captured messages. The security-event bodies are unchanged [official Fortinet Traffic log examples](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type); the outer RFC3164 envelope was **emitted by an actual rsyslogd process** in the test lab, not fabricated by Python or manually typed. English narration and on-screen captions accompany each UI step.
 
-<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/poster.png">
-  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/scenario-english.mp4" type="video/mp4" />
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/scenario-english.mp4" type="video/mp4" />
   Your browser does not support native video playback.
 </video>
 
-[Watch in the standalone player](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/subtitles-en.srt) · [English narration transcript](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/narration-en.md)
+[Dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/scenario-english.mp4) · [English SRT](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/subtitles-en.srt) · [Narration transcript](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/05-relay-forwarder/narration-en.md)
 
-## Practice along with the video
+## Copy and paste the exact video input
 
-This **synthetic training case** is not an official vendor log and not a recording of a live Syslog stream. It reproduces a valid RFC3164 relay wrapper around two sample security-event bodies, with separate holdout test data.
-
-- [Download the two forwarded records](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — enter in **Add Logs**.
-- [Download the pre-relay bodies](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — comparison only.
-- [Download the independent holdout](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — test separately.
-
-### Copy the exact recorded relay sample
+Use [Parser Studio](https://app.parser.xdr.ooo/) in another tab. Copy **both complete lines below**, including the outer `<134>` header, directly into **Auto Parser → Add Logs**. The vendor messages were preserved byte for byte when the real rsyslog relay forwarded them.
 
 ```text
-<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
-<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:50 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557790190452146185 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=381780 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Germany" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=44258 duration=5 sentbyte=736 rcvdbyte=3138 sentpkt=14 rcvdpkt=5 appcat="unscanned" utmaction="block" countweb=1 crscore=30 craction=4194304 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65497-796
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-10 time=11:37:47 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557513467369913239 srcip=10.1.100.11 srcport=58012 srcintf="port12" srcintfrole="undefined" dstip=23.59.154.35 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=105048 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Canada" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=58012 appid=34050 app="HTTP.BROWSER_Firefox" appcat="Web.Client" apprisk="elevated" applist="g-default" duration=116 sentbyte=1188 rcvdbyte=1224 sentpkt=17 rcvdpkt=16 utmaction="allow" countapp=1 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65500-742
 ```
 
-### Follow the on-screen steps
+[Download the same forwarded input file](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) · [Download original vendor Traffic messages](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log)
 
-1. Open [Parser Studio](https://app.parser.xdr.ooo/), choose **Auto Parser**, enter **Manufacturer: Training** and **Product: Relay KV demo**, then paste both complete wrapped log lines.
-2. Expand **Optional: declare Syslog forwarder hostnames**, type `relay01`, and set **Maximum declared hops** to `1`. Verify the preview shows **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**.
-3. Click **Apply declared relay profile**, then **Analyze Logs**. The October 31 public UI returned **2 of 2 log events parsed completely** for this exact fixture.
-4. Inspect **Review Fields** for `srcip`, `dstip`, `action`, `proto`, and `sessionid`. Continue through **Map Fields** and review proposed Stellar Cyber 7.0 names and types.
-5. Proceed to **Create Parser** and run **Run Final Test & Create Files** only when enabled and source coverage is complete. Download the generated draft if its final test passes.
-6. Re-run a separate validation with `05-relay-holdout.log`. No live relay transport or target import is demonstrated.
+## Follow the steps
 
-## Video chapters from the current recording
+1. Enter **Manufacturer: Fortinet**, **Product: FortiGate**. Paste both received relay messages shown above.
+2. Expand **Optional: declare Syslog forwarder hostnames**, enter **relay01**, leave **Maximum declared hops** at **1** and check the relay source preview: **2 of 2 recognized, 0 unsafe, 0 not matching**.
+3. Click **Apply declared relay profile**, then **Analyze Logs**. The actual UI returned **2 of 2 log events parsed completely**.
+4. Click **Review Fields** and inspect `srcip`, `dstip`, `action` and `sessionid` against the original vendor message. Continue to **Map Fields** and review Stellar Cyber 7.0 suggestions.
+5. Continue to **Create Parser** and run **Run Final Test & Create Files**. The actual recording reached and passed this local final test. This does not imply native Fluentd or Stellar Cyber target verification.
 
-| Time | Step |
+## Different sample for independent verification
+
+The following is **one official Fortinet Web Filter event**, separately passed through actual rsyslog. Open a **new** Auto Parser exercise with the same `relay01` declaration rather than mixing it into the original two Traffic samples:
+
+```text
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:45 logid="0316013056" type="utm" subtype="webfilter" eventtype="ftgd_blk" level="warning" vd="vdom1" eventtime=1557790184975119738 policyid=1 sessionid=381780 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" proto=6 service="HTTP" hostname="morrishittu.ddns.net" profile="test-webfilter" action="blocked" reqtype="direct" url="/" sentbyte=84 rcvdbyte=0 direction="outgoing" msg="URL belongs to a denied category in policy" method="domain" cat=26 catdesc="Malicious Websites" crscore=30 craction=4194304 crlevel="high"
+```
+
+Observed result: **1 of 1 relay envelope recognized, and 1 of 1 event completely parsed**. This checks an additional event type, not the entire FortiGate product range.
+
+[Download Web Filter holdout](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) · [Official source and complete relay provenance](/scenarios/relay-forwarder)
+
+## Video chapter timestamps
+
+| Time | Recorded action |
 |---|---|
-| 00:01 | Relay Forwarded Events |
-| 00:07 | Training Identity |
-| 00:14 | Paste Forwarded Capture |
-| 00:20 | Declare Relay Host |
-| 00:25 | Review Relay Boundaries |
-| 00:32 | Apply Profile |
-| 00:38 | Analyze Wrapped Logs |
-| 00:44 | Verify Original Fields |
-| 00:50 | Review Extracted Values |
-| 00:57 | Map Target Fields |
-| 01:03 | Create Parser Draft |
-| 01:09 | Final Draft Test |
-| 01:16 | Test A New Relay Event |
+| 00:01 | Actual R S Y S L O G Relay |
+| 00:11 | Real Fortinet Logs |
+| 00:19 | Paste Exact Received Logs |
+| 00:29 | Declare R S Y S L O G Host |
+| 00:37 | Check Real Relay Framing |
+| 00:44 | Apply Approved Host |
+| 00:49 | Analyze Fortigate Events |
+| 00:56 | Verify Two Of Two |
+| 01:04 | Review Real Security Fields |
+| 01:13 | Map Stellar Cyber Fields |
+| 01:21 | Create Parser |
+| 01:26 | Run Final Sample Test |
+| 01:35 | Verify Web Filter Holdout |
 
 ## Expected review outcome
 
-The demonstrated browser run confirms two declared relay envelopes and two fully extracted events, with no discarded source record. A parser package is a local artifact; successful production receive and native runtime compatibility remain **not verified**.
+You can paste the **identical bytes used by the video**, review both events, and independently check the real forwarded Web Filter event. The relay hostname is not the original FortiGate identity. No customer or production DP/Sensor input was used.
 
 ## Recovery path
 
-If the preview recognizes fewer than two relay headers, check the full `<134>Oct 31 ... relay01 forwarder:` prefixes and the exact declared hostname. Do not try to remove variable Syslog timestamps by the **Optional: mark a forwarded prefix or trailing suffix** control: that is a literal boundary review, not a generated parser rule.
-
-[Full click-by-click written scenario](/scenarios/relay-forwarder) · [All tutorials](/videos/index)
+If you see any missing bytes, preserve the entire received source, verify `relay01` in the declared host profile, and check the RFC3164 framing. Do not use fixed-prefix selection to erase variable relay timestamps. For vendor source references and details of the real `rsyslogd` capture, see [the full practice scenario](/scenarios/relay-forwarder).

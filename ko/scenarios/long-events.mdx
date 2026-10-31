@@ -8,17 +8,28 @@ description: "Java Stacktrace와 여러 줄 데이터의 이벤트 경계를 확
 
 **상황:** Java 예외 Stacktrace 또는 여러 줄 메시지가 물리적인 줄 단위로 잘못 분리될 수 있습니다.
 
-## 연습용 예시
+## 실제 공개 로그 원문 — 아래 내용 전체를 복사하세요
 
-~~~text
-2026-10-21 10:00:00 ERROR Request failed
-java.lang.IllegalStateException: Unexpected response
-    at demo.Service.execute(Service.java:42)
+실제 공개된 사례의 로그 원문입니다. [공개 출처](https://github.com/elastic/elasticsearch/issues/44732) · [동일한 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/07-elasticsearch-java-error.log)을 사용할 수 있습니다.
 
-2026-10-21 10:00:01 ERROR Another request failed
-java.lang.RuntimeException: Timeout
-    at demo.Client.call(Client.java:25)
-~~~
+```text
+Exception in thread "main" java.lang.NoSuchMethodError: org.elasticsearch.action.DocWriteRequest.ifSeqNo()J
+	at org.elasticsearch.client.RequestConverters.bulk(RequestConverters.java:197)
+	at org.elasticsearch.client.RestHighLevelClient.internalPerformRequest(RestHighLevelClient.java:1760)
+	at org.elasticsearch.client.RestHighLevelClient.performRequest(RestHighLevelClient.java:1734)
+	at org.elasticsearch.client.RestHighLevelClient.performRequestAndParseEntity(RestHighLevelClient.java:1696)
+	at org.elasticsearch.client.RestHighLevelClient.bulk(RestHighLevelClient.java:472)
+	at fulltext.storage.http.impl.HighLevelClient.batchSave(HighLevelClient.java:198)
+	at fulltext.storage.http.impl.HighLevelClient.main(HighLevelClient.java:99)
+	Suppressed: java.lang.IllegalStateException: Failed to close the XContentBuilder
+		at org.elasticsearch.common.xcontent.XContentBuilder.close(XContentBuilder.java:1002)
+		at org.elasticsearch.client.RequestConverters.bulk(RequestConverters.java:163)
+		... 6 more
+	Caused by: java.io.IOException: Unclosed object or array found
+		at org.elasticsearch.common.xcontent.json.JsonXContentGenerator.close(JsonXContentGenerator.java:469)
+		at org.elasticsearch.common.xcontent.XContentBuilder.close(XContentBuilder.java:1000)
+		... 7 more
+```
 
 ## 따라 하기
 
@@ -28,6 +39,8 @@ java.lang.RuntimeException: Timeout
 4. 명확한 메시지 경계가 확인된 경우에만 **I Confirm Each Java Error Is Separated by a Blank Line** 같은 확인 절차를 수행합니다.
 5. 여러 이벤트를 독립적으로 검사한 뒤 필드를 검토합니다.
 
+![실제 Elasticsearch Java 16줄을 넣었을 때의 공개 UI 결과](/images/current-14-java-error.png)
+
 ## 예상 결과
 
 한 건의 오류 이벤트가 무리하게 여러 개로 나뉘지 않고, 원본의 논리 이벤트 개수가 보존됩니다.
@@ -35,3 +48,5 @@ java.lang.RuntimeException: Timeout
 ## 복구 방법
 
 실제 송신 방식이 TCP 빈 줄 구분과 다르면 확인 버튼을 누르지 않습니다. 지원되지 않는 프레이밍이 있다면 추가 증거를 확보하고 별도 검토합니다.
+
+실제 Elasticsearch 예외 로그 16줄을 공개 웹 UI에 넣으면 기본 분석에서 **0 of 16 log events parsed completely**가 관찰됩니다. 16개의 다른 이벤트라는 의미가 아니며, 멀티라인 경계가 확인될 때까지 파서 생성 성공을 주장하지 않습니다.

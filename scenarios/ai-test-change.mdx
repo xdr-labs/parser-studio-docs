@@ -8,6 +8,14 @@ description: "Test a suggested rule against different events before approving it
 
 **Situation:** A ChatGPT answer passed **Check ChatGPT Result**, but you want to know whether it also works with different values and event variations.
 
+## Actual published source — copy all lines
+
+This is the unchanged published example. [Original publication](https://docs.snort.org/start/alert_logging) · [Same downloadable file](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/03-snort-alert.log).
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
 ## Walkthrough
 
 1. Keep your original source and accepted preliminary review open in **ChatGPT Assisted Parser**.
@@ -23,6 +31,13 @@ For example, if an action value was \`allow\` in the initial sample, use separat
 ![Parser Studio ChatGPT-assisted preparation](/images/06-chatgpt-assisted.png)
 
 *The original logs stay local; share only examples you deliberately mask and approve for manual copying.*
+
+### Separate published Snort holdout examples
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
 
 ## Expected review outcome
 

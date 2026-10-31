@@ -8,6 +8,14 @@ description: "지원하지 않는 ParserRecipe·검증 실패 메시지를 보�
 
 **상황:** **Check ChatGPT Result** 또는 **Test Proposed Fix**에서 오류가 표시됩니다.
 
+## 실제 공개 로그 원문 — 아래 내용 전체를 복사하세요
+
+실제 공개된 사례의 로그 원문입니다. [공개 출처](https://docs.snort.org/start/alert_logging) · [동일한 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/03-snort-alert.log)을 사용할 수 있습니다.
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
 ## 따라 하기
 
 1. 오류 메시지를 확인합니다. 예: **UNTRUSTED_RECIPE**, **INVALID_JSON**, **SOURCE_IDENTITY_MISMATCH**.
@@ -16,6 +24,13 @@ description: "지원하지 않는 ParserRecipe·검증 실패 메시지를 보�
 4. 원본 미파싱 텍스트와 이미 인식된 값을 보존하는지 검토합니다.
 5. ChatGPT에는 **오류 원인과 수동 마스킹 예시**만 전달하여 좁은 범위로 다시 제안받습니다.
 6. 수정된 결과를 다시 검토하고 원본·별도 테스트 로그를 통과시킨 뒤 승인합니다.
+
+### 별도 검증용 Snort 원본 2건
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
 
 ## 예상 결과
 
