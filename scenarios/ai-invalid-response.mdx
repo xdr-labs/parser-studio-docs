@@ -8,6 +8,14 @@ description: "What to click when Check ChatGPT Result rejects a proposed answer.
 
 **Situation:** You asked ChatGPT for help with an unfamiliar log. You copied the answer back into Parser Studio, clicked **Check ChatGPT Result**, and received an error or unsupported notice.
 
+## Actual published source — copy all lines
+
+This is the unchanged published example. [Original publication](https://docs.snort.org/start/alert_logging) · [Same downloadable file](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/03-snort-alert.log).
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
 ## Walkthrough
 
 1. Keep the **Original local logs** unchanged so you can compare the next suggestion with the same source.
@@ -20,6 +28,13 @@ description: "What to click when Check ChatGPT Result rejects a proposed answer.
 ![ChatGPT Assisted Parser with the prompt and result input](/images/06-chatgpt-assisted.png)
 
 *Use the product's JSON result box and check button. A ChatGPT answer is not automatically an accepted parser.*
+
+### Separate published Snort holdout examples
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
 
 ## Expected review outcome
 

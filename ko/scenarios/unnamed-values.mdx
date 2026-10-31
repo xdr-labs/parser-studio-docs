@@ -8,21 +8,26 @@ description: "순서 기반 데이터의 원본 값을 보존하고 임시 이�
 
 **상황:** 로그 한 줄은 쉼표나 다른 구분자로 여러 값이 나뉘지만, 어떤 값이 어떤 필드인지 확실한 헤더가 없습니다.
 
-## 연습용 예시
+## 실제 공개 로그 원문 — 아래 내용 전체를 복사하세요
 
-~~~text
-allow,192.0.2.10,198.51.100.10,443
-deny,192.0.2.11,203.0.113.20,22
-~~~
+실제 공개된 사례의 로그 원문입니다. [공개 출처](https://github.com/elastic/integrations/issues/16486) · [동일한 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/06-panos-traffic-issue.log)을 사용할 수 있습니다.
+
+```text
+<14>Dec 10 00:00:00 hostname 1,2025/12/10 00:00:00,000000000000,TRAFFIC,end,1,2025/12/10 00:00:00,10.0.0.0,10.0.0.0,0.0.0.0,0.0.0.0,Rule,,,x,x,x,x,x,x,x,2025/12/10 00:00:00,1,1,1,1,0,0,0x10001c,tcp,allow,1,1,1,1,2025/12/10 00:00:00,0,x,,0,0x8000000000000000,x,x,,1,1,tcp-fin,1,1,1,1,,hostname,from-policy,,,0,,0,,x,0,0,0,0,x,0,0,Policy ID,{link name, link tag, link type, physical interface, timestamp,100,100,,N/A},x,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2025-12-10T00:00:00.000+11:00,,,x,x,x,1,x,,web-browsing,no,no,0,x,
+```
 
 ## 따라 하기
 
-1. Auto Parser에 두 줄을 넣고 **Analyze Logs**를 누릅니다.
-2. **Values found, but this log does not include field names**가 표시되면 값이 보존됐는지 확인합니다.
-3. 문서화된 스키마를 모른다면 **Keep all N values with temporary names**를 눌러 field_001, field_002 등 임시 이름을 사용합니다.
-4. 신뢰할 수 있는 필드 순서 문서가 있다면 **Names to give each value**에 열 개수와 순서대로 이름을 입력합니다.
-5. **Character between the values**에서 실제 구분자를 확인하고 **I Confirm These CSV Column Names**를 누릅니다.
-6. **Review Fields → Map Fields**에서 원본 값과 임시 이름의 대응을 검증합니다.
+1. **Auto Parser → Add Logs**에 위의 실제 PAN-OS 이벤트 **한 줄 전체**를 붙여 넣고 **Analyze Logs**를 누릅니다.
+2. 공개 UI에서 관찰된 **1 of 1 log event parsed completely**를 확인합니다. 구조적 파싱 성공이 필드의 의미까지 증명하지는 않습니다.
+3. **Review Fields**에서 원문을 확인하고 [PAN-OS 공식 필드 정의](https://docs.paloaltonetworks.com/ngfw/help/12-2/syslog-field-descriptions)와 위치별 의미를 대조합니다.
+4. **Link Switches** 값 내부에 쉼표가 포함되어 있음을 확인합니다. 쉼표만 기준으로 잘라 필드를 추정하지 않습니다.
+5. 제품에서 **Names to give each value** 또는 임시 필드 이름 검토가 표시되는 경우에만, 제조사의 정확한 CSV 정의가 뒷받침하는 이름을 승인합니다.
+6. **Map Fields**에서 근거가 없는 매핑을 버리고 원본 값을 보존합니다. 실제 필드 의미가 검증되기 전에는 대상 파서 호환성이 입증됐다고 판단하지 않습니다.
+
+![실제 PAN-OS 공개 이슈 원문을 입력한 분석 결과](/images/current-13-panos-issue.png)
+
+**관찰 결과:** 공개 UI에서 **1 of 1 log event parsed completely**이지만 Link Switches 안의 쉼표 때문에 필드의 의미까지 보장되지는 않습니다.
 
 ## 예상 결과
 
@@ -31,3 +36,5 @@ deny,192.0.2.11,203.0.113.20,22
 ## 복구 방법
 
 열 개수가 줄마다 다르거나 인용부호 처리 규칙이 불안정하면 임의로 열을 이동시키지 말고 같은 구조끼리 샘플을 나눕니다. 파서는 누락된 헤더 의미를 장비명만으로 추측하지 않습니다.
+
+실제 PAN-OS GitHub 이슈 원문으로 공개 UI를 테스트하니 **1 of 1 log event parsed completely**라고 나왔지만, 이는 원본의 쉼표가 섞인 필드가 실제로 올바른 위치에 정규화됐음을 보장하지 않습니다. 기존 다섯 칸의 교육용 화면 캡처는 이 실제 로그가 아닙니다.

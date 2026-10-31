@@ -8,6 +8,14 @@ description: "한 가지 예시만 맞는 규칙을 방지하는 독립 Holdout 
 
 **상황:** 원본 한 건은 파싱되지만 다른 날짜·IP·사용자·메시지 유형에서는 실패할 수 있습니다.
 
+## 실제 공개 로그 원문 — 아래 내용 전체를 복사하세요
+
+실제 공개된 사례의 로그 원문입니다. [공개 출처](https://docs.snort.org/start/alert_logging) · [동일한 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/03-snort-alert.log)을 사용할 수 있습니다.
+
+```text
+07/16-09:23:39.153899 [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] [AppID: HTTP] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+```
+
 ## 따라 하기
 
 1. 변경 내용을 **Check ChatGPT Result** 또는 해당 미파싱 영역 복구 패널에서 검토합니다.
@@ -16,6 +24,13 @@ description: "한 가지 예시만 맞는 규칙을 방지하는 독립 Holdout 
 4. **Confirm different test examples**를 선택한 다음 **Test Proposed Fix**를 실행합니다.
 5. 기존 원본 값 보존·남은 미파싱 영역·추가 로그 결과가 모두 유지되는지 확인합니다.
 6. 전체 테스트가 통과한 경우에만 **Approve tested fix**를 선택하고 규칙을 적용합니다.
+
+### 별도 검증용 Snort 원본 2건
+
+```text
+07/16-09:23:39.153899 [would_drop] [**] [1:1000000:0] "SERVER-WEBAPP Apache Log4j arbitrary code execution attempt" [**] [Classification: Attempted User Privilege Gain] [Priority: 1] {TCP} 192.168.1.2:50284 -> 192.168.2.3:80
+06/25-00:23:53.106340 [**] [1:1000001:1] "LOCAL UDP test" [**] [Priority: 0] {UDP} 127.0.0.1:34392 -> 127.0.0.1:31337
+```
 
 ## 예상 결과
 

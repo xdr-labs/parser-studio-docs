@@ -8,6 +8,15 @@ description: "Local Versions에서 브라우저 로컬 체크포인트를 저장
 
 **상황:** 필드를 수정했다가 이전 매핑으로 돌아가거나, 같은 장비의 파서 후보 V1과 V2를 비교하고 싶습니다.
 
+## 실제 공개 로그 원문 — 아래 내용 전체를 복사하세요
+
+실제 공개된 사례의 로그 원문입니다. [공개 출처](https://github.com/elastic/integrations/tree/ee918d03f4a90dacd32673546c64a633308796ef/packages/juniper_srx/data_stream/log/_dev/test/pipeline) · [동일한 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/01-juniper-srx.log)을 사용할 수 있습니다.
+
+```text
+<14>1 2019-11-14T09:37:51.184+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_CREATE [junos@67.43.156.15 source-address="10.0.0.1" source-port="594" destination-address="67.43.156.13" destination-port="10400" connection-tag="0" service-name="icmp" nat-source-address="10.0.0.1" nat-source-port="594" nat-destination-address="67.43.156.13" nat-destination-port="10400" nat-connection-tag="0" src-nat-rule-type="N/A" src-nat-rule-name="N/A" dst-nat-rule-type="N/A" dst-nat-rule-name="N/A" protocol-id="1" policy-name="vpn_trust_permit-all" source-zone-name="vpn" destination-zone-name="trust" session-id-32="6093" username="N/A" roles="N/A" packet-incoming-interface="st0.0" application="UNKNOWN" nested-application="UNKNOWN" encrypted="UNKNOWN" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+<14>1 2019-11-14T11:12:46.573+01:00 SRX-GW1 RT_FLOW - RT_FLOW_SESSION_DENY [junos@67.43.156.15 source-address="10.0.0.26" source-port="37233" destination-address="67.43.156.13" destination-port="161" connection-tag="0" service-name="None" protocol-id="17" icmp-type="0" policy-name="MgmtAccess-trust-cleanup" source-zone-name="trust" destination-zone-name="junos-host" application="UNKNOWN" nested-application="UNKNOWN" username="N/A" roles="N/A" packet-incoming-interface=".local..0" encrypted="No" reason="Denied by policy" session-id-32="7087" application-category="N/A" application-sub-category="N/A" application-risk="1" application-characteristics="N/A"]
+```
+
 ## 따라 하기
 
 1. 화면 상단의 **Local Versions**를 엽니다.

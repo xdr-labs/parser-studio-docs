@@ -1,82 +1,80 @@
 ---
-title: "Syslog Relay: Forwarded Logs With a Declared Host"
-sidebarTitle: "Relay-Forwarded Logs"
-description: "Hands-on RFC3164 forwarder scenario with downloadable source, forwarded, and holdout logs, exact UI clicks and observed results."
+title: "FortiGate Logs Forwarded by a Real rsyslog Relay"
+sidebarTitle: "FortiGate via rsyslog"
+description: "Copy real published Fortinet logs and packets captured after forwarding through actual rsyslogd, then verify exact Parser Studio results."
 ---
 
-# Hands-on: logs forwarded through a Syslog relay
+# Hands-on: FortiGate Traffic logs forwarded through rsyslog
 
-A security product may send events through a log relay. The relay adds its own timestamp, hostname, facility/priority and program name, so the input that reaches a collector differs from the application event body. **Parser Studio takes copied or uploaded captured lines; it does not directly listen for live Syslog.** This example simulates a relay to make those boundaries reproducible.
+This scenario uses **real FortiGate Traffic and Web Filter example records published by Fortinet**, not fabricated firewall events. We submitted those unchanged messages over **UDP to an actual `rsyslogd` input**, configured `rsyslogd` to forward them with a new RFC3164 header, and captured the **UDP output bytes**. Paste that *captured post-relay output* below into Parser Studio: this is the exact input used to test the page.
 
 <Note>
-This is a **synthetic training fixture**, not an original vendor log or proof of a live relay. The payload uses firewall-like key/value fields and RFC 5737 documentation IPs. The wrapper uses the RFC3164 pattern that Parser Studio explicitly supports when a hostname is declared. Tested against [product main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927) and the deployed UI asset `index-CY6Sm-TX.js` on October 31, 2026.
+**Source versus transport evidence:** The security-event bodies are published vendor samples from [Fortinet's official log examples](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type). The **outer `relay01` header is not FortiGate output**: it is the real output of a separately launched rsyslogd on the lab server. The packet capture is not from a production network or live FortiGate appliance. All original vendor-message bytes were checked unchanged after forwarding. Parser Studio product reference: [main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927).
 </Note>
 
-## Download the exact logs
+## Download the exact inputs
 
-- [Original event bodies](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — before relay wrapping (2 events).
-- [Forwarded relay capture](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — use **this** file in the exercise (2 events).
-- [Independent test event](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — reserve for separate validation (1 event).
-- [Sample provenance and scope](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/README.md).
+- [Original published FortiGate Traffic log, 2 lines](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — **before** relay forwarding.
+- [Actual rsyslog forwarded capture, 2 lines](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — **copy and paste into Add Logs**.
+- [Independent FortiGate Web Filter original, 1 line](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout-original.log) — separate published vendor event.
+- [Actual rsyslog forwarded Web Filter holdout, 1 line](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — **copy and test separately**.
+- [Actual rsyslog capture evidence](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-rsyslog-capture-evidence.json), including original/captured SHA-256 values.
+- [Optional reproducible rsyslog capture script](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/capture_with_rsyslog.py) (isolated Linux lab; requires rsyslogd and appropriate permissions).
 
-## What the relay changes
+## 1. Original vendor events — comparison only
 
-**Original records:** no relay envelope; two events.
-
-```text
-date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
-date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
-```
-
-**Forwarded capture:** identical bodies, with an outer RFC3164 Syslog header. The relay clock and security-event clock may differ.
+The following are the two original Traffic messages, exactly as published in the sample used for testing. Do **not** paste these into the relay exercise: paste the *received relay output* in the next section.
 
 ```text
-<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
-<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+date=2019-05-13 time=16:29:50 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557790190452146185 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=381780 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Germany" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=44258 duration=5 sentbyte=736 rcvdbyte=3138 sentpkt=14 rcvdpkt=5 appcat="unscanned" utmaction="block" countweb=1 crscore=30 craction=4194304 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65497-796
+date=2019-05-10 time=11:37:47 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557513467369913239 srcip=10.1.100.11 srcport=58012 srcintf="port12" srcintfrole="undefined" dstip=23.59.154.35 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=105048 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Canada" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=58012 appid=34050 app="HTTP.BROWSER_Firefox" appcat="Web.Client" apprisk="elevated" applist="g-default" duration=116 sentbyte=1188 rcvdbyte=1224 sentpkt=17 rcvdpkt=16 utmaction="allow" countapp=1 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65500-742
 ```
 
-Notice that `relay01` identifies the **forwarder**, not the originating firewall. The `forwarder:` program label is part of the envelope, not a security `action`. This text does **not** authenticate the actual network sender.
+## 2. Exact received UDP capture after rsyslog — copy this into Parser Studio
+
+These are the **two real UDP datagrams captured after omfwd forwarding**, concatenated as newline-delimited events for pasting. The outer header was generated by rsyslog; its timestamp reflects the **relay's capture time**, not the original 2019 security event time.
+
+```text
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:50 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557790190452146185 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=381780 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Germany" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=44258 duration=5 sentbyte=736 rcvdbyte=3138 sentpkt=14 rcvdpkt=5 appcat="unscanned" utmaction="block" countweb=1 crscore=30 craction=4194304 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65497-796
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-10 time=11:37:47 logid="0000000013" type="traffic" subtype="forward" level="notice" vd="vdom1" eventtime=1557513467369913239 srcip=10.1.100.11 srcport=58012 srcintf="port12" srcintfrole="undefined" dstip=23.59.154.35 dstport=80 dstintf="port11" dstintfrole="undefined" srcuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" dstuuid="ae28f494-5735-51e9-f247-d1d2ce663f4b" poluuid="ccb269e0-5735-51e9-a218-a397dd08b7eb" sessionid=105048 proto=6 action="close" policyid=1 policytype="policy" service="HTTP" dstcountry="Canada" srccountry="Reserved" trandisp="snat" transip=172.16.200.2 transport=58012 appid=34050 app="HTTP.BROWSER_Firefox" appcat="Web.Client" apprisk="elevated" applist="g-default" duration=116 sentbyte=1188 rcvdbyte=1224 sentpkt=17 rcvdpkt=16 utmaction="allow" countapp=1 osname="Ubuntu" mastersrcmac="a2:e9:00:ec:40:01" srcmac="a2:e9:00:ec:40:01" srcserver=0 utmref=65500-742
+```
+
+In the first event, `srcip=10.1.100.11`, `dstip=185.244.31.158`, `sessionid=381780`, and `action="close"` are still part of the FortiGate payload. `relay01` is the Syslog forwarder name, **not** the FortiGate device identity.
 
 ## Walkthrough
 
-1. [Open Parser Studio](https://app.parser.xdr.ooo/) and choose **Auto Parser**. Under **Add Logs**, paste the **two complete forwarded lines** above, or use **Upload a log file** and select `05-relay-forwarded.log`. Do not paste the pre-relay version into this exercise.
-2. Enter **Manufacturer** = `Training`, **Product** = `Relay KV demo`, and leave the parser listener port at the default **6801**. These are training identifiers, not a vendor claim.
-3. Expand **Optional: declare Syslog forwarder hostnames**. In **Relay hostnames (comma-separated)**, type `relay01`. Keep **Maximum declared hops** at `1`.
-4. Before applying, read **Relay source preview**. It should report **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**. Click **Apply declared relay profile**. Confirm **Local profile: relay01 · maximum 1 hop(s)**.
-5. Click **Analyze Logs**. Confirm **2 of 2 log events parsed completely**. If you see a different count, stop and inspect the original text; do not delete a difficult line.
-6. Click **Review Fields**. Compare the original body fields `srcip`, `dstip`, `action`, `proto` and `sessionid` with the extracted values, and make sure the outer relay hostname has not been silently treated as the originating product identity.
-7. Continue to **Map Fields**. Verify Stellar Cyber 7.0 field names and original values. Continue to **Create Parser**, then run **Run Final Test & Create Files** only if the UI allows it. Download the draft pair and review the `.rb` and `.conf` files. The download is not a live target deployment.
-8. Keep `05-relay-holdout.log` separate from authoring examples. Run a new local check with the same declared relay settings and verify it also yields a correctly extracted record. Re-check the combined behavior before claiming readiness.
+1. Open [Parser Studio](https://app.parser.xdr.ooo/) and select **Auto Parser**. Fill **Manufacturer** = `Fortinet`, **Product** = `FortiGate`; no firmware version is inferred from the example lines. Leave the proposed .conf listener port at **6801**.
+2. Paste **both full lines** from **Section 2**, including the `<134>` Syslog prefix, into **Add Logs**. Alternatively, upload `05-relay-forwarded.log`. Do not manually remove any prefix or values.
+3. Expand **Optional: declare Syslog forwarder hostnames**. Set **Relay hostnames (comma-separated)** to `relay01` and **Maximum declared hops** to `1`.
+4. Verify **Relay source preview** says **2 of 2 events recognized, 0 unsafe and 0 not matching a declared relay**; click **Apply declared relay profile**.
+5. Click **Analyze Logs**. With this exact captured source, the observed result was **2 of 2 log events parsed completely**. If anything differs, inspect the source instead of deleting records.
+6. Click **Review Fields**. Check `srcip`, `dstip`, `action`, `proto`, `sessionid` from the *FortiGate body* against the original text. Continue to **Map Fields** and verify the selected Stellar Cyber 7.0 mapping.
+7. Continue to **Create Parser**, then click **Run Final Test & Create Files** only if enabled. The live browser exercise for these source records reached Review Fields; generated parser deployment and actual Stellar Cyber receiver compatibility are separate checks.
 
-![Real Parser Studio UI with the declared relay profile and full analysis result](/images/current-12-relay-profile.png)
+![Actual Parser Studio browser analysis of real FortiGate records forwarded by rsyslog](/images/current-12-relay-profile.png)
 
-### Why not just select the text and trim it?
+## 3. Independent holdout — test without adding it to your original training sample
 
-**Optional: mark a forwarded prefix or trailing suffix** only previews a *fixed literal* boundary. It does **not** generate a native parser rule and must not be used to discard changing timestamps. Use a **declared relay profile** only for the supported RFC3164/RFC5424 forms with approved hostnames (maximum 3 hops). Unknown relay hosts are not automatically unwrapped.
+This **different published Fortinet Web Filter event** also passed through real rsyslog forwarding. Paste this one line in a **new Auto Parser check** with `relay01` declared, rather than using it to build the initial two-event case:
 
-### Optional: test the output from a separate relay
-
-If your real relay writes an RFC3164/RFC5424 file, export a small, authorized **post-relay** sample and repeat the above steps with the actual relay hostname. Compare one event before and after relay forwarding. Check for byte changes, truncation, extra prefixes and event-type variation. This tests *captured text*, not a network listener or target compatibility.
-
-
-### Optional: reproduce the relay hop over local UDP
-
-If you have Python 3 on your own computer, download the four files in the [practice directory](https://github.com/xdr-labs/parser-studio-docs/tree/main/practice), then run this command **locally**, from the repository root:
-
-```bash
-python3 practice/replay_relay_loopback.py
+```text
+<134>Oct 31 14:42:17 relay01 forwarder: date=2019-05-13 time=16:29:45 logid="0316013056" type="utm" subtype="webfilter" eventtype="ftgd_blk" level="warning" vd="vdom1" eventtime=1557790184975119738 policyid=1 sessionid=381780 srcip=10.1.100.11 srcport=44258 srcintf="port12" srcintfrole="undefined" dstip=185.244.31.158 dstport=80 dstintf="port11" dstintfrole="undefined" proto=6 service="HTTP" hostname="morrishittu.ddns.net" profile="test-webfilter" action="blocked" reqtype="direct" url="/" sentbyte=84 rcvdbyte=0 direction="outgoing" msg="URL belongs to a denied category in policy" method="domain" cat=26 catdesc="Malicious Websites" crscore=30 craction=4194304 crlevel="high"
 ```
 
-The script sends each original body over **127.0.0.1 UDP** to a simulated relay, adds the variable RFC3164 header, sends it to a second local UDP socket, and captures the result at `/tmp/parser-studio-relay-captured.log` (the actual temporary directory may vary by OS). The output bytes are checked against `05-relay-forwarded.log`. Use the captured file in Step 1. This is a reproducible local relay **simulation**, not a configured enterprise Syslog relay.
+The separately observed result was **1 of 1 relay headers recognized and 1 of 1 log event parsed completely**. It is a different event subtype, so do not claim it proves every FortiGate subtype or every conditional parser configuration.
+
+## How this capture was produced
+
+The lab used `rsyslogd 8.2312.0`, independently launched with `imudp` input and `omfwd` UDP output, on loopback-only ephemeral ports. Its custom output template added `<134>`, `relay01`, `forwarder:` and a timestamp while writing `%rawmsg%` to preserve the original vendor payload. **3/3 payloads were byte-identical to the official source lines**. We did not use a Python function to fabricate the Syslog headers.
+
+If you want to reproduce the UDP path on a disposable, authorized Ubuntu lab, download the vendor input files and [capture script](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/capture_with_rsyslog.py), and run it there with the required permissions. The script creates a standalone process without restarting the system rsyslog service. It is **not** a production deployment runbook.
 
 ## Expected review outcome
 
-In the documented October 31, 2026 browser test: **2/2** relay envelopes recognized in the declared-host preview, and **2/2** security events fully parsed by Analyze Logs. The **Review Fields** control was enabled. This does not claim that any live Syslog collector, Fluentd runtime or Stellar Cyber 7.0 device received the events.
+In the real public Web UI: **2/2** forwarded Traffic events recognized and fully parsed, plus **1/1** different Web Filter forwarded holdout recognized and fully parsed. Independent target reception, generated artifact native compatibility, and operation on a real FortiGate-to-DP network remain **not verified**.
 
 ## Recovery path
 
-- **0 of 2 relay headers recognized:** verify each line starts with `<134>` and includes the exact hostname `relay01` and `forwarder:` program label. RFC3164 without `<PRI>` is not eligible for declared relay unwrapping.
-- **Partially parsed:** retain original lines, review **Problem to review** and **Text not yet assigned to fields**, and preserve all already extracted values. Use **Fix with ChatGPT** only if a reviewable fix is needed; a `REVIEW_ONLY` recipe is not an automatically verified parser.
-- **Real relay differs:** save its actual output rather than rewriting it to resemble the sample. Treat unsupported framing, unidentified relay names and any residual bytes as **not verified**.
+If the outer header is not recognized, check the exact relay hostname and <escape><</escape>PRI<escape>></escape> framing. **Optional: mark a forwarded prefix or trailing suffix** only reviews fixed literal text; it does not configure native conditional unwrapping of changing timestamps. For incomplete events, preserve **Text not yet assigned to fields** and re-test with additional authentic vendor samples.
 
-[Watch the relay walkthrough video](/videos/relay) · [Compare the original-log exercise](/videos/complete) · [Learn about sensitive logs](/reference/source-privacy)
+[Watch the video recorded with these exact forwarded logs](/videos/relay) · [Fortinet original source](https://docs.fortinet.com/document/fortigate/6.2.0/cookbook/986892/sample-logs-by-log-type) · [Multiple log types](/scenarios/mixed-events)

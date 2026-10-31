@@ -6,39 +6,34 @@ description: "Keep all extracted values and enter trustworthy field names when a
 
 # My log has values separated by commas, but no field names
 
-**Situation:** You pasted lines of values and clicked **Analyze Logs**. Parser Studio says that the values were found, but their names are not trustworthy. That is expected when the source contains only positions.
+**Situation:** PAN-OS emits positional CSV, and the published issue contains a Link Switches group with embedded commas. A structurally parsed event may still have incorrect field names.
 
-![CSV sample with unnamed fields and Keep all five values with temporary names action](/images/07-csv-analysis.png)
+## Actual published source — copy all lines
 
-*The app identifies five columns but does not guess what they mean.*
+This is the unchanged published example. [Original publication](https://github.com/elastic/integrations/issues/16486) · [Same downloadable file](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/06-panos-traffic-issue.log).
 
-## Practice sample
-
-```csv
-2026-10-18T13:00:00Z,allow,192.0.2.10,198.51.100.22,443
-2026-10-18T13:00:01Z,deny,192.0.2.11,203.0.113.7,22
+```text
+<14>Dec 10 00:00:00 hostname 1,2025/12/10 00:00:00,000000000000,TRAFFIC,end,1,2025/12/10 00:00:00,10.0.0.0,10.0.0.0,0.0.0.0,0.0.0.0,Rule,,,x,x,x,x,x,x,x,2025/12/10 00:00:00,1,1,1,1,0,0,0x10001c,tcp,allow,1,1,1,1,2025/12/10 00:00:00,0,x,,0,0x8000000000000000,x,x,,1,1,tcp-fin,1,1,1,1,,hostname,from-policy,,,0,,0,,x,0,0,0,0,x,0,0,Policy ID,{link name, link tag, link type, physical interface, timestamp,100,100,,N/A},x,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2025-12-10T00:00:00.000+11:00,,,x,x,x,1,x,,web-browsing,no,no,0,x,
 ```
-
-For this fictional practice data, assume the product's specification says the column order is **timestamp, action, src_ip, dst_ip, dst_port**.
 
 ## Walkthrough
 
 1. Select **Auto Parser**, paste the complete sample and choose **Analyze Logs**.
-2. If a warning says values were found but there are no names, look for **Names to give each value**.
-3. If you **have the vendor field document**, type the field names in exactly the published order.
-4. Under **Character between the values**, select the actual delimiter (for this example, **Comma (,)**).
-5. Click **I Confirm These CSV Column Names** when the application enables it.
-6. If you **do not** have a trustworthy definition, click **Keep all 5 values with temporary names**. Temporary names such as `field_001` preserve the data, but are not official field meanings.
-7. Continue to **Review Fields**, compare column positions against the raw line, then enter **Map Fields** and correct the destinations.
-8. Only then continue to **Create Parser** and the final test.
+2. Confirm **1 of 1 log event parsed completely**; this does not prove the meaning of every positional CSV column.
+3. Review the source CSV against the [official PAN-OS field definitions](https://docs.paloaltonetworks.com/ngfw/help/12-2/syslog-field-descriptions).
+4. Use the PAN-OS field reference to confirm the CSV delimiter and field positions; the reported Link Switches field contains embedded commas.
+5. If a column-name review appears, only confirm names backed by the correct vendor definition and CSV grouping.
+6. Preserve neutral source column names if possible when semantic meanings are uncertain; never force a mapping from one example.
+7. Compare the original Link Switches group including commas, then use **Map Fields** to review only evidence-backed destinations.
+8. Continue to **Create Parser** only after independent schema and field-meaning verification. This sample does not certify live PAN-OS compatibility.
 
-![CSV review after keeping all five source values with temporary column names](/images/09-csv-temporary-columns.png)
+![Actual public Parser Studio analysis of the published PAN-OS issue record](/images/current-13-panos-issue.png)
 
-*When you do not have trustworthy names, preserve all five columns with temporary names and confirm the review before mapping.*
+This is the exact PAN-OS issue record pasted above, not an illustrative five-column CSV.
 
 ## Expected review outcome
 
-All five values are preserved in their original order on every record. Source-backed names are used only if you actually confirmed what they mean.
+The real PAN-OS issue record returned **1 of 1 log event parsed completely** in the public UI, but this is structural success, not proof that every comma-separated column has the correct meaning. Source-backed names are used only if you actually confirmed what they mean.
 
 ## Recovery path
 

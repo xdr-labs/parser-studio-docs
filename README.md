@@ -15,7 +15,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/XDR%20Labs-User%20Guide-1F59E0?style=flat-square" alt="XDR Labs guide">
   <img src="https://img.shields.io/badge/Workflow-Paste%20%E2%86%92%20Analyze%20%E2%86%92%20Review-16A34A?style=flat-square" alt="Guided workflow">
-  <img src="https://img.shields.io/badge/Examples-Synthetic-0891B2?style=flat-square" alt="Fictional examples">
+  <img src="https://img.shields.io/badge/Examples-Vendor%20Logs-0891B2?style=flat-square" alt="Public vendor fixtures">
 </p>
 
 ---
@@ -69,6 +69,8 @@ Documentation review: [Parser Studio main at `a4b4e2f`](https://github.com/xdr-l
 
 ```bash
 python3 scripts/validate_docs.py
+python3 scripts/validate_video_sample_copies.py
+python3 scripts/validate_real_practice_sources.py
 ```
 
 Only this documentation repository is used for the manual. No original customer records belong in examples or screenshots.
@@ -84,3 +86,19 @@ The October 21, 2026 UI check used the deployed JavaScript asset index-CCvjpx9h.
 ## Reproducible relay lab (October 31, 2026)
 
 Use [the relay-forwarded log exercise](scenarios/relay-forwarder.mdx) with [downloadable sample files](practice/README.md), [a live-browser verification script](scripts/verify_relay_live.cjs), and a [video walkthrough](videos/relay.mdx).
+
+
+## Authentic source log exercises
+
+The primary video tutorials include source log blocks copied byte-for-byte from
+published Juniper SRX, Sophos XG, Snort 3 and Fortinet FortiGate samples.
+The relay lab forwards original Fortinet Traffic and Web Filter sample records
+through **actual isolated rsyslogd UDP input/output**, preserving each vendor payload
+byte-for-byte in the captured relay message. The optional PAN-OS CSV and
+Elasticsearch multiline examples come from documented public bug reports and
+are explicitly labeled as such. Local browser results are documented without
+equating extraction success with native Stellar Cyber target compatibility.
+
+All samples and independent holdouts are in the practice directory. Source-block
+fidelity, relay byte integrity and captured SHA-256 values are checked by
+scripts/validate_real_practice_sources.py.

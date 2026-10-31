@@ -22,7 +22,7 @@ Watch five independent guided tutorials covering successful extraction, incomple
     Create and test a single parser project using official FortiGate Traffic, Web Filter and IPS records.
   </Card>
   <Card title="RFC3164 Relay: Forwarded Security Logs" icon="network" href="/videos/relay">
-    Practice with synthetic pre-relay and forwarded messages, declare relay01 and verify both events.
+    Practice with published FortiGate Traffic messages forwarded through an actual rsyslogd UDP relay, declare relay01 and verify both events.
   </Card>
 </CardGroup>
 
@@ -32,7 +32,7 @@ Watch five independent guided tutorials covering successful extraction, incomple
 
 
 
-1. [Download the original practice logs, holdout examples and source credits](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip).
+1. [Download the original practice logs, holdout examples and source credits](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/practice/practice-all.zip).
 2. Keep your chosen training video open and [launch Parser Studio](https://app.parser.xdr.ooo/) in another browser tab.
 3. Open the relevant sample log file, copy its original event lines, and follow the click-by-click practice instructions directly below each embedded video.
 4. Pause or seek using the chapter timestamps shown on that video's documentation page. Compare the actual parser results to the recorded expected behavior.
@@ -41,11 +41,11 @@ Watch five independent guided tutorials covering successful extraction, incomple
 
 ## Download or watch the whole collection
 
-Use the individual pages above for videos and provenance details. You can also [open all five dedicated video players](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/index.html).
+Use the individual pages above for videos and provenance details. You can also [open all five dedicated video players](https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/index.html).
 
 ## What these examples demonstrate
 
-- **RFC3164 relay:** two synthetic security events wrapped with variable relay headers are recognized only after explicitly declaring `relay01`; original source bytes stay available for review.
+- **RFC3164 relay:** two official FortiGate Traffic events captured after real rsyslog UDP forwarding are recognized only after explicitly declaring `relay01`; original source bytes stay available for review.
 
 - **Juniper SRX:** complete extraction, field mapping and parser-file creation from published RT_FLOW examples.
 - **Sophos XG:** dozens of source values recognized in a complex log while unresolved text still requires an additional reviewed parsing rule.

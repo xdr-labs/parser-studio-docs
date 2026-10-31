@@ -10,8 +10,8 @@ const root=path.join(__dirname,'..');
  try{
   await page.goto(process.env.PARSER_STUDIO_URL||'https://app.parser.xdr.ooo/',{waitUntil:'networkidle',timeout:30000});
   const asset=await page.locator('script[src^="/assets/index-"]').first().getAttribute('src');
-  await page.getByPlaceholder('e.g. Fortinet').fill('Training');
-  await page.getByPlaceholder('e.g. FortiGate').fill('Relay KV demo');
+  await page.getByPlaceholder('e.g. Fortinet').fill('Fortinet');
+  await page.getByPlaceholder('e.g. FortiGate').fill('FortiGate');
   const source=fs.readFileSync(path.join(root,'practice/05-relay-forwarded.log'),'utf8').trim();
   await page.getByRole('textbox',{name:'Auto Parser raw logs'}).fill(source);
   const details=page.locator('details[aria-label="Review declared relay hosts"]');
@@ -26,6 +26,20 @@ const root=path.join(__dirname,'..');
   const body=await page.locator('body').innerText();
   const m=body.match(/\d+ of \d+ log events parsed completely/g)||[];
   await page.screenshot({path:path.join(root,'images/current-12-relay-profile.png'),fullPage:true});
-  console.log(JSON.stringify({asset,preview,counts:m,active:body.includes('Local profile: relay01'),reviewFieldsEnabled:await page.getByRole('button',{name:/Review Fields/}).last().isEnabled(),sampleBytes:Buffer.byteLength(source)},null,2));
+
+  const initial={asset,preview,counts:m,active:body.includes('Local profile: relay01'),
+    reviewFieldsEnabled:await page.getByRole('button',{name:/Review Fields/}).last().isEnabled(),
+    sampleBytes:Buffer.byteLength(source)};
+  if(!m.includes('2 of 2 log events parsed completely'))throw Error('Real forwarded traffic samples did not parse 2/2');
+  // A separate published Web Filter event, forwarded through the same real rsyslog,
+  // is held out from the original authoring sample.
+  const independent=fs.readFileSync(path.join(root,'practice/05-relay-holdout.log'),'utf8').trim();
+  await page.getByRole('textbox',{name:'Auto Parser raw logs'}).fill(independent);
+  const holdoutPreview=await page.locator('[aria-label="Relay source preview"]').innerText();
+  if(!holdoutPreview.includes('1 of 1 events recognized'))throw Error('Independent relay header mismatch: '+holdoutPreview);
+  await page.getByRole('button',{name:'Analyze Logs'}).click();
+  await page.getByText('1 of 1 log event parsed completely').first().waitFor({timeout:30000});
+  const holdout=(await page.locator('body').innerText()).match(/1 of 1 log event parsed completely/)?.[0]??null;
+  console.log(JSON.stringify({initial,holdoutPreview,holdout,holdoutBytes:Buffer.byteLength(independent)},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error('QA_FAIL',e.stack);process.exitCode=1});
