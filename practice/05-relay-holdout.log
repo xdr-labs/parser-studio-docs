@@ -1,0 +1,1 @@
+<134>Oct 31 11:32:20 relay01 forwarder: date=2026-10-31 time=11:32:20 type=traffic subtype=forward action=accept srcip=192.0.2.12 dstip=198.51.100.30 srcport=51522 dstport=53 proto=17 sessionid=4103 sentbyte=85

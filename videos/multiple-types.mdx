@@ -6,20 +6,20 @@ description: "Create and test a single parser project using official FortiGate T
 
 # Multiple Event Types: Real FortiGate Traffic and Threat Logs
 
-English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+English narration and permanently visible English captions accompany this recording of the October 31, 2026 Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
 
-<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/poster.png">
-  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
   Your browser does not support native video playback.
 </video>
 
-[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/narration-en.md)
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/narration-en.md)
 
 ## Practice along with the video
 
 Keep this page open to pause or replay the demonstration while working in a second tab.
 
-**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
+**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
 
 - [Download the two Traffic log records](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-traffic.log)
 - [Download the Web Filter and IPS (Threat) records](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-threat.log)
@@ -52,33 +52,32 @@ date=2019-05-15 time=17:56:41 logid="0419016384" type="utm" subtype="ips" eventt
 
 {/* PARSER-STUDIO-EXACT-SAMPLE-END */}
 
-### Follow the on-screen steps
+### Follow the current on-screen steps
 
-1. Open Auto Parser and enter Manufacturer: Fortinet and Product: FortiGate.
-2. Click Add Another Log Type. Name the first group Traffic and the second group Threat.
-3. Paste both original records from 04-fortigate-traffic.log into the Traffic group, and both records from 04-fortigate-threat.log into Threat. Do not mix the groups.
-4. Click Analyze Logs. Verify that Traffic and Threat each report two parsed events and the combined result is 4 of 4 completely parsed.
-5. Continue to Review Fields. Compare event-specific fields and the explicit type/subtype values, including the shared session ID 381780 in two documented examples.
-6. Review the Stellar Cyber 7.0 mappings; then run the final four-event sample test under Create Parser and download the generated package.
+1. Open **Auto Parser**, enter manufacturer **Fortinet** and product **FortiGate**.
+2. Choose **Add Another Log Type**. Name the two groups **Traffic** and **Threat**, preserving two published source events in each group.
+3. Click **Analyze Logs** and check all four events; the recorded source review returned **4 of 4 log events parsed completely**.
+4. In **Review Fields**, inspect event-specific values for Traffic, Web Filter and IPS. Continue to **Map Fields** and verify each mapping against the actual source.
+5. If the product accepts the shared parser draft, proceed to **Create Parser**, run **Run Final Test & Create Files**, then download and review the package. A successful sample test cannot prove all FortiGate event shapes.
 
-**Expected sample result:** 4 of 4 log events parsed completely across the two named log types.
+### Video chapter timestamps (October 31 recording)
 
-### Video chapter timestamps
-
-| Timestamp | What to follow |
+| Time | Actual recorded step |
 |---|---|
-| 00:25 | Add another log type |
-| 00:32 | Name your groups |
-| 00:40 | Paste Traffic samples |
-| 00:50 | Paste Threat samples |
-| 01:00 | Analyze Logs |
-| 01:13 | Review Fields |
-| 01:27 | Compare event types |
-| 01:47 | Map Fields |
-| 02:09 | Run final sample test |
-| 02:15 | Download the parser files |
+| 00:01 | Multiple Log Types |
+| 00:07 | Identify Fortigate |
+| 00:11 | Add Another Log Type |
+| 00:17 | Set Names And Logs |
+| 00:23 | Analyze All Types |
+| 00:28 | Verify Coverage |
+| 00:34 | Review Data |
+| 00:38 | Normalize Mappings |
+| 00:45 | Create Combined Draft |
+| 00:50 | Final Test |
+| 00:55 | Download Package |
+| 01:00 | Verify Each Type |
 
-*The chapter times are approximate seek positions in the narrated demonstration. Pause playback to follow the corresponding controls.*
+*The listed times come from the actual October 31 recording, not the retired version.*
 
 ## Expected review outcome
 

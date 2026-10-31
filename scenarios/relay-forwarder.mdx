@@ -1,0 +1,82 @@
+---
+title: "Syslog Relay: Forwarded Logs With a Declared Host"
+sidebarTitle: "Relay-Forwarded Logs"
+description: "Hands-on RFC3164 forwarder scenario with downloadable source, forwarded, and holdout logs, exact UI clicks and observed results."
+---
+
+# Hands-on: logs forwarded through a Syslog relay
+
+A security product may send events through a log relay. The relay adds its own timestamp, hostname, facility/priority and program name, so the input that reaches a collector differs from the application event body. **Parser Studio takes copied or uploaded captured lines; it does not directly listen for live Syslog.** This example simulates a relay to make those boundaries reproducible.
+
+<Note>
+This is a **synthetic training fixture**, not an original vendor log or proof of a live relay. The payload uses firewall-like key/value fields and RFC 5737 documentation IPs. The wrapper uses the RFC3164 pattern that Parser Studio explicitly supports when a hostname is declared. Tested against [product main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927) and the deployed UI asset `index-CY6Sm-TX.js` on October 31, 2026.
+</Note>
+
+## Download the exact logs
+
+- [Original event bodies](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — before relay wrapping (2 events).
+- [Forwarded relay capture](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — use **this** file in the exercise (2 events).
+- [Independent test event](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — reserve for separate validation (1 event).
+- [Sample provenance and scope](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/README.md).
+
+## What the relay changes
+
+**Original records:** no relay envelope; two events.
+
+```text
+date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
+date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+```
+
+**Forwarded capture:** identical bodies, with an outer RFC3164 Syslog header. The relay clock and security-event clock may differ.
+
+```text
+<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
+<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+```
+
+Notice that `relay01` identifies the **forwarder**, not the originating firewall. The `forwarder:` program label is part of the envelope, not a security `action`. This text does **not** authenticate the actual network sender.
+
+## Walkthrough
+
+1. [Open Parser Studio](https://app.parser.xdr.ooo/) and choose **Auto Parser**. Under **Add Logs**, paste the **two complete forwarded lines** above, or use **Upload a log file** and select `05-relay-forwarded.log`. Do not paste the pre-relay version into this exercise.
+2. Enter **Manufacturer** = `Training`, **Product** = `Relay KV demo`, and leave the parser listener port at the default **6801**. These are training identifiers, not a vendor claim.
+3. Expand **Optional: declare Syslog forwarder hostnames**. In **Relay hostnames (comma-separated)**, type `relay01`. Keep **Maximum declared hops** at `1`.
+4. Before applying, read **Relay source preview**. It should report **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**. Click **Apply declared relay profile**. Confirm **Local profile: relay01 · maximum 1 hop(s)**.
+5. Click **Analyze Logs**. Confirm **2 of 2 log events parsed completely**. If you see a different count, stop and inspect the original text; do not delete a difficult line.
+6. Click **Review Fields**. Compare the original body fields `srcip`, `dstip`, `action`, `proto` and `sessionid` with the extracted values, and make sure the outer relay hostname has not been silently treated as the originating product identity.
+7. Continue to **Map Fields**. Verify Stellar Cyber 7.0 field names and original values. Continue to **Create Parser**, then run **Run Final Test & Create Files** only if the UI allows it. Download the draft pair and review the `.rb` and `.conf` files. The download is not a live target deployment.
+8. Keep `05-relay-holdout.log` separate from authoring examples. Run a new local check with the same declared relay settings and verify it also yields a correctly extracted record. Re-check the combined behavior before claiming readiness.
+
+![Real Parser Studio UI with the declared relay profile and full analysis result](/images/current-12-relay-profile.png)
+
+### Why not just select the text and trim it?
+
+**Optional: mark a forwarded prefix or trailing suffix** only previews a *fixed literal* boundary. It does **not** generate a native parser rule and must not be used to discard changing timestamps. Use a **declared relay profile** only for the supported RFC3164/RFC5424 forms with approved hostnames (maximum 3 hops). Unknown relay hosts are not automatically unwrapped.
+
+### Optional: test the output from a separate relay
+
+If your real relay writes an RFC3164/RFC5424 file, export a small, authorized **post-relay** sample and repeat the above steps with the actual relay hostname. Compare one event before and after relay forwarding. Check for byte changes, truncation, extra prefixes and event-type variation. This tests *captured text*, not a network listener or target compatibility.
+
+
+### Optional: reproduce the relay hop over local UDP
+
+If you have Python 3 on your own computer, download the four files in the [practice directory](https://github.com/xdr-labs/parser-studio-docs/tree/main/practice), then run this command **locally**, from the repository root:
+
+```bash
+python3 practice/replay_relay_loopback.py
+```
+
+The script sends each original body over **127.0.0.1 UDP** to a simulated relay, adds the variable RFC3164 header, sends it to a second local UDP socket, and captures the result at `/tmp/parser-studio-relay-captured.log` (the actual temporary directory may vary by OS). The output bytes are checked against `05-relay-forwarded.log`. Use the captured file in Step 1. This is a reproducible local relay **simulation**, not a configured enterprise Syslog relay.
+
+## Expected review outcome
+
+In the documented October 31, 2026 browser test: **2/2** relay envelopes recognized in the declared-host preview, and **2/2** security events fully parsed by Analyze Logs. The **Review Fields** control was enabled. This does not claim that any live Syslog collector, Fluentd runtime or Stellar Cyber 7.0 device received the events.
+
+## Recovery path
+
+- **0 of 2 relay headers recognized:** verify each line starts with `<134>` and includes the exact hostname `relay01` and `forwarder:` program label. RFC3164 without `<PRI>` is not eligible for declared relay unwrapping.
+- **Partially parsed:** retain original lines, review **Problem to review** and **Text not yet assigned to fields**, and preserve all already extracted values. Use **Fix with ChatGPT** only if a reviewable fix is needed; a `REVIEW_ONLY` recipe is not an automatically verified parser.
+- **Real relay differs:** save its actual output rather than rewriting it to resemble the sample. Treat unsupported framing, unidentified relay names and any residual bytes as **not verified**.
+
+[Watch the relay walkthrough video](/videos/relay) · [Compare the original-log exercise](/videos/complete) · [Learn about sensitive logs](/reference/source-privacy)

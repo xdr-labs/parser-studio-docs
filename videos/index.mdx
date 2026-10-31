@@ -6,7 +6,7 @@ description: "English narrated tutorials recorded from the real Parser Studio We
 
 # Learn Parser Studio with real security logs
 
-Watch four independent guided tutorials covering successful extraction, incomplete extraction, ChatGPT-assisted recovery and multiple log families from the same security product. All videos use the current deployed Web UI, English narration, and bottom-of-screen captions.
+Watch five independent guided tutorials covering successful extraction, incomplete extraction, ChatGPT-assisted recovery and multiple log families from the same security product. The refreshed videos use the October 31, 2026 deployed Web UI, English narration, and bottom-of-screen captions.
 
 <CardGroup cols={2}>
   <Card title="Complete Parsing: Real Juniper SRX Logs" icon="circle-check" href="/videos/complete">
@@ -21,6 +21,9 @@ Watch four independent guided tutorials covering successful extraction, incomple
   <Card title="Multiple Event Types: Real FortiGate Traffic and Threat Logs" icon="layers" href="/videos/multiple-types">
     Create and test a single parser project using official FortiGate Traffic, Web Filter and IPS records.
   </Card>
+  <Card title="RFC3164 Relay: Forwarded Security Logs" icon="network" href="/videos/relay">
+    Practice with synthetic pre-relay and forwarded messages, declare relay01 and verify both events.
+  </Card>
 </CardGroup>
 
 ## Follow along with the same samples
@@ -29,7 +32,7 @@ Watch four independent guided tutorials covering successful extraction, incomple
 
 
 
-1. [Download the original practice logs, holdout examples and source credits](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip).
+1. [Download the original practice logs, holdout examples and source credits](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip).
 2. Keep your chosen training video open and [launch Parser Studio](https://app.parser.xdr.ooo/) in another browser tab.
 3. Open the relevant sample log file, copy its original event lines, and follow the click-by-click practice instructions directly below each embedded video.
 4. Pause or seek using the chapter timestamps shown on that video's documentation page. Compare the actual parser results to the recorded expected behavior.
@@ -38,9 +41,11 @@ Watch four independent guided tutorials covering successful extraction, incomple
 
 ## Download or watch the whole collection
 
-Use the individual pages above for videos and provenance details. You can also [open all four dedicated video players](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/index.html).
+Use the individual pages above for videos and provenance details. You can also [open all five dedicated video players](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/index.html).
 
 ## What these examples demonstrate
+
+- **RFC3164 relay:** two synthetic security events wrapped with variable relay headers are recognized only after explicitly declaring `relay01`; original source bytes stay available for review.
 
 - **Juniper SRX:** complete extraction, field mapping and parser-file creation from published RT_FLOW examples.
 - **Sophos XG:** dozens of source values recognized in a complex log while unresolved text still requires an additional reviewed parsing rule.

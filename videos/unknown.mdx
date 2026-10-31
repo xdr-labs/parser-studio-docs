@@ -6,20 +6,20 @@ description: "Use a reviewed bounded parser recipe with independent documented a
 
 # Unrecognized Snort Alert: ChatGPT-Assisted Recovery
 
-English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+English narration and permanently visible English captions accompany this recording of the October 31, 2026 Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
 
-<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/poster.png">
-  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/scenario-english.mp4" type="video/mp4" />
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/scenario-english.mp4" type="video/mp4" />
   Your browser does not support native video playback.
 </video>
 
-[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/03-snort-unrecognized-chatgpt/narration-en.md)
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/03-snort-unrecognized-chatgpt/narration-en.md)
 
 ## Practice along with the video
 
 Keep this page open to pause or replay the demonstration while working in a second tab.
 
-**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
+**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
 
 - [Download the original Snort alert](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-alert.log)
 - [Download the two different holdout alerts](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/03-snort-holdout.log)
@@ -143,37 +143,33 @@ Download the same reviewed JSON: [03-snort-reviewed-recipe.json](https://app.par
 
 {/* PARSER-STUDIO-EXACT-SAMPLE-END */}
 
-### Follow the on-screen steps
+### Follow the current on-screen steps
 
-1. Open Auto Parser in another tab. Enter Manufacturer: Snort and Product: Snort 3.
-2. Paste ONLY the single original line from 03-snort-alert.log into Add Logs and click Analyze Logs. Do not include the separate holdout lines yet.
-3. Choose Fix with ChatGPT. Review the generated prompt and manually redact any confidential information before choosing to share it.
-4. The optional JSON file is the exact reviewed demo proposal. Paste its contents into ChatGPT JSON result only if you understand the restrictions; it is not an automatically trusted AI output.
-5. Paste the two different lines from 03-snort-holdout.log into Additional test logs. Check Confirm different test examples, then click Test Proposed Fix.
-6. Approve a passing result before clicking Apply Tested Fix. Continue through Review Fields, Map Fields, and Create Parser; run the final test before downloading any file.
+1. Open **Auto Parser**, enter manufacturer **Snort** and product **Snort 3**, then paste only the one original alert.
+2. Click **Analyze Logs** and inspect the **0 of 1 log event parsed completely** result. Preserve the whole alert and its unparsed regions.
+3. Use **Fix with ChatGPT** and inspect the generated source-bearing prompt. **Prepare ChatGPT Prompt**, then **Copy Prompt** only after confirming that external sharing is allowed.
+4. The new recording ends at the prompt-review stage; it does **not** pretend an external ChatGPT result was returned. To continue yourself, paste the model response into **ChatGPT result JSON** and select **Check ChatGPT Result**.
+5. For a reviewable proposal, add the two independent holdout alerts under **Different examples to test the fix** and check **Confirm test examples are different**. Test before applying or downloading. The optional recipe displayed above is educational, not automatically trusted.
 
-**Expected sample result:** 0 of 1 log event parsed completely at first; after an independently reviewed and approved fix, 1 of 1 completely parsed.
+### Video chapter timestamps (October 31 recording)
 
-### Video chapter timestamps
-
-| Timestamp | What to follow |
+| Time | Actual recorded step |
 |---|---|
-| 00:26 | Paste the original logs |
-| 00:36 | Analyze Logs |
-| 00:59 | Fix with ChatGPT |
-| 01:23 | Review the proposal |
-| 01:34 | Add different test logs |
-| 01:50 | Test Proposed Fix |
-| 02:06 | Approve the tested fix |
-| 02:14 | Apply Tested Fix |
-| 02:49 | Run final sample test |
-| 02:57 | Download the parser files |
+| 00:01 | Unknown Format |
+| 00:07 | Set Product Identity |
+| 00:12 | Paste Alert |
+| 00:16 | Run Analysis |
+| 00:21 | Do Not Guess |
+| 00:27 | Open Chatgpt Assistance |
+| 00:32 | Copy Prompt Manually |
+| 00:39 | Check Independent Samples |
+| 00:45 | Verify Before Apply |
 
-*The chapter times are approximate seek positions in the narrated demonstration. Pause playback to follow the corresponding controls.*
+*The listed times come from the actual October 31 recording, not the retired version.*
 
 ## Expected review outcome
 
-The original Snort alert_fast sample is not fully parsed at first. A bounded, reviewed parser proposal passes a two-example independent holdout check and the final sample test.
+The original Snort alert_fast sample is not fully parsed at first. The updated video demonstrates the actual prompt preparation and privacy boundary; an external ChatGPT answer and independent holdout validation remain separate user steps.
 
 Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
 

@@ -1,0 +1,68 @@
+---
+title: "Video: RFC3164 Syslog Relay Walkthrough"
+sidebarTitle: "05 · Syslog Relay"
+description: "Real October 31 UI video with English narration and captions, supplied relay-capture logs, exact UI clicks and holdout guidance."
+---
+
+# Video 05 — Syslog relay-forwarded security logs
+
+This refreshed tutorial was recorded from the actual October 31, 2026 Parser Studio Web UI. It shows the **declared relay hostname** controls, the two-event analysis result, field review, target mapping and the creation-stage decision.
+
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/scenario-english.mp4" type="video/mp4" />
+  Your browser does not support native video playback.
+</video>
+
+[Watch in the standalone player](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/subtitles-en.srt) · [English narration transcript](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/05-relay-forwarder/narration-en.md)
+
+## Practice along with the video
+
+This **synthetic training case** is not an official vendor log and not a recording of a live Syslog stream. It reproduces a valid RFC3164 relay wrapper around two sample security-event bodies, with separate holdout test data.
+
+- [Download the two forwarded records](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log) — enter in **Add Logs**.
+- [Download the pre-relay bodies](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log) — comparison only.
+- [Download the independent holdout](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log) — test separately.
+
+### Copy the exact recorded relay sample
+
+```text
+<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
+<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+```
+
+### Follow the on-screen steps
+
+1. Open [Parser Studio](https://app.parser.xdr.ooo/), choose **Auto Parser**, enter **Manufacturer: Training** and **Product: Relay KV demo**, then paste both complete wrapped log lines.
+2. Expand **Optional: declare Syslog forwarder hostnames**, type `relay01`, and set **Maximum declared hops** to `1`. Verify the preview shows **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**.
+3. Click **Apply declared relay profile**, then **Analyze Logs**. The October 31 public UI returned **2 of 2 log events parsed completely** for this exact fixture.
+4. Inspect **Review Fields** for `srcip`, `dstip`, `action`, `proto`, and `sessionid`. Continue through **Map Fields** and review proposed Stellar Cyber 7.0 names and types.
+5. Proceed to **Create Parser** and run **Run Final Test & Create Files** only when enabled and source coverage is complete. Download the generated draft if its final test passes.
+6. Re-run a separate validation with `05-relay-holdout.log`. No live relay transport or target import is demonstrated.
+
+## Video chapters from the current recording
+
+| Time | Step |
+|---|---|
+| 00:01 | Relay Forwarded Events |
+| 00:07 | Training Identity |
+| 00:14 | Paste Forwarded Capture |
+| 00:20 | Declare Relay Host |
+| 00:25 | Review Relay Boundaries |
+| 00:32 | Apply Profile |
+| 00:38 | Analyze Wrapped Logs |
+| 00:44 | Verify Original Fields |
+| 00:50 | Review Extracted Values |
+| 00:57 | Map Target Fields |
+| 01:03 | Create Parser Draft |
+| 01:09 | Final Draft Test |
+| 01:16 | Test A New Relay Event |
+
+## Expected review outcome
+
+The demonstrated browser run confirms two declared relay envelopes and two fully extracted events, with no discarded source record. A parser package is a local artifact; successful production receive and native runtime compatibility remain **not verified**.
+
+## Recovery path
+
+If the preview recognizes fewer than two relay headers, check the full `<134>Oct 31 ... relay01 forwarder:` prefixes and the exact declared hostname. Do not try to remove variable Syslog timestamps by the **Optional: mark a forwarded prefix or trailing suffix** control: that is a literal boundary review, not a generated parser rule.
+
+[Full click-by-click written scenario](/scenarios/relay-forwarder) · [All tutorials](/videos/index)

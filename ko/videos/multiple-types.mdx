@@ -10,16 +10,16 @@ Fortinet 공식 문서의 서로 다른 로그 유형 네 건을 하나의 Parse
 
 영상 나레이션과 하단 캡션은 **영어**입니다. 여기에서는 실제 화면에서 눌러야 할 버튼과 기대 결과를 한국어로 설명합니다.
 
-<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/poster.png">
-  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/scenario-english.mp4" type="video/mp4" />
   동영상이 보이지 않으면 아래 링크를 이용하세요.
 </video>
 
-[영상 크게 보기](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/watch.html) · [MP4 다운로드](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/scenario-english.mp4) · [영어 SRT 자막](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/subtitles-en.srt) · [나레이션 원고](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/04-fortinet-multi-type-real/narration-en.md)
+[영상 크게 보기](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/watch.html) · [MP4 다운로드](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/scenario-english.mp4) · [영어 SRT 자막](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/subtitles-en.srt) · [나레이션 원고](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/04-fortinet-multi-type-real/narration-en.md)
 
 ## 실습 원본 다운로드
 
-[모든 연습용 공개 로그 ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Parser Studio 실행](https://app.parser.xdr.ooo/)
+[모든 연습용 공개 로그 ZIP](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip) · [Parser Studio 실행](https://app.parser.xdr.ooo/)
 
 - [FortiGate Traffic 원본 2건](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-traffic.log)
 - [FortiGate Web Filter / IPS 원본 2건](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/04-fortigate-threat.log)
@@ -52,36 +52,36 @@ date=2019-05-15 time=17:56:41 logid="0419016384" type="utm" subtype="ips" eventt
 
 {/* PARSER-STUDIO-EXACT-SAMPLE-END */}
 
-## 따라 하기
+## 2026년 10월 31일 화면에서 따라 하기
 
-1. Auto Parser에서 Manufacturer는 Fortinet, Product는 FortiGate로 설정합니다.
-2. Add Another Log Type를 눌러 두 그룹을 만들고 이름을 Traffic과 Threat로 지정합니다.
-3. Traffic 샘플 두 건과 Web Filter/IPS 두 건을 각각 알맞은 그룹에 입력합니다.
-4. Analyze Logs로 4 of 4 log events parsed completely를 확인합니다.
-5. Review Fields에서 각 이벤트의 type, subtype 및 서로 다른 필드를 확인합니다.
-6. Optional: one parser for several event types에서 확인된 분기 필드가 실제로 적절한지 검토합니다.
-7. Map Fields에서 Stellar Cyber 7.0 매핑을 검토한 후 Run Final Test & Create Files로 네 건 모두 재검증합니다.
+1. **Auto Parser**에서 제조사 `Fortinet`, 제품 `FortiGate`를 입력합니다.
+2. **Add Another Log Type**을 사용해 `Traffic` / `Threat` 그룹을 만들고 각 그룹에 실제 공개 샘플 두 건씩 입력합니다.
+3. **Analyze Logs** 결과에서 **4 of 4 log events parsed completely**를 확인합니다.
+4. **Review Fields**에서 Traffic·Web Filter·IPS 이벤트의 원본 필드를 확인하고 **Map Fields**에서 Stellar Cyber 7.0 매핑을 점검합니다.
+5. **Create Parser**에서 최종 테스트가 허용되는 경우에만 실행하고 결과를 검증한 다음 다운로드합니다. 실제 수신·배포 결과와 혼동하지 않습니다.
 
 ## 예상 결과
 
 원본 네 건이 완전 파싱되어 통합 프로젝트에서 파일 생성이 통과합니다. 문서상의 Traffic 및 Web Filter 예시는 동일한 session ID 381780을 공유합니다.
 
-## 영상 구간
+## 영상 구간 (2026년 10월 31일 신규 녹화)
 
-| 시작 시각 | 확인할 기능 |
+| 시간 | 실제 화면 단계 |
 |---|---|
-| 00:25 | 새 유형 추가 |
-| 00:32 | 유형 이름 |
-| 00:40 | Traffic 입력 |
-| 00:50 | Threat 입력 |
-| 01:00 | 자동 파싱 |
-| 01:13 | 필드 검토 |
-| 01:27 | 타입 구분 |
-| 01:47 | Stellar 매핑 |
-| 02:09 | 최종 테스트 |
-| 02:15 | 파일 다운로드 |
+| 00:01 | Multiple Log Types |
+| 00:07 | Identify Fortigate |
+| 00:11 | Add Another Log Type |
+| 00:17 | Set Names And Logs |
+| 00:23 | Analyze All Types |
+| 00:28 | Verify Coverage |
+| 00:34 | Review Data |
+| 00:38 | Normalize Mappings |
+| 00:45 | Create Combined Draft |
+| 00:50 | Final Test |
+| 00:55 | Download Package |
+| 01:00 | Verify Each Type |
 
-*각 타임스탬프는 안내가 시작되는 근사 위치입니다. 잠깐 멈추고 해당 작업을 따라 하세요.*
+*실제 재녹화 영상에서 측정한 구간입니다. 이전 영상의 메뉴는 포함하지 않습니다.*
 
 ## 복구 방법
 

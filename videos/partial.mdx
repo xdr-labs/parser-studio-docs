@@ -6,20 +6,20 @@ description: "Identify real unparsed regions without discarding already extracte
 
 # Partial Parsing: Complex Sophos XG Firewall Logs
 
-English narration and permanently visible English captions accompany this recording of the public Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
+English narration and permanently visible English captions accompany this recording of the October 31, 2026 Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
 
-<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/poster.png">
-  <source src="https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/scenario-english.mp4" type="video/mp4" />
+<video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/poster.png">
+  <source src="https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/scenario-english.mp4" type="video/mp4" />
   Your browser does not support native video playback.
 </video>
 
-[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/02-sophos-xg-partial-recovery/narration-en.md)
+[Watch in a dedicated video player](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/watch.html) · [Download MP4](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/scenario-english.mp4) · [English SRT captions](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/subtitles-en.srt) · [Read the English transcript](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/02-sophos-xg-partial-recovery/narration-en.md)
 
 ## Practice along with the video
 
 Keep this page open to pause or replay the demonstration while working in a second tab.
 
-**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
+**Before you begin:** [Download all practice samples as a ZIP](https://app.parser.xdr.ooo/training/parser-studio-current-20261031/practice/practice-all.zip) · [Open Parser Studio](https://app.parser.xdr.ooo/)
 
 - [Download the complex original Sophos Firewall logs](https://app.parser.xdr.ooo/training/parser-studio-real-scenarios-20261021/practice/02-sophos-xg.log)
 
@@ -42,32 +42,28 @@ device="SFW" date=2018-05-30 time=13:14:26 timezone="IST" device_name="XG125w" d
 
 {/* PARSER-STUDIO-EXACT-SAMPLE-END */}
 
-### Follow the on-screen steps
+### Follow the current on-screen steps
 
-1. Open Auto Parser in another tab. Enter Manufacturer: Sophos and Product: XG Firewall.
-2. Open the sample file and paste both original long firewall records into Add Logs. Keep their wording, unusual separators and empty values intact.
-3. Click Analyze Logs. Open Problem to review and expand Values already found: some fields are valid while the remaining source spans still require review.
-4. In the current Web UI, stay in **Problem to review** and compare **Original event**, **Values already found** and **Text not yet assigned to fields**. The separately recorded Tools & Diagnostics step in the older video is retired.
-5. Select Fix with ChatGPT to prepare a focused reviewed prompt. Only use a manually redacted, user-approved excerpt with external ChatGPT.
-6. Do not claim success or download a parser while blocking residuals remain. Any additional rule must be tested on different events before explicit approval.
+1. In **Auto Parser**, set manufacturer to **Sophos** and product to **XG Firewall**.
+2. Paste both original Sophos sample records without trimming quoted or empty values; click **Analyze Logs**.
+3. Verify **0 of 2 log events parsed completely** for this deliberately difficult public fixture. This is *partial extraction*, not zero extracted fields.
+4. In the normal analysis result, inspect **Problem to review**, **Values already found** and **Text not yet assigned to fields**. The old **Tools & Diagnostics** menu is not part of the current workflow.
+5. Do not remove unresolved source text to obtain a false success state. Continue only after a new rule passes independent tests.
 
-**Expected sample result:** 0 of 2 log events parsed completely (but many original field values extracted).
+### Video chapter timestamps (October 31 recording)
 
-### Video chapter timestamps
-
-| Timestamp | What to follow |
+| Time | Actual recorded step |
 |---|---|
-| 00:28 | Paste the original logs |
-| 00:38 | Analyze Logs |
-| 00:56 | Inspect source text not yet parsed |
-| 01:04 | Review preserved fields |
-| 01:14 | Historical Tools & Diagnostics footage (retired from current UI) |
-| 01:23 | Historical deeper-analysis action (retired; use Problem to review) |
-| 01:30 | Select unresolved text |
-| 01:38 | Fix with ChatGPT |
-| 02:04 | Understand the stop condition |
+| 00:01 | Partial Parsing |
+| 00:07 | Identify Source |
+| 00:12 | Paste Both Events |
+| 00:18 | Run Analysis |
+| 00:22 | Read The Result |
+| 00:27 | Inspect Unparsed Text |
+| 00:33 | Preserve Evidence |
+| 00:40 | Review Required |
 
-*The chapter times reflect an earlier recorded UI. Pause playback for context, but follow the current steps above rather than looking for retired controls.*
+*The listed times come from the actual October 31 recording, not the retired version.*
 
 ## Expected review outcome
 
