@@ -30,7 +30,8 @@
               "videos/complete",
               "videos/partial",
               "videos/unknown",
-              "videos/multiple-types"
+              "videos/multiple-types",
+              "videos/relay"
             ]
           },
           {
@@ -71,7 +72,8 @@
               "scenarios/normalization",
               "scenarios/long-events",
               "scenarios/revisions",
-              "scenarios/test-sender"
+              "scenarios/test-sender",
+              "scenarios/relay-forwarder"
             ]
           },
           {
@@ -135,7 +137,8 @@
               "ko/videos/complete",
               "ko/videos/partial",
               "ko/videos/unknown",
-              "ko/videos/multiple-types"
+              "ko/videos/multiple-types",
+              "ko/videos/relay"
             ]
           },
           {
@@ -176,7 +179,8 @@
               "ko/scenarios/normalization",
               "ko/scenarios/long-events",
               "ko/scenarios/revisions",
-              "ko/scenarios/test-sender"
+              "ko/scenarios/test-sender",
+              "ko/scenarios/relay-forwarder"
             ]
           },
           {

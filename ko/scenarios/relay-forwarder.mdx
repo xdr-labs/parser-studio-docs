@@ -1,0 +1,79 @@
+---
+title: "Syslog 릴레이: 전달된 로그로 파서 만들기"
+sidebarTitle: "릴레이 로그 실습"
+description: "원본·릴레이 전달본·검증 로그를 다운로드하고 실제 화면에서 따라 하는 RFC3164 릴레이 실습입니다."
+---
+
+# 따라 하기: 로그 릴레이를 거쳐 전달된 보안 로그
+
+보안 장비의 원본 로그가 릴레이를 통과하면 바깥쪽에 **릴레이 시간·호스트명·Syslog 헤더**가 붙을 수 있습니다. 따라서 수집 시스템에서 캡처한 문자열은 원본 장비 로그와 다릅니다. Parser Studio에는 **릴레이가 출력한 로그를 복사하거나 파일로 업로드**해야 합니다. Parser Studio 웹 UI 자체가 실시간 Syslog 수신기가 되는 것은 아닙니다.
+
+<Note>
+이 파일은 **재현용 합성 예제**이며 제조사 공식 원본 로그나 실운영 릴레이 캡처가 아닙니다. 예약된 테스트 IP를 사용합니다. [제품 main a4b4e2f](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927) 및 2026년 10월 31일 공개 UI에서 직접 검증했습니다.
+</Note>
+
+## 실습 파일 내려받기
+
+- [릴레이 전달 전 로그 2건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-original.log)
+- [릴레이 전달 후 로그 2건 · 실제 입력 파일](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-forwarded.log)
+- [별도 검증 로그 1건](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/05-relay-holdout.log)
+- [샘플 설명 및 출처](https://raw.githubusercontent.com/xdr-labs/parser-studio-docs/main/practice/README.md)
+
+**릴레이를 거치기 전:**
+
+```text
+date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
+date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+```
+
+**릴레이를 거친 후 (Parser Studio에 입력):**
+
+```text
+<134>Oct 31 11:30:00 relay01 forwarder: date=2026-10-31 time=11:30:00 type=traffic subtype=forward action=accept srcip=192.0.2.10 dstip=198.51.100.20 srcport=51520 dstport=443 proto=6 sessionid=4101 sentbyte=482
+<134>Oct 31 11:31:05 relay01 forwarder: date=2026-10-31 time=11:31:05 type=traffic subtype=forward action=deny srcip=192.0.2.11 dstip=198.51.100.25 srcport=51521 dstport=22 proto=6 sessionid=4102 sentbyte=0
+```
+
+`relay01`은 이벤트를 처음 생성한 방화벽 이름이 아니라 **중계 장비의 호스트명**입니다. 메시지에 적힌 호스트명이 실제 네트워크 송신자의 신원을 증명하지는 않습니다.
+
+## 따라 하기
+
+1. [Parser Studio](https://app.parser.xdr.ooo/)의 **Auto Parser**를 선택하고 **Add Logs**에 위의 **릴레이 전달 후 2개 로그**를 모두 붙여 넣습니다. 또는 **Upload a log file**로 `05-relay-forwarded.log`를 선택합니다.
+2. **Manufacturer**에 `Training`, **Product**에 `Relay KV demo`를 입력하고 기본 포트 **6801**을 유지합니다. 실제 제조사명이 아닌 실습용 식별자입니다.
+3. **Optional: declare Syslog forwarder hostnames**를 펼칩니다. **Relay hostnames (comma-separated)**에 `relay01`을 입력하고 **Maximum declared hops**를 `1`로 둡니다.
+4. **Relay source preview**가 **2 of 2 events recognized, 0 unsafe, 0 not matching a declared relay**인지 확인합니다. **Apply declared relay profile**을 클릭한 다음 `Local profile: relay01`을 확인합니다.
+5. **Analyze Logs**를 클릭합니다. **2 of 2 log events parsed completely**가 표시되는지 확인합니다. 다른 결과가 나오면 문제 이벤트를 삭제하지 말고 원문부터 확인합니다.
+6. **Review Fields**에서 `srcip`, `dstip`, `action`, `proto`, `sessionid` 값을 원본과 비교하고, 릴레이 호스트명을 원본 보안 장비로 혼동하지 않았는지 확인합니다.
+7. **Map Fields**에서 Stellar Cyber 7.0 매핑과 데이터 유형을 점검합니다. UI가 허용하면 **Create Parser** → **Run Final Test & Create Files** → 다운로드를 진행합니다. 다운로드는 실제 대상 시스템 설치 검증이 아닙니다.
+8. `05-relay-holdout.log`는 파서 생성에 넣지 말고 별도의 재검증에 사용합니다. 동일한 `relay01` 설정으로 추가 샘플이 해석되는지 확인합니다.
+
+![실제 웹 UI의 선언된 릴레이 프로필과 파싱 결과](/images/current-12-relay-profile.png)
+
+### 두 가지 릴레이 기능의 차이
+
+- **Optional: declare Syslog forwarder hostnames**: 신뢰할 수 있는 운영자가 지정한 RFC3164/RFC5424 릴레이 호스트의 외부 헤더를 검토해 처리합니다. 최대 3홉을 지원하며, 모르는 호스트를 무조건 제거하지 않습니다.
+- **Optional: mark a forwarded prefix or trailing suffix**: 모든 이벤트에서 같은 **고정 문자열의 시작·끝 범위만 검토**합니다. 실제 `.rb` 규칙이 생성되는 기능이 아닙니다. 매번 바뀌는 릴레이 타임스탬프를 고정 접두어로 제거하려고 사용하지 마세요.
+
+실제 로그 릴레이를 운영하고 있다면 릴레이의 **전달 후 캡처 파일**을 확보하여 같은 절차로 분석합니다. 이 실습은 운영 네트워크 송신, 수집기 수신, Stellar Cyber DP 수신을 검증하지 않습니다.
+
+
+### 선택 실습: 로컬 UDP에서 실제 전달 과정 재현
+
+Python 3가 있는 PC에서 [practice 파일 4개](https://github.com/xdr-labs/parser-studio-docs/tree/main/practice)를 내려받거나 문서 저장소를 복제한 뒤 다음 명령을 실행할 수 있습니다.
+
+```bash
+python3 practice/replay_relay_loopback.py
+```
+
+스크립트는 **127.0.0.1의 두 UDP 홉**으로 원본 로그 2개를 송신하고, 중간 릴레이에서 RFC3164 헤더를 붙인 다음 로컬 수신단에 캡처합니다. **2/2 전달 PASS**와 `05-relay-forwarded.log`의 원문 바이트 일치가 확인됩니다. 출력된 `parser-studio-relay-captured.log`를 Parser Studio에 올려보세요. 실제 운영 릴레이 장비나 Stellar Cyber DP에 연결하지 않습니다.
+
+## 예상 결과
+
+2026년 10월 31일 Chromium 기반 공개 UI 테스트에서 릴레이 헤더 **2/2 인식**, 원본 이벤트 **2/2 완전 파싱**, **Review Fields 활성화**를 직접 확인했습니다. 다른 릴레이 헤더, 펌웨어 및 실제 대상 시스템의 동작까지 입증된 것은 아닙니다.
+
+## 복구 방법
+
+- 릴레이 헤더가 인식되지 않으면 `<134>`로 시작하는지, 호스트명이 정확히 `relay01`인지, `forwarder:` 레이블이 있는지 확인합니다. `<PRI>`가 없는 RFC3164 문자열은 이 기능의 대상이 아닙니다.
+- 일부 필드만 인식되면 **Problem to review**, **Text not yet assigned to fields**를 확인하고 원본을 보존합니다. **Fix with ChatGPT**의 `REVIEW_ONLY` 결과는 검증되지 않은 초안일 수 있습니다.
+- 실운영 릴레이 형식이 다르다면 원본을 억지로 수정하지 말고 실제 전달본을 별도의 샘플로 검증합니다.
+
+[릴레이 동영상 실습](/ko/videos/relay) · [원본 로그 동영상](/ko/videos/complete) · [로그 보안 주의사항](/ko/reference/source-privacy)

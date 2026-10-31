@@ -63,7 +63,7 @@
 
 This repository contains English and Korean MDX user guide pages, task-based walkthroughs, screenshots captured from the actual Parser Studio Web UI with fictional logs, and a small local documentation validator. Visual styling follows the XDR Labs documentation family.
 
-The previous source snapshot was [Parser Studio main at `90e4c53`](https://github.com/xdr-labs/parser-studio/commit/90e4c53f0ba5f87262c3c027a1024047ea4b173f).
+Documentation review: [Parser Studio main at `a4b4e2f`](https://github.com/xdr-labs/parser-studio/commit/a4b4e2fba54588fa2b9807e1cfeed49190061927) (October 30, 2026).
 
 ## Documentation checks
 
@@ -80,3 +80,7 @@ Only this documentation repository is used for the manual. No original customer 
 </p>
 
 The October 21, 2026 UI check used the deployed JavaScript asset index-CCvjpx9h.js, qualified source 7b09542435f6ba26fae52a63a22608b17bcd6d6e. Product navigation remains English; the Korean documentation is separately localized.
+
+## Reproducible relay lab (October 31, 2026)
+
+Use [the relay-forwarded log exercise](scenarios/relay-forwarder.mdx) with [downloadable sample files](practice/README.md), [a live-browser verification script](scripts/verify_relay_live.cjs), and a [video walkthrough](videos/relay.mdx).
