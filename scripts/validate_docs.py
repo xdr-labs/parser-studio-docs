@@ -63,6 +63,8 @@ for page in PAGES:
                 error(page, f"{field} is not a JSON-quoted string")
     if len(FENCE.findall(content)) % 2:
         error(page, "unpaired Markdown code fence")
+    if "<escape>" in content or "</escape>" in content:
+        error(page, "unsupported literal escape tag in MDX (use inline code)")
 
     for image_alt, image_url in MARKDOWN_IMAGE.findall(content):
         if not image_alt.strip():
