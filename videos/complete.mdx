@@ -8,6 +8,8 @@ description: "Watch a complete source-to-parser workflow using published Juniper
 
 English narration and permanently visible English captions accompany this recording of the October 31, 2026 Parser Studio Web UI. The examples come from published original manufacturer documentation or upstream-authored test fixtures, not from fabricated demo messages.
 
+**Recording vs. corrected build:** The October 31 video predates the RFC5424 SD extraction fix ([Parser Studio PR #198](https://github.com/xdr-labs/parser-studio/pull/198)). The old on-screen *parsed completely* label referred to source structure, not to verified individual security fields. The updated steps below apply **after that PR is merged and deployed**. The historical video itself has not been re-recorded.
+
 <video controls playsInline preload="metadata" width="100%" poster="https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/01-juniper-srx-complete/poster.png">
   <source src="https://app.parser.xdr.ooo/training/parser-studio-authentic-20261031/01-juniper-srx-complete/scenario-english.mp4" type="video/mp4" />
   Your browser does not support native video playback.
@@ -45,9 +47,9 @@ Use the **copy icon** on each code block, then paste the entire content into Par
 ### Follow the current on-screen steps
 
 1. Open **Auto Parser** and enter **Manufacturer: Juniper**, **Product: SRX**. The firmware version of these examples is not asserted.
-2. Paste both unchanged source records into **Add Logs** and click **Analyze Logs**. Verify **2 of 2 log events parsed completely**.
-3. Enter **Review Fields**, check the original IP addresses, source/destination zones, session IDs and action against the full source, then open **Map Fields**.
-4. Verify the Stellar Cyber 7.0 mapping suggestions and vendor-specific values; continue to **Create Parser**.
+2. Paste both unchanged source records into **Add Logs** and click **Analyze Logs**. On the corrected build, verify **2 of 2 log events structurally parsed**. This confirms source structure, not completed field mapping or native execution.
+3. Enter **Review Fields**, compare independently extracted source/destination IP addresses, ports, zones, policy names and session IDs with the source, then open **Map Fields**. For the DENY event, check source IP `10.0.0.26`, destination IP `67.43.156.13`, ports `37233` and `161`, and policy `MgmtAccess-trust-cleanup`. The `RT_FLOW_SESSION_DENY` message ID does not prove that a normalized `action` field was generated.
+4. Review Stellar Cyber 7.0 mapping suggestions and vendor-only values. RFC5424 SD parameters are selectable under `syslog_sd.element_1.params.*` in the corrected build; mappings still require review. Continue to **Create Parser**.
 5. Click **Run Final Test & Create Files**. Only after it succeeds, choose **Download Parser Package**. No live target installation is implied.
 
 ### Video chapter timestamps (October 31 recording)
@@ -70,7 +72,7 @@ Use the **copy icon** on each code block, then paste the entire content into Par
 
 ## Expected review outcome
 
-Both publicly available Juniper SRX events parse completely; final sample validation and parser package download succeed.
+On the corrected code, both source records are structurally recognized: the CREATE event provides 30 independent SD-PARAM values and the DENY event provides 23. This is structural extraction, not automatic Stellar semantic certification. Verify IPs, ports, zones and policy against the original records, and verify actual generated-parser output. A passing sample test produces a DRAFT pair, not a certified Stellar DP deployment.
 
 Do not treat successful source extraction or generated files as evidence of full vendor/firmware coverage, target import acceptance, or live Stellar Cyber deployment compatibility.
 

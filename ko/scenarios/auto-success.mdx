@@ -6,7 +6,7 @@ description: "완전 파싱된 원본 이벤트를 검토하고 파일 생성까
 
 # 모든 이벤트가 인식되었으면 무엇을 하나요?
 
-**상황:** Analyze Logs 결과가 2/2 또는 N/N **log events parsed completely**로 표시되었습니다. 이제 추출 필드의 의미를 확인한 뒤 파일을 만듭니다.
+**상황:** Analyze Logs 결과가 2/2 또는 N/N 수정된 코드에서는 **log events structurally parsed**로 표시됩니다. 이는 원본 구조 처리 상태이지 개별 필드의 의미 검증 완료가 아닙니다. 이제 추출 필드의 의미를 확인한 뒤 파일을 만듭니다.
 
 ## 연습 자료
 
@@ -34,7 +34,7 @@ description: "완전 파싱된 원본 이벤트를 검토하고 파일 생성까
 ## 따라 하기
 
 1. **Auto Parser**에서 Manufacturer는 Juniper, Product는 SRX를 입력하고 원본 두 이벤트를 넣습니다.
-2. **Analyze Logs**를 누릅니다. 공개 연습 예시에서는 **2 of 2 log events parsed completely**가 표시됩니다.
+2. **Analyze Logs**를 누릅니다. 공개 연습 예시에서는 수정된 코드에서는 **2 of 2 log events structurally parsed**가 표시됩니다. 실제 생성 파서 필드와 표준 매핑은 별도로 확인해야 합니다.
 3. **Review Fields**에서 각 이벤트의 원본과 정책명, source/destination 주소, 포트를 비교합니다.
 4. **Map Fields**에서 Stellar Cyber 7.0 대상 필드와 값 자료형을 확인합니다.
 5. **Must fix before continuing**이 0인 경우 **Create Parser**로 이동합니다.
